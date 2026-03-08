@@ -21,8 +21,12 @@ export const MOCK_VENUES = [
         formats: ["Aperitivo", "DJ Set", "Cocktail"],
         location: "Outdoor",
         phone: "+39 081 123 4567",
+        whatsapp: "+39 081 123 4567",
         website: "www.lunarooftop.it",
         instagram: "@luna_rooftop_napoli",
+        facebook: "lunarooftopnapoli",
+        twitter: "@lunarooftop_na",
+        googleAddress: "https://www.google.com/maps/search/?api=1&query=Luna+Rooftop+Chiaia+Napoli",
         rating: 4.9,
         reviews: 487,
         badges: ["Vista mare", "Cocktail bar", "DJ set"],
@@ -128,8 +132,12 @@ export const MOCK_VENUES = [
         formats: ["Live Band", "Jam Session", "Karaoke"],
         location: "Indoor",
         phone: "+39 081 234 5678",
+        whatsapp: "+39 081 234 5678",
         website: "www.vicolovivo.it",
         instagram: "@vicolovivo_napoli",
+        facebook: "vicolovivo.napoli",
+        twitter: "@vicolovivo_na",
+        googleAddress: "https://www.google.com/maps/search/?api=1&query=Vicolo+Vivo+Via+dei+Tribunali+Napoli",
         rating: 4.7,
         reviews: 356,
         badges: ["Live band", "Gruppi", "Locale"],
@@ -214,8 +222,12 @@ export const MOCK_VENUES = [
         formats: ["DJ Set", "Dancing", "After Party"],
         location: "Indoor",
         phone: "+39 081 345 6789",
+        whatsapp: "+39 081 345 6789",
         website: "www.auraclub.it",
         instagram: "@aura_club_napoli",
+        facebook: "auraclub.napoli",
+        twitter: "@auraclub_na",
+        googleAddress: "https://www.google.com/maps/search/?api=1&query=Aura+Club+Via+Morghen+Napoli",
         rating: 4.8,
         reviews: 612,
         badges: ["Dancefloor", "Premium", "Weekend"],
@@ -313,8 +325,12 @@ export const MOCK_VENUES = [
         formats: ["Cena", "Aperitivo", "Cocktail"],
         location: "Outdoor",
         phone: "+39 081 456 7890",
+        whatsapp: "+39 081 456 7890",
         website: "www.brezzagarden.it",
         instagram: "@brezza_garden",
+        facebook: "brezzagarden.napoli",
+        twitter: "@brezza_garden",
+        googleAddress: "https://www.google.com/maps/search/?api=1&query=Brezza+Garden+Via+Posillipo+Napoli",
         rating: 4.6,
         reviews: 289,
         badges: ["Garden", "Sunset", "Couple vibes"],
@@ -371,8 +387,12 @@ export const MOCK_VENUES = [
         formats: ["Cocktail", "Aperitivo", "DJ Set"],
         location: "Indoor",
         phone: "+39 081 567 8901",
+        whatsapp: "+39 081 567 8901",
         website: "www.neonharbor.it",
         instagram: "@neon_harbor_napoli",
+        facebook: "neonharbor.napoli",
+        twitter: "@neonharbor_na",
+        googleAddress: "https://www.google.com/maps/search/?api=1&query=Neon+Harbor+Via+Caracciolo+Napoli",
         rating: 4.8,
         reviews: 421,
         badges: ["Signature drink", "Scenografico", "Friends"],
@@ -459,8 +479,12 @@ export const MOCK_VENUES = [
         formats: ["DJ Set", "Hip-hop", "Dancing"],
         location: "Indoor",
         phone: "+39 081 678 9012",
+        whatsapp: "+39 081 678 9012",
         website: "www.casaritmo.it",
         instagram: "@casa_ritmo_napoli",
+        facebook: "casaritmo.napoli",
+        twitter: "@casaritmo_na",
+        googleAddress: "https://www.google.com/maps/search/?api=1&query=Casa+Ritmo+Via+Terracina+Napoli",
         rating: 4.5,
         reviews: 378,
         badges: ["Easy price", "Hip-hop", "Gruppi"],
@@ -520,36 +544,19 @@ export const MOCK_VENUES = [
 ];
 
 // Helper functions
-export const getVenueById = (id) => {
-    return MOCK_VENUES.find(venue => venue.id === id);
-};
-
-export const getVenueBySlug = (slug) => {
-    return MOCK_VENUES.find(venue => venue.slug === slug);
-};
-
-export const getVenuesByMood = (mood) => {
-    return MOCK_VENUES.filter(venue => venue.mood === mood);
-};
-
-export const getVenuesByZone = (zone) => {
-    return MOCK_VENUES.filter(venue => venue.zone === zone);
-};
-
-export const getTopVenues = (count = 3) => {
-    return MOCK_VENUES
-        .filter(venue => venue.highlight)
-        .sort((a, b) => b.rating - a.rating)
-        .slice(0, count);
-};
-
+export const getVenueById = (id) => MOCK_VENUES.find(venue => venue.id === id);
+export const getVenueBySlug = (slug) => MOCK_VENUES.find(venue => venue.slug === slug);
+export const getVenuesByMood = (mood) => MOCK_VENUES.filter(venue => venue.mood === mood);
+export const getVenuesByZone = (zone) => MOCK_VENUES.filter(venue => venue.zone === zone);
+export const getTopVenues = (count = 3) =>
+    MOCK_VENUES.filter(v => v.highlight).sort((a, b) => b.rating - a.rating).slice(0, count);
 export const searchVenues = (query) => {
-    const lowercaseQuery = query.toLowerCase();
-    return MOCK_VENUES.filter(venue =>
-        venue.name.toLowerCase().includes(lowercaseQuery) ||
-        venue.zone.toLowerCase().includes(lowercaseQuery) ||
-        venue.description.toLowerCase().includes(lowercaseQuery) ||
-        venue.tag.toLowerCase().includes(lowercaseQuery)
+    const q = query.toLowerCase();
+    return MOCK_VENUES.filter(v =>
+        v.name.toLowerCase().includes(q) ||
+        v.zone.toLowerCase().includes(q) ||
+        v.description.toLowerCase().includes(q) ||
+        v.tag.toLowerCase().includes(q)
     );
 };
 

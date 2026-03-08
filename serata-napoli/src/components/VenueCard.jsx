@@ -18,7 +18,8 @@ export default function VenueCard({ venue }) {
     social = 4,
     badges = ["DJ Set", "Indoor", "Gruppi"],
     highlight = false,
-    image = null
+    image = null,
+    googleAddress = ""
   } = venue || {};
 
   const moodConfig = {
@@ -188,7 +189,7 @@ export default function VenueCard({ venue }) {
               onClick={(e) => {
                 e.preventDefault();
                 // Handle directions - could open Google Maps
-                window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(name + ' ' + zone)}`, '_blank');
+                window.open(googleAddress, '_blank');
               }}
               className="flex-1 group/btn relative overflow-hidden bg-linear-to-r from-orange-500 to-pink-500 text-white font-bold py-3 px-4 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-orange-500/50 transform hover:scale-105"
             >

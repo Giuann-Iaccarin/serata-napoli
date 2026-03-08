@@ -186,8 +186,8 @@ export default function NapoliHeader() {
       </div>
 
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-[-8rem] top-20 h-72 w-72 rounded-full bg-orange-500/20 blur-3xl" />
-        <div className="absolute right-[-6rem] top-10 h-80 w-80 rounded-full bg-fuchsia-500/15 blur-3xl" />
+        <div className="absolute -left-32 top-20 h-72 w-72 rounded-full bg-orange-500/20 blur-3xl" />
+        <div className="absolute -right-24 top-10 h-80 w-80 rounded-full bg-fuchsia-500/15 blur-3xl" />
         <div className="absolute bottom-10 left-1/2 h-60 w-60 -translate-x-1/2 rounded-full bg-cyan-500/10 blur-3xl" />
       </div>
 
@@ -227,11 +227,11 @@ export default function NapoliHeader() {
               <MapPin size={16} className="shrink-0 text-orange-300" />
 
               <div className="flex min-w-0 items-center gap-2">
-                <span className="max-w-[90px] truncate rounded-full bg-white/10 px-2.5 py-1 text-xs font-semibold text-white">
+                <span className="max-w-22.5 truncate rounded-full bg-white/10 px-2.5 py-1 text-xs font-semibold text-white">
                   {selectedCity}
                 </span>
                 {selectedZone && (
-                  <span className="max-w-[90px] truncate rounded-full bg-orange-500/15 px-2.5 py-1 text-xs font-semibold text-orange-200">
+                  <span className="max-w-22.5 truncate rounded-full bg-orange-500/15 px-2.5 py-1 text-xs font-semibold text-orange-200">
                     {selectedZone}
                   </span>
                 )}

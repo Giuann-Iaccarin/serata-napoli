@@ -204,7 +204,7 @@ export default function NapoliFilters() {
               {activeCount > 0 && (
                 <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-white/10 bg-white/5">
                   <span className="text-sm text-white/70">Filtri attivi</span>
-                  <span className="flex items-center justify-center min-w-[24px] h-6 rounded-full bg-linear-to-r from-orange-500 to-pink-500 text-white text-xs font-black px-2">
+                  <span className="flex items-center justify-center min-w-6 h-6 rounded-full bg-linear-to-r from-orange-500 to-pink-500 text-white text-xs font-black px-2">
                     {activeCount}
                   </span>
                 </div>
@@ -560,7 +560,7 @@ function DropdownFilter({
 
           <ChevronDown
             size={16}
-            className={`text-white/60 group-hover:text-white transition-all duration-300 flex-shrink-0 ${open ? "rotate-180" : ""
+            className={`text-white/60 group-hover:text-white transition-all duration-300 shrink-0 ${open ? "rotate-180" : ""
               }`}
           />
         </button>
@@ -618,7 +618,7 @@ function DropdownFilter({
                       >
                         <span className="truncate">{opt}</span>
                         {isActive && (
-                          <Check size={16} className="flex-shrink-0 ml-2 text-orange-400 animate-in zoom-in duration-200" />
+                          <Check size={16} className="shrink-0 ml-2 text-orange-400 animate-in zoom-in duration-200" />
                         )}
                       </button>
                     );
