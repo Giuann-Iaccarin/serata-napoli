@@ -7,7 +7,7 @@ export default function NotFound() {
     const navigate = useNavigate();
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center px-4 overflow-hidden relative">
+        <div className="min-h-screen bg-linear-to-br from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center px-4 overflow-hidden relative">
             {/* Animated Background Orbs */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl animate-pulse"></div>
@@ -18,7 +18,7 @@ export default function NotFound() {
             <div className="relative z-10 max-w-2xl mx-auto text-center">
                 {/* 404 Number */}
                 <div className="mb-8 animate-in zoom-in duration-700">
-                    <h1 className="text-[180px] md:text-[240px] font-black leading-none bg-gradient-to-r from-orange-400 via-pink-500 to-purple-500 bg-clip-text text-transparent select-none">
+                    <h1 className="text-[180px] md:text-[240px] font-black leading-none bg-linear-to-r from-orange-400 via-pink-500 to-purple-500 bg-clip-text text-transparent select-none">
                         404
                     </h1>
                 </div>
@@ -50,13 +50,13 @@ export default function NotFound() {
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-in fade-in slide-in-from-bottom-4 duration-700" style={{ animationDelay: '300ms' }}>
                     <button
                         onClick={() => navigate('/')}
-                        className="group relative px-8 py-4 bg-gradient-to-r from-orange-500 via-pink-500 to-purple-600 text-white text-lg font-bold rounded-2xl shadow-2xl hover:shadow-orange-500/50 transition-all duration-500 transform hover:scale-105 overflow-hidden"
+                        className="group relative px-8 py-4 bg-linear-to-r from-orange-500 via-pink-500 to-purple-600 text-white text-lg font-bold rounded-2xl shadow-2xl hover:shadow-orange-500/50 transition-all duration-500 transform hover:scale-105 overflow-hidden"
                     >
                         <span className="relative z-10 flex items-center gap-2">
                             <Home size={20} />
                             Torna alla Home
                         </span>
-                        <div className="absolute inset-0 bg-gradient-to-r from-orange-600 via-pink-600 to-purple-700 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <div className="absolute inset-0 bg-linear-to-r from-orange-600 via-pink-600 to-purple-700 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     </button>
 
                     <button

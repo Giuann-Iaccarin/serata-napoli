@@ -182,7 +182,7 @@ export default function NapoliHeader() {
           className="h-full w-full object-cover opacity-40"
         />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(251,146,60,0.18),transparent_22%),radial-gradient(circle_at_80%_20%,rgba(59,130,246,0.16),transparent_24%)]" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#050816]/30 via-[#050816]/65 to-[#050816]" />
+        <div className="absolute inset-0 bg-linear-to-b from-[#050816]/30 via-[#050816]/65 to-[#050816]" />
       </div>
 
       <div className="pointer-events-none absolute inset-0">
@@ -312,7 +312,7 @@ export default function NapoliHeader() {
                             step === "city" ? handleCitySelect(item) : handleZoneSelect(item)
                           }
                           className={`mb-1 flex w-full items-center justify-between rounded-2xl border px-4 py-2.5 text-left text-sm transition-all ${isActive
-                            ? "border-orange-400/40 bg-gradient-to-r from-orange-500/20 to-amber-500/10 text-white shadow-[0_0_0_1px_rgba(251,146,60,0.12)]"
+                            ? "border-orange-400/40 bg-linear-to-r from-orange-500/20 to-amber-500/10 text-white shadow-[0_0_0_1px_rgba(251,146,60,0.12)]"
                             : "border-transparent text-white/75 hover:border-white/10 hover:bg-white/5 hover:text-white"
                             }`}
                         >
@@ -350,7 +350,7 @@ export default function NapoliHeader() {
 
               <h1 className="text-5xl font-black leading-none tracking-tight text-white sm:text-6xl lg:text-7xl">
                 Dove vai
-                <span className="block bg-gradient-to-r from-white via-orange-200 to-orange-400 bg-clip-text text-transparent">
+                <span className="block bg-linear-to-r from-white via-orange-200 to-orange-400 bg-clip-text text-transparent">
                   stasera a Napoli?
                 </span>
               </h1>
@@ -361,7 +361,7 @@ export default function NapoliHeader() {
               </p>
 
               <div className="mt-8 flex flex-wrap items-center gap-4">
-                <button className="group inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-500 px-7 py-4 text-base font-semibold text-white shadow-2xl shadow-orange-500/30 transition hover:scale-[1.02] hover:shadow-orange-500/45">
+                <button className="group inline-flex items-center gap-2 rounded-2xl bg-linear-to-r from-orange-500 to-amber-500 px-7 py-4 text-base font-semibold text-white shadow-2xl shadow-orange-500/30 transition hover:scale-[1.02] hover:shadow-orange-500/45">
                   Trova la tua serata
                   <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
                 </button>
@@ -385,7 +385,7 @@ export default function NapoliHeader() {
                         }`}
                     >
                       <div
-                        className={`absolute inset-0 bg-gradient-to-br ${glow} transition-opacity duration-300 ${isActive ? "opacity-100" : "opacity-60 group-hover:opacity-80"
+                        className={`absolute inset-0 bg-linear-to-br ${glow} transition-opacity duration-300 ${isActive ? "opacity-100" : "opacity-60 group-hover:opacity-80"
                           }`}
                       />
 
@@ -425,7 +425,7 @@ export default function NapoliHeader() {
         </div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 z-10 h-32 bg-gradient-to-t from-[#050816] to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 z-10 h-32 bg-linear-to-t from-[#050816] to-transparent" />
     </header>
   );
 }

@@ -66,17 +66,17 @@ export default function VenueCard({ venue }) {
 
   return (
     <div
-      className={`group relative bg-gradient-to-br from-slate-900/80 via-slate-800/80 to-slate-900/80 backdrop-blur-xl rounded-3xl overflow-hidden transition-all duration-500 transform hover:-translate-y-2 hover:scale-[1.02] ${highlight ? 'ring-2 ring-orange-500/50 shadow-2xl shadow-orange-500/20' : 'border border-white/10 hover:border-white/20'
+      className={`group relative bg-linear-to-br from-slate-900/80 via-slate-800/80 to-slate-900/80 backdrop-blur-xl rounded-3xl overflow-hidden transition-all duration-500 transform hover:-translate-y-2 hover:scale-[1.02] ${highlight ? 'ring-2 ring-orange-500/50 shadow-2xl shadow-orange-500/20' : 'border border-white/10 hover:border-white/20'
         }`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Glow Effect on Hover */}
-      <div className={`absolute inset-0 bg-gradient-to-br ${config.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500 blur-2xl`}></div>
+      <div className={`absolute inset-0 bg-linear-to-br ${config.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500 blur-2xl`}></div>
 
       {/* Highlight Badge */}
       {highlight && (
-        <div className="absolute top-4 left-4 z-20 flex items-center gap-2 bg-gradient-to-r from-orange-500 to-pink-500 text-white text-xs font-black px-3 py-1.5 rounded-full shadow-lg animate-pulse">
+        <div className="absolute top-4 left-4 z-20 flex items-center gap-2 bg-linear-to-r from-orange-500 to-pink-500 text-white text-xs font-black px-3 py-1.5 rounded-full shadow-lg animate-pulse">
           <Sparkles size={12} />
           TOP PICK
         </div>
@@ -90,8 +90,8 @@ export default function VenueCard({ venue }) {
           setIsSaved(!isSaved);
         }}
         className={`absolute top-4 right-4 z-20 p-2.5 rounded-full backdrop-blur-xl transition-all duration-300 ${isSaved
-            ? 'bg-pink-500 text-white shadow-lg shadow-pink-500/50'
-            : 'bg-white/10 text-white/70 hover:bg-white/20 hover:text-white'
+          ? 'bg-pink-500 text-white shadow-lg shadow-pink-500/50'
+          : 'bg-white/10 text-white/70 hover:bg-white/20 hover:text-white'
           }`}
       >
         <Heart size={18} fill={isSaved ? 'currentColor' : 'none'} />
@@ -108,12 +108,12 @@ export default function VenueCard({ venue }) {
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
             />
           ) : (
-            <div className={`w-full h-full bg-gradient-to-br ${config.gradient} opacity-30`}></div>
+            <div className={`w-full h-full bg-linear-to-br ${config.gradient} opacity-30`}></div>
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/50 to-transparent"></div>
+          <div className="absolute inset-0 bg-linear-to-t from-slate-900 via-slate-900/50 to-transparent"></div>
 
           {/* Mood Badge */}
-          <div className={`absolute bottom-4 left-4 px-4 py-2 rounded-xl bg-gradient-to-r ${config.gradient} text-white text-sm font-bold shadow-lg backdrop-blur-sm`}>
+          <div className={`absolute bottom-4 left-4 px-4 py-2 rounded-xl bg-linear-to-r ${config.gradient} text-white text-sm font-bold shadow-lg backdrop-blur-sm`}>
             {config.label}
           </div>
         </div>
@@ -122,7 +122,7 @@ export default function VenueCard({ venue }) {
         <div className="p-6 relative z-10">
           {/* Header */}
           <div className="mb-4">
-            <h3 className="text-2xl font-black text-white mb-2 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:bg-clip-text group-hover:from-orange-400 group-hover:to-pink-500 transition-all duration-300">
+            <h3 className="text-2xl font-black text-white mb-2 group-hover:text-transparent group-hover:bg-linear-to-r group-hover:bg-clip-text group-hover:from-orange-400 group-hover:to-pink-500 transition-all duration-300">
               {name}
             </h3>
             <div className="flex items-center gap-2 text-white/60">
@@ -190,13 +190,13 @@ export default function VenueCard({ venue }) {
                 // Handle directions - could open Google Maps
                 window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(name + ' ' + zone)}`, '_blank');
               }}
-              className="flex-1 group/btn relative overflow-hidden bg-gradient-to-r from-orange-500 to-pink-500 text-white font-bold py-3 px-4 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-orange-500/50 transform hover:scale-105"
+              className="flex-1 group/btn relative overflow-hidden bg-linear-to-r from-orange-500 to-pink-500 text-white font-bold py-3 px-4 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-orange-500/50 transform hover:scale-105"
             >
               <span className="relative z-10 flex items-center justify-center gap-2">
                 <Navigation size={16} />
                 Indicazioni
               </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-orange-600 to-pink-600 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"></div>
+              <div className="absolute inset-0 bg-linear-to-r from-orange-600 to-pink-600 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"></div>
             </button>
             <button
               onClick={(e) => {
@@ -214,7 +214,7 @@ export default function VenueCard({ venue }) {
 
       {/* Animated Border on Hover */}
       <div className={`absolute inset-0 rounded-3xl transition-opacity duration-500 ${isHovered ? 'opacity-100' : 'opacity-0'} pointer-events-none`}>
-        <div className={`absolute inset-0 rounded-3xl bg-gradient-to-r ${config.gradient} opacity-20 blur-xl`}></div>
+        <div className={`absolute inset-0 rounded-3xl bg-linear-to-r ${config.gradient} opacity-20 blur-xl`}></div>
       </div>
     </div>
   );

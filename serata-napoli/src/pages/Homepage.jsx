@@ -2,7 +2,7 @@ import NapoliHeader from "../components/Header";
 import NapoliFilters from "../components/Filters";
 import VenueGrid from "../components/VenueGrid";
 import BottomCTA from "../components/BottomCTA";
-import { featuredVenues } from "../data/venues";
+import { MOCK_VENUES } from "../data/mockVenues";
 import Footer from "../components/Footer";
 
 export default function Homepage() {
@@ -13,7 +13,7 @@ export default function Homepage() {
             <section className="relative mt-20 z-20 px-4">
                 <div className="mx-auto max-w-7xl space-y-8">
                     <NapoliFilters />
-                    <VenueGrid venues={featuredVenues} />
+                    <VenueGrid venues={MOCK_VENUES} />
                     <Footer />
                 </div>
             </section>

@@ -183,9 +183,9 @@ export default function NapoliFilters() {
 
   return (
     <section className="relative -mt-20 z-30 max-w-7xl mx-auto px-4">
-      <div className="relative overflow-visible rounded-3xl border border-white/10 bg-gradient-to-br from-slate-900/95 via-slate-800/95 to-slate-900/95 backdrop-blur-2xl shadow-2xl">
+      <div className="relative overflow-visible rounded-3xl border border-white/10 bg-linear-to-br from-slate-900/95 via-slate-800/95 to-slate-900/95 backdrop-blur-2xl shadow-2xl">
         {/* Decorative Background Gradient */}
-        <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-orange-500/5 via-transparent to-blue-500/5 pointer-events-none" />
+        <div className="absolute inset-0 rounded-3xl bg-linear-to-br from-orange-500/5 via-transparent to-blue-500/5 pointer-events-none" />
 
         <div className="relative z-10 p-6 md:p-8">
           {/* Header */}
@@ -204,7 +204,7 @@ export default function NapoliFilters() {
               {activeCount > 0 && (
                 <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-white/10 bg-white/5">
                   <span className="text-sm text-white/70">Filtri attivi</span>
-                  <span className="flex items-center justify-center min-w-[24px] h-6 rounded-full bg-gradient-to-r from-orange-500 to-pink-500 text-white text-xs font-black px-2">
+                  <span className="flex items-center justify-center min-w-[24px] h-6 rounded-full bg-linear-to-r from-orange-500 to-pink-500 text-white text-xs font-black px-2">
                     {activeCount}
                   </span>
                 </div>
@@ -382,23 +382,23 @@ export default function NapoliFilters() {
 function FilterButtonGroup({ label, options, selected, onToggle, color, single = false, icon: Icon }) {
   const colors = {
     orange: {
-      active: "border-orange-500/50 bg-gradient-to-r from-orange-500/20 to-pink-500/20 text-orange-100 shadow-lg shadow-orange-500/20",
+      active: "border-orange-500/50 bg-linear-to-r from-orange-500/20 to-pink-500/20 text-orange-100 shadow-lg shadow-orange-500/20",
       inactive: "border-white/10 bg-white/5 text-white/70 hover:bg-white/10 hover:border-white/20"
     },
     blue: {
-      active: "border-blue-500/50 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 text-blue-100 shadow-lg shadow-blue-500/20",
+      active: "border-blue-500/50 bg-linear-to-r from-blue-500/20 to-cyan-500/20 text-blue-100 shadow-lg shadow-blue-500/20",
       inactive: "border-white/10 bg-white/5 text-white/70 hover:bg-white/10 hover:border-white/20"
     },
     cyan: {
-      active: "border-cyan-500/50 bg-gradient-to-r from-cyan-500/20 to-teal-500/20 text-cyan-100 shadow-lg shadow-cyan-500/20",
+      active: "border-cyan-500/50 bg-linear-to-r from-cyan-500/20 to-teal-500/20 text-cyan-100 shadow-lg shadow-cyan-500/20",
       inactive: "border-white/10 bg-white/5 text-white/70 hover:bg-white/10 hover:border-white/20"
     },
     green: {
-      active: "border-emerald-500/50 bg-gradient-to-r from-emerald-500/20 to-green-500/20 text-emerald-100 shadow-lg shadow-emerald-500/20",
+      active: "border-emerald-500/50 bg-linear-to-r from-emerald-500/20 to-green-500/20 text-emerald-100 shadow-lg shadow-emerald-500/20",
       inactive: "border-white/10 bg-white/5 text-white/70 hover:bg-white/10 hover:border-white/20"
     },
     purple: {
-      active: "border-purple-500/50 bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-100 shadow-lg shadow-purple-500/20",
+      active: "border-purple-500/50 bg-linear-to-r from-purple-500/20 to-pink-500/20 text-purple-100 shadow-lg shadow-purple-500/20",
       inactive: "border-white/10 bg-white/5 text-white/70 hover:bg-white/10 hover:border-white/20"
     },
   };
@@ -612,7 +612,7 @@ function DropdownFilter({
                           setQuery("");
                         }}
                         className={`w-full flex items-center justify-between rounded-xl px-4 py-3 text-left text-sm transition-all duration-200 ${isActive
-                          ? "bg-gradient-to-r from-orange-500/20 to-pink-500/20 border border-orange-500/30 font-bold text-orange-100"
+                          ? "bg-linear-to-r from-orange-500/20 to-pink-500/20 border border-orange-500/30 font-bold text-orange-100"
                           : "text-white/75 hover:bg-white/5 hover:text-white border border-transparent"
                           }`}
                       >
