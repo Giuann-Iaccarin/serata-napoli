@@ -9,7 +9,7 @@ export default function Homepage() {
         <main className="min-h-screen overflow-hidden bg-[#050816] text-white">
             <NapoliHeader />
 
-            <section className="relative z-20 -mt-20 px-4 pb-24">
+            <section className="relative z-20 mt-20 px-4 pb-24">
                 <div className="mx-auto max-w-7xl space-y-8">
                     <NapoliFilters />
                     <VenueGrid venues={featuredVenues} />
