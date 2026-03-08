@@ -1,4 +1,73 @@
 /* eslint-disable no-unused-vars */
+const MOOD_FILTER_PRESETS = {
+  casino: {
+    selectedTipoSerata: "Discoteca",
+    selectedEnergy: 5,
+    selectedSocial: 4,
+    selectedAffluenza: 5,
+    selectedLocation: "Indoor",
+    selectedFormats: ["DJ Set", "Dancing", "After Party"],
+    selectedIdealFor: "Gruppo",
+    selectedPubblico: "Giovane",
+    selectedDays: ["Ven", "Sab"],
+  },
+  tranquillo: {
+    selectedTipoSerata: "Aperitivo",
+    selectedEnergy: 2,
+    selectedSocial: 3,
+    selectedAffluenza: 2,
+    selectedLocation: "Outdoor",
+    selectedFormats: ["Aperitivo", "Cena"],
+    selectedIdealFor: "Coppia",
+    selectedPubblico: "Misto",
+    selectedDays: ["Gio", "Ven", "Sab"],
+  },
+  musica: {
+    selectedTipoSerata: "Live Music",
+    selectedEnergy: 3,
+    selectedSocial: 4,
+    selectedAffluenza: 3,
+    selectedLocation: "Entrambi",
+    selectedFormats: ["Live Band"],
+    selectedIdealFor: "Amici",
+    selectedPubblico: "Misto",
+    selectedDays: ["Ven", "Sab"],
+  },
+  alternativo: {
+    selectedTipoSerata: "Lounge",
+    selectedEnergy: 3,
+    selectedSocial: 4,
+    selectedAffluenza: 3,
+    selectedLocation: "Entrambi",
+    selectedFormats: ["DJ Set", "Karaoke"],
+    selectedIdealFor: "Networking",
+    selectedPubblico: "Alternativo",
+    selectedDays: ["Gio", "Ven", "Sab"],
+  },
+  persone: {
+    selectedTipoSerata: "Aperitivo + DJ",
+    selectedEnergy: 4,
+    selectedSocial: 5,
+    selectedAffluenza: 4,
+    selectedLocation: "Entrambi",
+    selectedFormats: ["Aperitivo", "DJ Set"],
+    selectedIdealFor: "Networking",
+    selectedPubblico: "Internazionale",
+    selectedDays: ["Ven", "Sab"],
+  },
+  food: {
+    selectedTipoSerata: "Food & Drink",
+    selectedEnergy: 2,
+    selectedSocial: 3,
+    selectedAffluenza: 2,
+    selectedLocation: "Entrambi",
+    selectedFormats: ["Cena", "Brunch", "Aperitivo"],
+    selectedIdealFor: "Date",
+    selectedPubblico: "Misto",
+    selectedDays: ["Sab", "Dom"],
+  },
+};
+
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   ChevronDown,
@@ -100,7 +169,7 @@ const moods = [
   },
 ];
 
-export default function NapoliHeader() {
+export default function NapoliHeader({ onApplyMoodPreset }) {
   const [activeMood, setActiveMood] = useState("casino");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedCity, setSelectedCity] = useState("Napoli");
@@ -171,6 +240,11 @@ export default function NapoliHeader() {
     closeDropdown();
   };
 
+  const handleMoodSelect = (moodId) => {
+    setActiveMood(moodId);
+    onApplyMoodPreset?.(MOOD_FILTER_PRESETS[moodId] || {});
+  };
+
   const visibleItems = step === "city" ? filteredCities : filteredZones;
 
   return (
@@ -207,7 +281,7 @@ export default function NapoliHeader() {
             {moods.slice(0, 4).map((mood) => (
               <button
                 key={mood.id}
-                onClick={() => setActiveMood(mood.id)}
+                onClick={() => handleMoodSelect(mood.id)}
                 className={`rounded-full border px-4 py-2 text-sm font-medium transition-all ${activeMood === mood.id
                   ? "border-orange-400/60 bg-orange-500/20 text-white shadow-lg shadow-orange-500/20"
                   : "border-white/10 bg-white/5 text-white/70 hover:border-white/20 hover:bg-white/10 hover:text-white"
@@ -378,7 +452,7 @@ export default function NapoliHeader() {
                     <button
                       key={id}
                       type="button"
-                      onClick={() => setActiveMood(id)}
+                      onClick={() => handleMoodSelect(id)}
                       className={`group relative overflow-hidden rounded-2xl border px-5 py-4 text-left transition-all duration-300 ${isActive
                         ? `${active} ring-1 ${ring} scale-[1.02]`
                         : "border-white/10 bg-white/5 text-white/75 hover:border-white/20 hover:bg-white/10 hover:text-white"

@@ -15,19 +15,19 @@ import { getVenueById } from "../data/mockVenues";
 // ─── Constants ───────────────────────────────────────────────────────────────
 
 const MOOD_CONFIG = {
-    casino:      { gradient: "from-orange-500 via-red-500 to-pink-600",     label: "🔥 Vogliamo casino" },
-    tranquillo:  { gradient: "from-emerald-500 via-teal-500 to-cyan-600",   label: "🍹 Tranquillo ma vivo" },
-    musica:      { gradient: "from-blue-500 via-indigo-500 to-purple-600",  label: "🎵 Musica live" },
+    casino: { gradient: "from-orange-500 via-red-500 to-pink-600", label: "🔥 Vogliamo casino" },
+    tranquillo: { gradient: "from-emerald-500 via-teal-500 to-cyan-600", label: "🍹 Tranquillo ma vivo" },
+    musica: { gradient: "from-blue-500 via-indigo-500 to-purple-600", label: "🎵 Musica live" },
     alternativo: { gradient: "from-purple-500 via-fuchsia-500 to-pink-600", label: "🎨 Alternativo" },
-    food:        { gradient: "from-amber-500 via-orange-500 to-red-600",    label: "🍽 Esperienza food" },
+    food: { gradient: "from-amber-500 via-orange-500 to-red-600", label: "🍽 Esperienza food" },
 };
 
-const SHARE_URL   = typeof window !== "undefined" ? window.location.href : "";
+const SHARE_URL = typeof window !== "undefined" ? window.location.href : "";
 const SHARE_TITLE = "Guarda questo locale!";
-const SHARE_TEXT  = "Ti condivido questo locale, secondo me ti può piacere.";
+const SHARE_TEXT = "Ti condivido questo locale, secondo me ti può piacere.";
 
 const REVIEWS_PREVIEW = 3;
-const EVENTS_PREVIEW  = 2;
+const EVENTS_PREVIEW = 2;
 
 // ─── Toast ───────────────────────────────────────────────────────────────────
 
@@ -93,11 +93,11 @@ function ShareAction({ icon: Icon, label, onClick, active = false }) {
 // ─── useShare hook ────────────────────────────────────────────────────────────
 
 function useShare(venue) {
-    const [shareOpen,     setShareOpen]     = useState(false);
-    const [copied,        setCopied]        = useState(false);
-    const [toastVisible,  setToastVisible]  = useState(false);
+    const [shareOpen, setShareOpen] = useState(false);
+    const [copied, setCopied] = useState(false);
+    const [toastVisible, setToastVisible] = useState(false);
     const [sharePosition, setSharePosition] = useState({ top: 0, left: 0 });
-    const shareRef       = useRef(null);
+    const shareRef = useRef(null);
     const shareButtonRef = useRef(null);
 
     const openPopup = (url) => window.open(url, "_blank", "noopener,noreferrer,width=700,height=700");
@@ -136,7 +136,7 @@ function useShare(venue) {
 
     const handleWhatsApp = () => openPopup(`https://wa.me/?text=${encodeURIComponent(`${SHARE_TEXT} ${SHARE_URL}`)}`);
     const handleTelegram = () => openPopup(`https://t.me/share/url?url=${encodeURIComponent(SHARE_URL)}&text=${encodeURIComponent(SHARE_TEXT)}`);
-    const handleTwitter  = () => openPopup(`https://twitter.com/intent/tweet?text=${encodeURIComponent(SHARE_TEXT)}&url=${encodeURIComponent(SHARE_URL)}`);
+    const handleTwitter = () => openPopup(`https://twitter.com/intent/tweet?text=${encodeURIComponent(SHARE_TEXT)}&url=${encodeURIComponent(SHARE_URL)}`);
     const handleFacebook = () => openPopup(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(SHARE_URL)}`);
 
     // Build actions array — only include whatsapp/fb/twitter if venue has those fields
@@ -144,16 +144,16 @@ function useShare(venue) {
         const actions = [
             { icon: copied ? Check : Copy, label: copied ? "Link copiato!" : "Copia link", onClick: handleCopyLink, active: copied },
         ];
-        if (venue?.whatsapp)  actions.push({ icon: MessageCircle, label: "WhatsApp",   onClick: handleWhatsApp });
-        if (venue?.facebook)  actions.push({ icon: Facebook,      label: "Facebook",   onClick: handleFacebook });
-        if (venue?.twitter)   actions.push({ icon: Twitter,       label: "X / Twitter", onClick: handleTwitter });
+        if (venue?.whatsapp) actions.push({ icon: MessageCircle, label: "WhatsApp", onClick: handleWhatsApp });
+        if (venue?.facebook) actions.push({ icon: Facebook, label: "Facebook", onClick: handleFacebook });
+        if (venue?.twitter) actions.push({ icon: Twitter, label: "X / Twitter", onClick: handleTwitter });
         actions.push({ icon: Send, label: "Telegram", onClick: handleTelegram });
         return actions;
     };
 
     useEffect(() => {
         const onMouseDown = (e) => { if (shareRef.current && !shareRef.current.contains(e.target)) setShareOpen(false); };
-        const onKeyDown   = (e) => { if (e.key === "Escape") setShareOpen(false); };
+        const onKeyDown = (e) => { if (e.key === "Escape") setShareOpen(false); };
         document.addEventListener("mousedown", onMouseDown);
         document.addEventListener("keydown", onKeyDown);
         return () => { document.removeEventListener("mousedown", onMouseDown); document.removeEventListener("keydown", onKeyDown); };
@@ -188,12 +188,17 @@ function StatCard({ icon: Icon, label, value, color }) {
 
 function DetailItem({ icon: Icon, label, value }) {
     return (
-        <div>
-            <div className="flex items-center gap-2 mb-1">
-                <Icon size={16} className="text-orange-400" />
-                <span className="text-white/50 text-xs font-bold uppercase tracking-wider">{label}</span>
+        <div className="flex flex-col items-center text-center">
+            <div className="flex items-center justify-center gap-2 mb-2">
+                <Icon size={18} className="text-orange-400" />
+                <span className="text-white/50 text-sm font-bold uppercase tracking-wider">
+                    {label}
+                </span>
             </div>
-            <p className="text-white font-bold text-lg">{value}</p>
+
+            <p className="text-white font-bold text-lg">
+                {value}
+            </p>
         </div>
     );
 }
@@ -247,9 +252,9 @@ function ImageGallery({ images, venueName, onImageClick }) {
 function ImageLightbox({ images, currentIndex, onClose, onNext, onPrev }) {
     useEffect(() => {
         const handler = (e) => {
-            if (e.key === "Escape")     onClose();
+            if (e.key === "Escape") onClose();
             if (e.key === "ArrowRight") onNext();
-            if (e.key === "ArrowLeft")  onPrev();
+            if (e.key === "ArrowLeft") onPrev();
         };
         window.addEventListener("keydown", handler);
         return () => window.removeEventListener("keydown", handler);
@@ -258,8 +263,8 @@ function ImageLightbox({ images, currentIndex, onClose, onNext, onPrev }) {
     return (
         <div className="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex items-center justify-center p-4">
             <button onClick={onClose} className="absolute top-4 right-4 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-all z-10"><X size={24} /></button>
-            <button onClick={onPrev}  className="absolute left-4  p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-all z-10"><ChevronLeft size={32} /></button>
-            <button onClick={onNext}  className="absolute right-4 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-all z-10"><ChevronRight size={32} /></button>
+            <button onClick={onPrev} className="absolute left-4  p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-all z-10"><ChevronLeft size={32} /></button>
+            <button onClick={onNext} className="absolute right-4 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-all z-10"><ChevronRight size={32} /></button>
             <img src={images[currentIndex]} alt={`Gallery ${currentIndex + 1}`} className="max-w-full max-h-full object-contain rounded-2xl" />
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 bg-white/10 backdrop-blur-xl rounded-full text-white font-semibold text-sm">
                 {currentIndex + 1} / {images.length}
@@ -295,11 +300,10 @@ function ReviewCard({ review }) {
                     <p className="text-white/80 leading-relaxed mt-3 mb-4">{review.comment}</p>
                     <button
                         onClick={() => setIsHelpful((p) => !p)}
-                        className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-semibold transition-all duration-300 ${
-                            isHelpful
-                                ? "bg-orange-500/20 text-orange-400 border border-orange-500/30"
-                                : "bg-white/5 text-white/60 hover:bg-white/10 border border-white/10"
-                        }`}
+                        className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-semibold transition-all duration-300 ${isHelpful
+                            ? "bg-orange-500/20 text-orange-400 border border-orange-500/30"
+                            : "bg-white/5 text-white/60 hover:bg-white/10 border border-white/10"
+                            }`}
                     >
                         <ThumbsUp size={14} fill={isHelpful ? "currentColor" : "none"} />
                         Utile ({review.helpful + (isHelpful ? 1 : 0)})
@@ -457,15 +461,15 @@ function EventsSection({ events }) {
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function VenueDetail() {
-    const { id }    = useParams();
-    const navigate  = useNavigate();
-    const [venue,   setVenue]   = useState(null);
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const [venue, setVenue] = useState(null);
     const [loading, setLoading] = useState(true);
     const [isSaved, setIsSaved] = useState(false);
-    const [selectedImage,      setSelectedImage]      = useState(null);
-    const [currentImageIndex,  setCurrentImageIndex]  = useState(0);
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-    const share  = useShare(venue);
+    const share = useShare(venue);
     const config = MOOD_CONFIG[venue?.mood] ?? MOOD_CONFIG.casino;
 
     useEffect(() => {
@@ -566,11 +570,10 @@ export default function VenueDetail() {
                             {/* Only save — share is in sidebar */}
                             <button
                                 onClick={() => setIsSaved((p) => !p)}
-                                className={`p-3 rounded-2xl backdrop-blur-xl border transition-all duration-300 ${
-                                    isSaved
-                                        ? "bg-pink-500 border-pink-400 text-white shadow-lg shadow-pink-500/40"
-                                        : "bg-black/30 border-white/20 text-white hover:bg-black/50"
-                                }`}
+                                className={`p-3 rounded-2xl backdrop-blur-xl border transition-all duration-300 ${isSaved
+                                    ? "bg-pink-500 border-pink-400 text-white shadow-lg shadow-pink-500/40"
+                                    : "bg-black/30 border-white/20 text-white hover:bg-black/50"
+                                    }`}
                                 aria-label="Salva"
                             >
                                 <Heart size={20} fill={isSaved ? "currentColor" : "none"} />
@@ -610,10 +613,10 @@ export default function VenueDetail() {
 
                             {/* Quick stats row */}
                             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                                <StatCard icon={Euro}       label="Prezzo"    value={venue.price}              color="text-amber-400" />
-                                <StatCard icon={Users}      label="Età media" value={venue.age}                color="text-cyan-400" />
-                                <StatCard icon={Flame}      label="Energia"   value={`${venue.energy}/5`}      color="text-orange-400" />
-                                <StatCard icon={TrendingUp} label="Affluenza" value={`${venue.affluenza}/5`}   color="text-purple-400" />
+                                <StatCard icon={Euro} label="Prezzo" value={venue.price} color="text-amber-400" />
+                                <StatCard icon={Users} label="Età media" value={venue.age} color="text-cyan-400" />
+                                <StatCard icon={Flame} label="Energia" value={`${venue.energy}/5`} color="text-orange-400" />
+                                <StatCard icon={TrendingUp} label="Affluenza" value={`${venue.affluenza}/5`} color="text-purple-400" />
                             </div>
                         </div>
                     </div>
@@ -637,12 +640,14 @@ export default function VenueDetail() {
 
                         <SectionCard>
                             <SectionTitle>Dettagli</SectionTitle>
-                            <div className="grid grid-cols-2 gap-6">
+
+                            <div className="grid grid-cols-2 gap-6 text-center">
                                 <DetailItem icon={Calendar} label="Giorni migliori" value={venue.bestDays.join(", ")} />
-                                <DetailItem icon={Home}     label="Ambiente"        value={venue.location} />
-                                <DetailItem icon={Music}    label="Formati"         value={venue.formats.join(", ")} />
-                                <DetailItem icon={Users}    label="Socialità"       value={`${venue.social}/5`} />
+                                <DetailItem icon={Home} label="Ambiente" value={venue.location} />
+                                <DetailItem icon={Music} label="Formati" value={venue.formats.join(", ")} />
+                                <DetailItem icon={Users} label="Socialità" value={`${venue.social}/5`} />
                             </div>
+
                         </SectionCard>
 
                         <SectionCard>
@@ -656,8 +661,8 @@ export default function VenueDetail() {
                             </div>
                         </SectionCard>
 
-                        {venue.upcomingEvents?.length > 0 && <EventsSection  events={venue.upcomingEvents} />}
-                        {venue.userReviews?.length    > 0 && <ReviewsSection reviews={venue.userReviews} rating={venue.rating} totalReviews={venue.reviews} />}
+                        {venue.upcomingEvents?.length > 0 && <EventsSection events={venue.upcomingEvents} />}
+                        {venue.userReviews?.length > 0 && <ReviewsSection reviews={venue.userReviews} rating={venue.rating} totalReviews={venue.reviews} />}
                     </div>
 
                     {/* ── Right column (sticky sidebar) ───────────────────── */}
@@ -701,11 +706,11 @@ export default function VenueDetail() {
                             <div className="bg-linear-to-br from-slate-900/80 via-slate-800/80 to-slate-900/80 backdrop-blur-xl border border-white/10 rounded-3xl p-6">
                                 <h3 className="text-lg font-black text-white mb-4">Contatti</h3>
                                 <div className="space-y-2">
-                                    {venue.phone     && <ContactItem icon={Phone}     text={venue.phone}     href={`tel:${venue.phone}`} />}
-                                    {venue.website   && <ContactItem icon={Globe}     text={venue.website}   href={`https://${venue.website}`} />}
+                                    {venue.phone && <ContactItem icon={Phone} text={venue.phone} href={`tel:${venue.phone}`} />}
+                                    {venue.website && <ContactItem icon={Globe} text={venue.website} href={`https://${venue.website}`} />}
                                     {venue.instagram && <ContactItem icon={Instagram} text={venue.instagram} href={`https://instagram.com/${venue.instagram.replace("@", "")}`} />}
-                                    {venue.facebook  && <ContactItem icon={Facebook}  text={venue.facebook}  href={`https://facebook.com/${venue.facebook}`} />}
-                                    {venue.twitter   && <ContactItem icon={Twitter}   text={venue.twitter}   href={`https://twitter.com/${venue.twitter.replace("@", "")}`} />}
+                                    {venue.facebook && <ContactItem icon={Facebook} text={venue.facebook} href={`https://facebook.com/${venue.facebook}`} />}
+                                    {venue.twitter && <ContactItem icon={Twitter} text={venue.twitter} href={`https://twitter.com/${venue.twitter.replace("@", "")}`} />}
                                 </div>
                             </div>
                         )}

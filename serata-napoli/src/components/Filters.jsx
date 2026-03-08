@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useMemo, useRef, useState } from "react";
@@ -20,13 +21,12 @@ import {
   Search,
   X,
   Sparkles,
-  ChevronUp,
 } from "lucide-react";
 
-const DEFAULT_FILTERS = {
+export const DEFAULT_FILTERS = {
   priceRange: ["€", "€€", "€€€"],
   selectedZone: "Napoli città",
-  selectedQuartiere: "Chiaia",
+  selectedQuartiere: "Tutti i quartieri",
   selectedAge: "23-26",
   selectedEnergy: 4,
   selectedSocial: 4,
@@ -43,7 +43,7 @@ const PRICE_OPTIONS = ["€", "€€", "€€€"];
 const AGE_RANGES = ["18-22", "23-26", "27-30", "30+"];
 const ZONE_OPTIONS = ["Napoli città", "Vomero", "Chiaia", "Centro Storico", "Posillipo"];
 const QUARTIERE_OPTIONS_BY_ZONE = {
-  "Napoli città": ["Chiaia", "Vomero", "Centro", "Posillipo", "Mergellina", "Fuorigrotta"],
+  "Napoli città": ["Chiaia", "Vomero", "Centro Storico", "Posillipo", "Mergellina", "Fuorigrotta"],
   Vomero: ["Vomero", "Arenella"],
   Chiaia: ["Chiaia", "Mergellina"],
   "Centro Storico": ["Centro", "Decumani", "San Lorenzo"],
@@ -65,8 +65,11 @@ const FORMAT_OPTIONS = ["DJ Set", "Live Band", "Karaoke", "Dancing", "Aperitivo"
 const DAYS_OPTIONS = ["Lun", "Mar", "Mer", "Gio", "Ven", "Sab", "Dom"];
 const IDEAL_FOR_OPTIONS = ["Solo", "Coppia", "Amici", "Gruppo", "Networking", "Date", "Famiglia"];
 
-export default function NapoliFilters() {
-  const [filters, setFilters] = useState(DEFAULT_FILTERS);
+export default function NapoliFilters({
+  value = DEFAULT_FILTERS,
+  onChange,
+  resultsCount,
+}) {
   const [showAdvanced, setShowAdvanced] = useState(true);
 
   const {
@@ -83,86 +86,89 @@ export default function NapoliFilters() {
     selectedFormats,
     selectedDays,
     selectedIdealFor,
-  } = filters;
+  } = value;
 
   const quartiereOptions = useMemo(() => {
-    return QUARTIERE_OPTIONS_BY_ZONE[selectedZone] || QUARTIERE_OPTIONS_BY_ZONE["Napoli città"];
+    const zoneQuartieri =
+      QUARTIERE_OPTIONS_BY_ZONE[selectedZone] || [selectedZone];
+
+    if (zoneQuartieri.length <= 1) {
+      return zoneQuartieri;
+    }
+
+    return ["Tutti i quartieri", ...zoneQuartieri];
   }, [selectedZone]);
 
   useEffect(() => {
     if (!quartiereOptions.includes(selectedQuartiere)) {
-      setFilters((prev) => ({
-        ...prev,
+      onChange?.({
+        ...value,
         selectedQuartiere: quartiereOptions[0],
-      }));
+      });
     }
   }, [quartiereOptions, selectedQuartiere]);
 
-  const updateFilter = (key, value) => {
-    setFilters((prev) => ({ ...prev, [key]: value }));
+  const updateFilter = (key, newValue) => {
+    onChange?.({
+      ...value,
+      [key]: newValue,
+    });
   };
 
-  const updateZone = (value) => {
-    const nextQuartieri = QUARTIERE_OPTIONS_BY_ZONE[value] || QUARTIERE_OPTIONS_BY_ZONE["Napoli città"];
+  const updateZone = (newZone) => {
+    const nextQuartieri = QUARTIERE_OPTIONS_BY_ZONE[newZone] || [newZone];
 
-    setFilters((prev) => ({
-      ...prev,
-      selectedZone: value,
-      selectedQuartiere: nextQuartieri.includes(prev.selectedQuartiere)
-        ? prev.selectedQuartiere
-        : nextQuartieri[0],
-    }));
+    onChange?.({
+      ...value,
+      selectedZone: newZone,
+      selectedQuartiere:
+        nextQuartieri.length > 1 ? "Tutti i quartieri" : nextQuartieri[0],
+    });
   };
 
-  const toggleMultiValue = (key, value, fallback = []) => {
-    setFilters((prev) => {
-      const current = prev[key];
-      const exists = current.includes(value);
-      const next = exists ? current.filter((item) => item !== value) : [...current, value];
+  const toggleMultiValue = (key, item, fallback = []) => {
+    const current = value[key];
+    const exists = current.includes(item);
+    const next = exists ? current.filter((x) => x !== item) : [...current, item];
 
-      return {
-        ...prev,
-        [key]: next.length ? next : fallback,
-      };
+    onChange?.({
+      ...value,
+      [key]: next.length ? next : fallback,
     });
   };
 
   const togglePrice = (price) => {
-    setFilters((prev) => {
-      const exists = prev.priceRange.includes(price);
-      const next = exists
-        ? prev.priceRange.filter((item) => item !== price)
-        : [...prev.priceRange, price];
+    const exists = priceRange.includes(price);
+    const next = exists
+      ? priceRange.filter((item) => item !== price)
+      : [...priceRange, price];
 
-      return {
-        ...prev,
-        priceRange: next.length
-          ? [...next].sort((a, b) => a.length - b.length)
-          : [price],
-      };
+    onChange?.({
+      ...value,
+      priceRange: next.length ? [...next].sort((a, b) => a.length - b.length) : [price],
     });
   };
 
   const resetFilters = () => {
-    setFilters(DEFAULT_FILTERS);
+    onChange?.(DEFAULT_FILTERS);
   };
 
   const activeCount = useMemo(() => {
     let count = 0;
 
-    if (priceRange.length > 0) count += 1;
-    if (selectedZone) count += 1;
-    if (selectedQuartiere) count += 1;
-    if (selectedAge) count += 1;
-    if (selectedEnergy) count += 1;
-    if (selectedSocial) count += 1;
-    if (selectedAffluenza) count += 1;
-    if (selectedTipoSerata) count += 1;
-    if (selectedPubblico) count += 1;
-    if (selectedLocation) count += 1;
-    if (selectedIdealFor) count += 1;
-    if (selectedFormats.length > 0) count += 1;
-    if (selectedDays.length > 0) count += 1;
+    if (priceRange.join("|") !== DEFAULT_FILTERS.priceRange.join("|")) count += 1;
+    if (selectedZone !== DEFAULT_FILTERS.selectedZone) count += 1;
+    if (selectedQuartiere !== DEFAULT_FILTERS.selectedQuartiere) count += 1;
+    if (selectedAge !== DEFAULT_FILTERS.selectedAge) count += 1;
+    if (selectedEnergy !== DEFAULT_FILTERS.selectedEnergy) count += 1;
+    if (selectedSocial !== DEFAULT_FILTERS.selectedSocial) count += 1;
+    if (selectedAffluenza !== DEFAULT_FILTERS.selectedAffluenza) count += 1;
+    if (selectedTipoSerata !== DEFAULT_FILTERS.selectedTipoSerata) count += 1;
+    if (selectedPubblico !== DEFAULT_FILTERS.selectedPubblico) count += 1;
+    if (selectedLocation !== DEFAULT_FILTERS.selectedLocation) count += 1;
+    if (selectedIdealFor !== DEFAULT_FILTERS.selectedIdealFor) count += 1;
+    if (selectedFormats.join("|") !== DEFAULT_FILTERS.selectedFormats.join("|")) count += 1;
+    if (selectedDays.join("|") !== DEFAULT_FILTERS.selectedDays.join("|")) count += 1;
 
     return count;
   }, [
@@ -184,11 +190,9 @@ export default function NapoliFilters() {
   return (
     <section className="relative -mt-20 z-30 max-w-7xl mx-auto px-4">
       <div className="relative overflow-visible rounded-3xl border border-white/10 bg-linear-to-br from-slate-900/95 via-slate-800/95 to-slate-900/95 backdrop-blur-2xl shadow-2xl">
-        {/* Decorative Background Gradient */}
         <div className="absolute inset-0 rounded-3xl bg-linear-to-br from-orange-500/5 via-transparent to-blue-500/5 pointer-events-none" />
 
         <div className="relative z-10 p-6 md:p-8">
-          {/* Header */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
             <div className="flex-1">
               <div className="inline-flex items-center gap-2 rounded-full border border-orange-500/30 bg-orange-500/10 px-3 py-1.5 text-xs uppercase tracking-wider text-orange-400 font-bold mb-3">
@@ -201,6 +205,12 @@ export default function NapoliFilters() {
             </div>
 
             <div className="flex flex-wrap items-center gap-3">
+              <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-white/10 bg-white/5">
+                <span className="text-sm text-white/70">
+                  {typeof resultsCount === "number" ? `${resultsCount} risultati` : "Risultati"}
+                </span>
+              </div>
+
               {activeCount > 0 && (
                 <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-white/10 bg-white/5">
                   <span className="text-sm text-white/70">Filtri attivi</span>
@@ -221,9 +231,7 @@ export default function NapoliFilters() {
             </div>
           </div>
 
-          {/* Main Filters Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-6">
-            {/* Price */}
             <FilterButtonGroup
               label="Prezzo"
               options={PRICE_OPTIONS}
@@ -233,7 +241,6 @@ export default function NapoliFilters() {
               icon={Wallet}
             />
 
-            {/* Zone */}
             <DropdownFilter
               label="Zona"
               value={selectedZone}
@@ -243,71 +250,47 @@ export default function NapoliFilters() {
               searchable
             />
 
-            {/* Quartiere */}
             <DropdownFilter
               label="Quartiere"
               value={selectedQuartiere}
               options={quartiereOptions}
-              onChange={(value) => updateFilter("selectedQuartiere", value)}
+              onChange={(v) => updateFilter("selectedQuartiere", v)}
               icon={<Building2 size={15} />}
               searchable
             />
 
-            {/* Age */}
             <DropdownFilter
               label="Età media"
               value={`${selectedAge} anni`}
               options={AGE_RANGES.map((a) => `${a} anni`)}
-              onChange={(value) => updateFilter("selectedAge", value.replace(" anni", ""))}
+              onChange={(v) => updateFilter("selectedAge", v.replace(" anni", ""))}
               highlight
               icon={<Users size={15} />}
             />
 
-            {/* Tipo Serata */}
             <DropdownFilter
               label="Tipo serata"
               value={selectedTipoSerata}
               options={TIPO_SERATA_OPTIONS}
-              onChange={(value) => updateFilter("selectedTipoSerata", value)}
+              onChange={(v) => updateFilter("selectedTipoSerata", v)}
               icon={<Music4 size={15} />}
             />
 
-            {/* Pubblico */}
             <DropdownFilter
               label="Pubblico"
               value={selectedPubblico}
               options={PUBBLICO_OPTIONS}
-              onChange={(value) => updateFilter("selectedPubblico", value)}
+              onChange={(v) => updateFilter("selectedPubblico", v)}
               icon={<UserCircle size={15} />}
             />
           </div>
 
-          {/* Level Filters */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-            <LevelFilter
-              label="Energia"
-              value={selectedEnergy}
-              onChange={(value) => updateFilter("selectedEnergy", value)}
-              icon={Flame}
-              color="orange"
-            />
-            <LevelFilter
-              label="Socialità"
-              value={selectedSocial}
-              onChange={(value) => updateFilter("selectedSocial", value)}
-              icon={HeartHandshake}
-              color="blue"
-            />
-            <LevelFilter
-              label="Affluenza"
-              value={selectedAffluenza}
-              onChange={(value) => updateFilter("selectedAffluenza", value)}
-              icon={TrendingUp}
-              color="purple"
-            />
+            <LevelFilter label="Energia" value={selectedEnergy} onChange={(v) => updateFilter("selectedEnergy", v)} icon={Flame} color="orange" />
+            <LevelFilter label="Socialità" value={selectedSocial} onChange={(v) => updateFilter("selectedSocial", v)} icon={HeartHandshake} color="blue" />
+            <LevelFilter label="Affluenza" value={selectedAffluenza} onChange={(v) => updateFilter("selectedAffluenza", v)} icon={TrendingUp} color="purple" />
           </div>
 
-          {/* Advanced Filters Toggle */}
           <button
             type="button"
             onClick={() => setShowAdvanced(!showAdvanced)}
@@ -316,27 +299,17 @@ export default function NapoliFilters() {
             <div className="flex items-center gap-3">
               <SlidersHorizontal size={20} className="text-orange-400 group-hover:rotate-90 transition-transform duration-300" />
               <span className="text-white font-bold">Filtri Avanzati</span>
-              {(selectedFormats.length > 0 || selectedDays.length > 0) && (
-                <span className="flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-orange-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
-                </span>
-              )}
             </div>
-            <ChevronDown
-              size={20}
-              className={`text-white/60 transition-transform duration-300 ${showAdvanced ? 'rotate-180' : ''}`}
-            />
+            <ChevronDown size={20} className={`text-white/60 transition-transform duration-300 ${showAdvanced ? "rotate-180" : ""}`} />
           </button>
 
-          {/* Advanced Filters Content */}
           {showAdvanced && (
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 animate-in slide-in-from-top-2 fade-in duration-300">
               <FilterButtonGroup
                 label="Location"
                 options={LOCATION_OPTIONS}
                 selected={[selectedLocation]}
-                onToggle={(value) => updateFilter("selectedLocation", value)}
+                onToggle={(v) => updateFilter("selectedLocation", v)}
                 color="cyan"
                 single
                 icon={Trees}
@@ -346,7 +319,7 @@ export default function NapoliFilters() {
                 label="Ideale per"
                 options={IDEAL_FOR_OPTIONS}
                 selected={[selectedIdealFor]}
-                onToggle={(value) => updateFilter("selectedIdealFor", value)}
+                onToggle={(v) => updateFilter("selectedIdealFor", v)}
                 color="purple"
                 single
                 icon={HeartHandshake}
@@ -356,7 +329,7 @@ export default function NapoliFilters() {
                 label="Format"
                 options={FORMAT_OPTIONS}
                 selected={selectedFormats}
-                onToggle={(value) => toggleMultiValue("selectedFormats", value, ["DJ Set"])}
+                onToggle={(v) => toggleMultiValue("selectedFormats", v, ["DJ Set"])}
                 color="blue"
                 icon={Music4}
               />
@@ -365,7 +338,7 @@ export default function NapoliFilters() {
                 label="Giorni top"
                 options={DAYS_OPTIONS}
                 selected={selectedDays}
-                onToggle={(value) => toggleMultiValue("selectedDays", value, ["Ven", "Sab"])}
+                onToggle={(v) => toggleMultiValue("selectedDays", v, ["Ven", "Sab"])}
                 color="green"
                 icon={CalendarDays}
               />
@@ -376,8 +349,6 @@ export default function NapoliFilters() {
     </section>
   );
 }
-
-// ==================== Helper Components ====================
 
 function FilterButtonGroup({ label, options, selected, onToggle, color, single = false, icon: Icon }) {
   const colors = {
@@ -423,8 +394,7 @@ function FilterButtonGroup({ label, options, selected, onToggle, color, single =
               key={opt}
               type="button"
               onClick={() => onToggle(opt)}
-              className={`group relative inline-flex items-center gap-1.5 rounded-xl border px-3 py-2 text-sm font-semibold transition-all duration-300 transform hover:scale-105 ${isSelected ? colorConfig.active : colorConfig.inactive
-                }`}
+              className={`group relative inline-flex items-center gap-1.5 rounded-xl border px-3 py-2 text-sm font-semibold transition-all duration-300 transform hover:scale-105 ${isSelected ? colorConfig.active : colorConfig.inactive}`}
             >
               {isSelected && <Check size={14} className="animate-in zoom-in duration-200" />}
               {opt}
@@ -475,16 +445,12 @@ function LevelFilter({ label, value, onChange, icon: Icon, color }) {
               key={i}
               type="button"
               onClick={() => onChange(i)}
-              className={`group relative p-2.5 rounded-xl transition-all duration-300 transform hover:scale-125 ${isActive ? colorConfig.bg : 'hover:bg-white/5'
-                }`}
+              className={`group relative p-2.5 rounded-xl transition-all duration-300 transform hover:scale-125 ${isActive ? colorConfig.bg : "hover:bg-white/5"}`}
               aria-label={`${label} ${i}`}
             >
               <Icon
                 size={22}
-                className={`transition-all duration-300 ${isActive
-                  ? `${colorConfig.active} ${colorConfig.glow}`
-                  : 'text-white/20 group-hover:text-white/40'
-                  }`}
+                className={`transition-all duration-300 ${isActive ? `${colorConfig.active} ${colorConfig.glow}` : "text-white/20 group-hover:text-white/40"}`}
               />
             </button>
           );
@@ -553,25 +519,20 @@ function DropdownFilter({
           onClick={() => setOpen(!open)}
           className="w-full group flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 px-4 py-3 text-left transition-all duration-300"
         >
-          <span className={`text-sm font-semibold truncate ${highlight ? "text-orange-400" : "text-white"
-            }`}>
+          <span className={`text-sm font-semibold truncate ${highlight ? "text-orange-400" : "text-white"}`}>
             {value}
           </span>
 
           <ChevronDown
             size={16}
-            className={`text-white/60 group-hover:text-white transition-all duration-300 shrink-0 ${open ? "rotate-180" : ""
-              }`}
+            className={`text-white/60 group-hover:text-white transition-all duration-300 shrink-0 ${open ? "rotate-180" : ""}`}
           />
         </button>
 
-        {/* Dropdown Menu - Portal Style */}
         {open && (
           <>
-            {/* Backdrop */}
             <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
 
-            {/* Menu */}
             <div className="absolute left-0 right-0 top-full mt-2 z-50 rounded-2xl border border-white/10 bg-slate-900/98 backdrop-blur-2xl shadow-2xl overflow-hidden animate-in slide-in-from-top-2 fade-in duration-200">
               {searchable && (
                 <div className="p-3 border-b border-white/10 bg-white/5">
