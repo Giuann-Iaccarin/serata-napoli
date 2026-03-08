@@ -1,33 +1,26 @@
-import React, { useState } from 'react';
-
-import './App.css'
-import Homepage from './pages/Homepage'
-import VenueDetail from './components/VenueDetail';
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import './App.css';
+import Homepage from './pages/Homepage';
+import VenueDetail from './pages/VenueDetail';
+import NotFound from './pages/NotFound';
 
 export default function App() {
-  const [currentView, setCurrentView] = useState('home');
-  const [selectedVenue, setSelectedVenue] = useState(null);
-
-  const handleViewVenue = (venue) => {
-    setSelectedVenue(venue);
-    setCurrentView('detail');
-  };
-
-  const handleBackToHome = () => {
-    setCurrentView('home');
-    setSelectedVenue(null);
-  };
-
   return (
-    <>
-      {currentView === 'home' ? (
-        <Homepage onViewVenue={handleViewVenue} />
-      ) : (
-        <VenueDetail
-          venue={selectedVenue}
-          onBack={handleBackToHome}
-        />
-      )}
-    </>
+    <BrowserRouter>
+      <Routes>
+        {/* Homepage */}
+        <Route path="/" element={<Homepage />} />
+
+        {/* Venue Detail Page */}
+        <Route path="/venue/:id" element={<VenueDetail />} />
+
+        {/* Venue Detail with slug (optional) */}
+        <Route path="/venue/:id/:slug" element={<VenueDetail />} />
+
+        {/* 404 Not Found */}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
   );
 }

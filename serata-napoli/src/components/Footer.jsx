@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import { Instagram, Facebook, Twitter, Mail, MapPin, Phone, Heart } from 'lucide-react';
 
