@@ -6,6 +6,8 @@ import VenueDetail from './pages/VenueDetail';
 import EventDetail from './pages/EventDetail';
 import EventsPage from './pages/EventsPage';
 import VenuesPage from './pages/VenuesPage';
+import GuidePage from './pages/GuidePage';
+import MapPage from './pages/MapPage';
 import NotFound from './pages/NotFound';
 import Profile from './pages/Profile';
 import Premium from './pages/Premium';
@@ -41,6 +43,12 @@ export default function App() {
 
         {/* Events Page */}
         <Route path="/events" element={<EventsPage />} />
+
+        {/* Guide Page */}
+        <Route path="/guide" element={<GuidePage />} />
+
+        {/* Map Page */}
+        <Route path="/map" element={<MapPage />} />
 
         {/* Venues Page */}
         <Route path="/venues" element={<VenuesPage />} />

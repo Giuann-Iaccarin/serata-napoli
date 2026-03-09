@@ -4,7 +4,7 @@ import {
     Mail, Lock, Eye, EyeOff, ArrowRight, Sparkles,
     Facebook, Chrome, AlertCircle
 } from 'lucide-react';
-import NapoliHeader from '../components/Header';
+import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 
 export default function Login() {
@@ -66,7 +66,7 @@ export default function Login() {
 
     return (
         <main className="min-h-screen bg-[#050816] text-white">
-            <NapoliHeader />
+            <Navigation />
 
             <section className="relative mt-20 px-4 py-12">
                 <div className="mx-auto max-w-md">

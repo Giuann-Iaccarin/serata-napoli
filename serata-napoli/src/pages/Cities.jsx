@@ -4,7 +4,7 @@ import {
     MapPin, Search, Star, Users, TrendingUp,
     ArrowRight, Filter, Grid, List
 } from 'lucide-react';
-import NapoliHeader from '../components/Header';
+import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 
 // Mock data for cities - in a real app this would come from an API
@@ -107,7 +107,7 @@ export default function Cities() {
 
     return (
         <main className="min-h-screen bg-[#050816] text-white">
-            <NapoliHeader />
+            <Navigation />
 
             <section className="relative mt-20 px-4 py-12">
                 <div className="mx-auto max-w-6xl">

@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import NapoliHeader from "../components/Header";
+import Navigation from "../components/Navigation";
 import Footer from "../components/Footer";
 import { MOCK_EVENTS } from "../data/mockVenues";
 import { Calendar, Clock, Euro, MapPin, Users } from "lucide-react";
@@ -10,7 +10,7 @@ export default function EventsPage() {
 
     return (
         <main className="min-h-screen bg-[#050816] text-white overflow-hidden">
-            <NapoliHeader />
+            <Navigation />
 
             <section className="relative mt-20 z-20 px-4 py-12">
                 <div className="mx-auto max-w-7xl">

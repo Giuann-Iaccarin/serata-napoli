@@ -4,7 +4,7 @@ import {
     Crown, Star, TrendingUp, MapPin, Euro, Clock,
     Heart, Share2, Filter, Award, Flame, Sparkles
 } from 'lucide-react';
-import NapoliHeader from '../components/Header';
+import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 
 // Mock top venues data
@@ -229,7 +229,7 @@ export default function TopVenues() {
 
     return (
         <main className="min-h-screen bg-[#050816] text-white">
-            <NapoliHeader />
+            <Navigation />
 
             <section className="relative mt-20 px-4 py-12">
                 <div className="mx-auto max-w-7xl">

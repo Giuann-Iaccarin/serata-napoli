@@ -5,7 +5,7 @@ import {
     MapPin, Filter, Heart, Calendar, Users, Shield,
     CreditCard, MessageCircle, ArrowRight
 } from 'lucide-react';
-import NapoliHeader from '../components/Header';
+import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 
 const FAQ_CATEGORIES = [
@@ -151,7 +151,7 @@ export default function FAQ() {
 
     return (
         <main className="min-h-screen bg-[#050816] text-white">
-            <NapoliHeader />
+            <Navigation />
 
             <section className="relative mt-20 px-4 py-12">
                 <div className="mx-auto max-w-4xl">
