@@ -1,86 +1,58 @@
-// mockVenues.js - Complete data structure with reviews, gallery, events
+const makeAvatar = (name, bg = "ff6b35", color = "fff") =>
+    `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=${bg}&color=${color}`;
 
-export const MOCK_VENUES = [
+const BASE_VENUES = [
     {
         id: "1",
         slug: "luna-rooftop-chiaia",
         name: "Luna Rooftop",
         zone: "Chiaia",
+        quartiere: "Chiaia",
         address: "Via Cavallerizza a Chiaia, 45",
-        mood: "tranquillo",
+        mood: ["Aperitivo", "Aperitivo + DJ", "Rooftop", "Food & Drink"],
+        pubblico: ["Internazionale", "Maturo", "Misto"],
         tag: "Rooftop",
         price: "€€€",
-        age: "24-27",
+        age: "27-30",
         energy: 2,
         social: 4,
         affluenza: 3,
         bestTime: "21:30 - 00:30",
-        description: "Perfetto per un aperitivo premium che diventa serata glamour, con musica, atmosfera curata e pubblico internazionale. Luna Rooftop offre una vista mozzafiato sul Golfo di Napoli, cocktail d'autore preparati da bartender professionisti e un'atmosfera elegante ma non eccessivamente formale.",
-        bestDays: ["Giovedì", "Venerdì", "Sabato", "Domenica"],
-        idealFor: ["Coppie", "Date", "Gruppo", "Networking"],
-        formats: ["Aperitivo", "DJ Set", "Cocktail"],
-        location: "Outdoor",
+        description:
+            "Perfetto per un aperitivo premium che diventa serata glamour, con musica, atmosfera curata e pubblico internazionale.",
+        bestDays: ["Gio", "Ven", "Sab", "Dom"],
+        idealFor: ["Coppia", "Date", "Gruppo", "Networking"],
+        formats: ["Aperitivo", "DJ Set", "Cocktail", "Cena"],
+        location: ["Outdoor"],
         phone: "+39 081 123 4567",
         whatsapp: "+39 081 123 4567",
         website: "www.lunarooftop.it",
         instagram: "@luna_rooftop_napoli",
         facebook: "lunarooftopnapoli",
         twitter: "@lunarooftop_na",
-        googleAddress: "https://www.google.com/maps/search/?api=1&query=Luna+Rooftop+Chiaia+Napoli",
+        googleAddress:
+            "https://www.google.com/maps/search/?api=1&query=Luna+Rooftop+Chiaia+Napoli",
         rating: 4.9,
         reviews: 487,
         badges: ["Vista mare", "Cocktail bar", "DJ set"],
         highlight: true,
-        image: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1200&q=80",
-        hours: {
-            "Lun - Mar": "Chiuso",
-            "Mer - Dom": "18:00 - 01:00"
-        },
+        image:
+            "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1200&q=80",
+        hours: { "Lun - Mar": "Chiuso", "Mer - Dom": "18:00 - 01:00" },
         gallery: [
             "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1200&q=80",
             "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80",
-            "https://images.unsplash.com/photo-1470337458703-46ad1756a187?auto=format&fit=crop&w=1200&q=80",
-            "https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?auto=format&fit=crop&w=1200&q=80",
-            "https://images.unsplash.com/photo-1566737236500-c8ac43014a67?auto=format&fit=crop&w=1200&q=80",
-            "https://images.unsplash.com/photo-1543007630-9710e4a00a20?auto=format&fit=crop&w=1200&q=80"
         ],
         userReviews: [
             {
                 id: 1,
                 author: "Maria R.",
-                avatar: "https://ui-avatars.com/api/?name=Maria+R&background=ff6b35&color=fff",
+                avatar: makeAvatar("Maria R"),
                 rating: 5,
                 date: "2024-03-01",
-                comment: "Vista incredibile! Perfetto per un aperitivo romantico. I cocktail sono eccellenti e il personale molto professionale. Consiglio di prenotare in anticipo, soprattutto nel weekend.",
-                helpful: 23
+                comment: "Vista incredibile, cocktail ottimi e atmosfera perfetta.",
+                helpful: 23,
             },
-            {
-                id: 2,
-                author: "Luca M.",
-                avatar: "https://ui-avatars.com/api/?name=Luca+M&background=00d4ff&color=fff",
-                rating: 5,
-                date: "2024-02-28",
-                comment: "Atmosfera top, musica giusta e panorama mozzafiato. Ci torno sempre volentieri con amici. Prezzi un po' alti ma ne vale la pena.",
-                helpful: 18
-            },
-            {
-                id: 3,
-                author: "Sofia T.",
-                avatar: "https://ui-avatars.com/api/?name=Sofia+T&background=9d4edd&color=fff",
-                rating: 4,
-                date: "2024-02-25",
-                comment: "Bellissimo locale, vista stupenda e cocktail buonissimi. L'unica pecca è che a volte c'è troppa gente e si fa fatica a trovare posto.",
-                helpful: 12
-            },
-            {
-                id: 4,
-                author: "Alessandro P.",
-                avatar: "https://ui-avatars.com/api/?name=Alessandro+P&background=ffd60a&color=000",
-                rating: 5,
-                date: "2024-02-20",
-                comment: "Location da sogno! Ho festeggiato qui il mio compleanno e tutto è stato perfetto. Staff attento e preparato. Consigliatissimo!",
-                helpful: 15
-            }
         ],
         upcomingEvents: [
             {
@@ -90,35 +62,19 @@ export const MOCK_VENUES = [
                 time: "19:00 - 23:00",
                 description: "Aperitivo al tramonto con DJ set e cocktail speciali",
                 type: "DJ Set",
-                price: "Ingresso libero"
+                price: "Ingresso libero",
             },
-            {
-                id: 2,
-                title: "Jazz Night",
-                date: "2024-03-22",
-                time: "20:00 - 00:00",
-                description: "Serata jazz con band dal vivo e menu degustazione",
-                type: "Live Music",
-                price: "€20 con consumazione"
-            },
-            {
-                id: 3,
-                title: "Weekend Brunch",
-                date: "2024-03-24",
-                time: "12:00 - 16:00",
-                description: "Brunch domenicale con vista golfo",
-                type: "Food & Drink",
-                price: "€35 per persona"
-            }
-        ]
+        ],
     },
     {
         id: "2",
         slug: "vicolo-vivo-centro",
         name: "Vicolo Vivo",
         zone: "Centro Storico",
+        quartiere: "Centro",
         address: "Via dei Tribunali, 289",
-        mood: "musica",
+        mood: ["Live Music", "Lounge"],
+        pubblico: ["Locale", "Alternativo", "Giovane"],
         tag: "Live Music",
         price: "€€",
         age: "23-26",
@@ -126,254 +82,128 @@ export const MOCK_VENUES = [
         social: 5,
         affluenza: 4,
         bestTime: "22:00 - 01:00",
-        description: "Un posto caldo, pieno di vibrazioni vere, perfetto per chi vuole cantare, bere bene e stare dentro il cuore pulsante della città. Locale storico del centro con live music ogni sera e atmosfera autentica napoletana.",
-        bestDays: ["Tutti i giorni"],
-        idealFor: ["Amici", "Gruppi", "Conoscere persone", "Single"],
+        description:
+            "Un posto caldo, pieno di vibrazioni vere, perfetto per chi vuole cantare, bere bene e stare dentro il cuore pulsante della città.",
+        bestDays: ["Lun", "Mar", "Mer", "Gio", "Ven", "Sab", "Dom"],
+        idealFor: ["Amici", "Gruppo", "Solo"],
         formats: ["Live Band", "Jam Session", "Karaoke"],
-        location: "Indoor",
+        location: ["Indoor"],
         phone: "+39 081 234 5678",
         whatsapp: "+39 081 234 5678",
         website: "www.vicolovivo.it",
         instagram: "@vicolovivo_napoli",
         facebook: "vicolovivo.napoli",
         twitter: "@vicolovivo_na",
-        googleAddress: "https://www.google.com/maps/search/?api=1&query=Vicolo+Vivo+Via+dei+Tribunali+Napoli",
+        googleAddress:
+            "https://www.google.com/maps/search/?api=1&query=Vicolo+Vivo+Via+dei+Tribunali+Napoli",
         rating: 4.7,
         reviews: 356,
         badges: ["Live band", "Gruppi", "Locale"],
         highlight: true,
-        image: "https://images.unsplash.com/photo-1505236858219-8359eb29e329?auto=format&fit=crop&w=1200&q=80",
-        hours: {
-            "Lun - Dom": "19:00 - 02:00"
-        },
+        image:
+            "https://images.unsplash.com/photo-1505236858219-8359eb29e329?auto=format&fit=crop&w=1200&q=80",
+        hours: { "Lun - Dom": "19:00 - 02:00" },
         gallery: [
             "https://images.unsplash.com/photo-1505236858219-8359eb29e329?auto=format&fit=crop&w=1200&q=80",
-            "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1200&q=80",
-            "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?auto=format&fit=crop&w=1200&q=80",
-            "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&w=1200&q=80"
         ],
-        userReviews: [
-            {
-                id: 1,
-                author: "Giovanni B.",
-                avatar: "https://ui-avatars.com/api/?name=Giovanni+B&background=00d4ff&color=fff",
-                rating: 5,
-                date: "2024-03-02",
-                comment: "La vera anima di Napoli! Band pazzesca, atmosfera unica. Ci vengo almeno una volta a settimana. Consigliatissimo!",
-                helpful: 31
-            },
-            {
-                id: 2,
-                author: "Chiara D.",
-                avatar: "https://ui-avatars.com/api/?name=Chiara+D&background=ff6b35&color=fff",
-                rating: 4,
-                date: "2024-02-27",
-                comment: "Locale piccolo ma con grande cuore. Musica live fantastica e prezzi onesti. A volte un po' affollato.",
-                helpful: 19
-            },
-            {
-                id: 3,
-                author: "Marco F.",
-                avatar: "https://ui-avatars.com/api/?name=Marco+F&background=9d4edd&color=fff",
-                rating: 5,
-                date: "2024-02-22",
-                comment: "Ogni sera un'esperienza diversa. I musicisti sono bravissimi e l'atmosfera è sempre elettrica!",
-                helpful: 24
-            }
-        ],
-        upcomingEvents: [
-            {
-                id: 1,
-                title: "Notte della Canzone Napoletana",
-                date: "2024-03-18",
-                time: "21:00 - 01:00",
-                description: "Serata speciale dedicata alla tradizione musicale napoletana",
-                type: "Live Music",
-                price: "Ingresso libero"
-            },
-            {
-                id: 2,
-                title: "Open Mic Night",
-                date: "2024-03-21",
-                time: "22:00 - 02:00",
-                description: "Microfono aperto per artisti emergenti",
-                type: "Live Music",
-                price: "€5"
-            }
-        ]
+        userReviews: [],
+        upcomingEvents: [],
     },
     {
         id: "3",
         slug: "aura-club-vomero",
         name: "Aura Club",
         zone: "Vomero",
+        quartiere: "Vomero",
         address: "Via Morghen, 45",
-        mood: "casino",
+        mood: ["Discoteca", "Aperitivo + DJ"],
+        pubblico: ["Giovane", "Internazionale", "Misto"],
         tag: "Night Club",
         price: "€€€",
-        age: "22-25",
+        age: "23-26",
         energy: 5,
         social: 4,
         affluenza: 5,
         bestTime: "23:30 - 03:00",
-        description: "Per chi vuole una notte intensa, luci forti, selezione musicale clubbing e un'estetica molto più fashion. Il club più esclusivo del Vomero con DJ internazionali e una crowd giovane e trendy.",
-        bestDays: ["Giovedì", "Venerdì", "Sabato"],
-        idealFor: ["Gruppi", "Amici", "Single", "Conoscere persone"],
+        description:
+            "Per chi vuole una notte intensa, luci forti, selezione musicale clubbing e crowd giovane.",
+        bestDays: ["Gio", "Ven", "Sab"],
+        idealFor: ["Gruppo", "Amici", "Solo"],
         formats: ["DJ Set", "Dancing", "After Party"],
-        location: "Indoor",
+        location: ["Indoor"],
         phone: "+39 081 345 6789",
         whatsapp: "+39 081 345 6789",
         website: "www.auraclub.it",
         instagram: "@aura_club_napoli",
         facebook: "auraclub.napoli",
         twitter: "@auraclub_na",
-        googleAddress: "https://www.google.com/maps/search/?api=1&query=Aura+Club+Via+Morghen+Napoli",
+        googleAddress:
+            "https://www.google.com/maps/search/?api=1&query=Aura+Club+Via+Morghen+Napoli",
         rating: 4.8,
         reviews: 612,
         badges: ["Dancefloor", "Premium", "Weekend"],
         highlight: true,
-        image: "https://images.unsplash.com/photo-1566737236500-c8ac43014a67?auto=format&fit=crop&w=1200&q=80",
-        hours: {
-            "Lun - Mer": "Chiuso",
-            "Gio": "23:00 - 03:00",
-            "Ven - Sab": "23:00 - 05:00",
-            "Dom": "Chiuso"
-        },
+        image:
+            "https://images.unsplash.com/photo-1566737236500-c8ac43014a67?auto=format&fit=crop&w=1200&q=80",
+        hours: { "Lun - Mer": "Chiuso", Gio: "23:00 - 03:00", "Ven - Sab": "23:00 - 05:00", Dom: "Chiuso" },
         gallery: [
             "https://images.unsplash.com/photo-1566737236500-c8ac43014a67?auto=format&fit=crop&w=1200&q=80",
-            "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&w=1200&q=80",
-            "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1200&q=80",
-            "https://images.unsplash.com/photo-1571266028243-d220c6c0b98b?auto=format&fit=crop&w=1200&q=80",
-            "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80"
         ],
-        userReviews: [
-            {
-                id: 1,
-                author: "Valentina S.",
-                avatar: "https://ui-avatars.com/api/?name=Valentina+S&background=ff5e78&color=fff",
-                rating: 5,
-                date: "2024-03-03",
-                comment: "Il club più bello di Napoli! DJ incredibili, luci pazzeschemusica sempre top. Imperdibile!",
-                helpful: 42
-            },
-            {
-                id: 2,
-                author: "Roberto L.",
-                avatar: "https://ui-avatars.com/api/?name=Roberto+L&background=00d4ff&color=fff",
-                rating: 4,
-                date: "2024-02-29",
-                comment: "Locale top, musica ottima e ambiente giovane. Prezzi un po' alti ma ne vale la pena. Consiglio di andare dopo mezzanotte.",
-                helpful: 27
-            },
-            {
-                id: 3,
-                author: "Elena M.",
-                avatar: "https://ui-avatars.com/api/?name=Elena+M&background=9d4edd&color=fff",
-                rating: 5,
-                date: "2024-02-26",
-                comment: "Esperienza incredibile! Staff cortese, sicurezza presente, pista sempre piena di energia. Ci torno ogni weekend!",
-                helpful: 35
-            }
-        ],
-        upcomingEvents: [
-            {
-                id: 1,
-                title: "International DJ Night",
-                date: "2024-03-16",
-                time: "23:00 - 05:00",
-                description: "Special guest DJ from Ibiza",
-                type: "DJ Set",
-                price: "€20 + drink"
-            },
-            {
-                id: 2,
-                title: "Neon Party",
-                date: "2024-03-23",
-                time: "23:00 - 05:00",
-                description: "Festa a tema neon con gadget e drink fluorescenti",
-                type: "Themed Party",
-                price: "€15"
-            },
-            {
-                id: 3,
-                title: "Ladies Night",
-                date: "2024-03-20",
-                time: "23:00 - 03:00",
-                description: "Ingresso gratuito per le donne fino all'1:00",
-                type: "Special Event",
-                price: "Free per donne"
-            }
-        ]
+        userReviews: [],
+        upcomingEvents: [],
     },
     {
         id: "4",
         slug: "brezza-garden-posillipo",
         name: "Brezza Garden",
         zone: "Posillipo",
+        quartiere: "Posillipo",
         address: "Via Posillipo, 123",
-        mood: "tranquillo",
+        mood: ["Aperitivo", "Food & Drink", "Lounge"],
+        pubblico: ["Maturo", "Misto", "Internazionale"],
         tag: "Outdoor",
         price: "€€€",
-        age: "25-28",
+        age: "27-30",
         energy: 2,
         social: 3,
         affluenza: 2,
         bestTime: "20:00 - 23:30",
-        description: "Location panoramica e più rilassata, ideale per una serata bella da vedere, raffinata ma non fredda. Giardino elegante con vista sul golfo, perfetto per cene romantiche e aperitivi al tramonto.",
-        bestDays: ["Tutti i giorni"],
-        idealFor: ["Coppie", "Date", "Primo appuntamento", "Famiglia"],
+        description:
+            "Location panoramica e rilassata, ideale per una serata elegante ma non fredda.",
+        bestDays: ["Lun", "Mar", "Mer", "Gio", "Ven", "Sab", "Dom"],
+        idealFor: ["Coppia", "Date", "Famiglia"],
         formats: ["Cena", "Aperitivo", "Cocktail"],
-        location: "Outdoor",
+        location: ["Outdoor"],
         phone: "+39 081 456 7890",
         whatsapp: "+39 081 456 7890",
         website: "www.brezzagarden.it",
         instagram: "@brezza_garden",
         facebook: "brezzagarden.napoli",
         twitter: "@brezza_garden",
-        googleAddress: "https://www.google.com/maps/search/?api=1&query=Brezza+Garden+Via+Posillipo+Napoli",
+        googleAddress:
+            "https://www.google.com/maps/search/?api=1&query=Brezza+Garden+Via+Posillipo+Napoli",
         rating: 4.6,
         reviews: 289,
         badges: ["Garden", "Sunset", "Couple vibes"],
         highlight: true,
-        image: "https://images.unsplash.com/photo-1525268323446-0505b6fe7778?auto=format&fit=crop&w=1200&q=80",
-        hours: {
-            "Lun - Dom": "18:00 - 00:00"
-        },
+        image:
+            "https://images.unsplash.com/photo-1525268323446-0505b6fe7778?auto=format&fit=crop&w=1200&q=80",
+        hours: { "Lun - Dom": "18:00 - 00:00" },
         gallery: [
             "https://images.unsplash.com/photo-1525268323446-0505b6fe7778?auto=format&fit=crop&w=1200&q=80",
-            "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80",
-            "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1200&q=80",
-            "https://images.unsplash.com/photo-1470337458703-46ad1756a187?auto=format&fit=crop&w=1200&q=80"
         ],
-        userReviews: [
-            {
-                id: 1,
-                author: "Anna G.",
-                avatar: "https://ui-avatars.com/api/?name=Anna+G&background=ff6b35&color=fff",
-                rating: 5,
-                date: "2024-03-01",
-                comment: "Posto magico per una cena romantica. Vista mozzafiato, cibo ottimo e personale attento. Prezzi giustificati dalla qualità.",
-                helpful: 28
-            },
-            {
-                id: 2,
-                author: "Paolo N.",
-                avatar: "https://ui-avatars.com/api/?name=Paolo+N&background=00d4ff&color=fff",
-                rating: 4,
-                date: "2024-02-24",
-                comment: "Bellissimo giardino e atmosfera rilassante. Ideale per una serata tranquilla. Consiglio di prenotare un tavolo vicino alla balaustra.",
-                helpful: 16
-            }
-        ],
-        upcomingEvents: null
+        userReviews: [],
+        upcomingEvents: null,
     },
     {
         id: "5",
         slug: "neon-harbor-mergellina",
         name: "Neon Harbor",
         zone: "Mergellina",
+        quartiere: "Mergellina",
         address: "Via Caracciolo, 78",
-        mood: "alternativo",
+        mood: ["Aperitivo + DJ", "Lounge", "Food & Drink"],
+        pubblico: ["Alternativo", "Internazionale", "Giovane"],
         tag: "Cocktail Bar",
         price: "€€",
         age: "23-26",
@@ -381,183 +211,397 @@ export const MOCK_VENUES = [
         social: 4,
         affluenza: 3,
         bestTime: "21:00 - 00:00",
-        description: "Design contemporaneo, drink fotografabili e atmosfera perfetta per iniziare bene la serata con il gruppo giusto. Cocktail bar trendy con mixologist creativi e ambiente instagrammabile.",
-        bestDays: ["Mercoledì", "Giovedì", "Venerdì", "Sabato"],
+        description:
+            "Design contemporaneo, drink fotografabili e atmosfera perfetta per iniziare bene la serata.",
+        bestDays: ["Mer", "Gio", "Ven", "Sab"],
         idealFor: ["Amici", "Gruppo", "Networking", "Date"],
         formats: ["Cocktail", "Aperitivo", "DJ Set"],
-        location: "Indoor",
+        location: ["Indoor"],
         phone: "+39 081 567 8901",
         whatsapp: "+39 081 567 8901",
         website: "www.neonharbor.it",
         instagram: "@neon_harbor_napoli",
         facebook: "neonharbor.napoli",
         twitter: "@neonharbor_na",
-        googleAddress: "https://www.google.com/maps/search/?api=1&query=Neon+Harbor+Via+Caracciolo+Napoli",
+        googleAddress:
+            "https://www.google.com/maps/search/?api=1&query=Neon+Harbor+Via+Caracciolo+Napoli",
         rating: 4.8,
         reviews: 421,
         badges: ["Signature drink", "Scenografico", "Friends"],
         highlight: true,
-        image: "https://images.unsplash.com/photo-1516997121675-4c2d1684aa3e?auto=format&fit=crop&w=1200&q=80",
-        hours: {
-            "Lun - Mar": "Chiuso",
-            "Mer - Sab": "19:00 - 02:00",
-            "Dom": "19:00 - 00:00"
-        },
+        image:
+            "https://images.unsplash.com/photo-1516997121675-4c2d1684aa3e?auto=format&fit=crop&w=1200&q=80",
+        hours: { "Lun - Mar": "Chiuso", "Mer - Sab": "19:00 - 02:00", Dom: "19:00 - 00:00" },
         gallery: [
             "https://images.unsplash.com/photo-1516997121675-4c2d1684aa3e?auto=format&fit=crop&w=1200&q=80",
-            "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1200&q=80",
-            "https://images.unsplash.com/photo-1470337458703-46ad1756a187?auto=format&fit=crop&w=1200&q=80",
-            "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=1200&q=80"
         ],
-        userReviews: [
-            {
-                id: 1,
-                author: "Francesca R.",
-                avatar: "https://ui-avatars.com/api/?name=Francesca+R&background=9d4edd&color=fff",
-                rating: 5,
-                date: "2024-03-04",
-                comment: "Cocktail incredibili e ambiente super cool! I bartender sono veri artisti. Ogni drink è una sorpresa!",
-                helpful: 33
-            },
-            {
-                id: 2,
-                author: "Davide C.",
-                avatar: "https://ui-avatars.com/api/?name=Davide+C&background=00d4ff&color=fff",
-                rating: 5,
-                date: "2024-02-28",
-                comment: "Il mio cocktail bar preferito a Napoli. Design pazzesco, musica giusta e drink top. Ci torno sempre!",
-                helpful: 29
-            },
-            {
-                id: 3,
-                author: "Giulia P.",
-                avatar: "https://ui-avatars.com/api/?name=Giulia+P&background=ff5e78&color=fff",
-                rating: 4,
-                date: "2024-02-23",
-                comment: "Locale molto carino e instagram-friendly. Drink buoni ma un po' cari. Atmosfera comunque fantastica!",
-                helpful: 18
-            }
-        ],
-        upcomingEvents: [
-            {
-                id: 1,
-                title: "Mixology Workshop",
-                date: "2024-03-19",
-                time: "20:00 - 22:00",
-                description: "Impara a preparare cocktail d'autore con i nostri mixologist",
-                type: "Workshop",
-                price: "€35 con 3 drink"
-            },
-            {
-                id: 2,
-                title: "Neon Nights",
-                date: "2024-03-23",
-                time: "22:00 - 02:00",
-                description: "Serata a tema neon con DJ set e drink fluorescenti",
-                type: "Themed Party",
-                price: "Ingresso libero"
-            }
-        ]
+        userReviews: [],
+        upcomingEvents: [],
     },
     {
         id: "6",
         slug: "casa-ritmo-fuorigrotta",
         name: "Casa Ritmo",
         zone: "Fuorigrotta",
+        quartiere: "Fuorigrotta",
         address: "Via Terracina, 234",
-        mood: "casino",
+        mood: ["Discoteca", "Aperitivo + DJ"],
+        pubblico: ["Giovane", "Locale", "Misto"],
         tag: "Urban Mood",
         price: "€",
-        age: "20-24",
+        age: "18-22",
         energy: 4,
         social: 5,
         affluenza: 4,
         bestTime: "22:30 - 02:00",
-        description: "Più accessibile ma super vivo, perfetto per chi cerca una serata senza troppi filtri, spontanea e divertente. Locale urban con musica hip-hop, trap e reggaeton. Atmosfera giovane e informale.",
-        bestDays: ["Venerdì", "Sabato"],
-        idealFor: ["Gruppi", "Amici", "Conoscere persone", "Single"],
+        description:
+            "Più accessibile ma super vivo, perfetto per chi cerca una serata spontanea e divertente.",
+        bestDays: ["Ven", "Sab"],
+        idealFor: ["Gruppo", "Amici", "Solo"],
         formats: ["DJ Set", "Hip-hop", "Dancing"],
-        location: "Indoor",
+        location: ["Indoor"],
         phone: "+39 081 678 9012",
         whatsapp: "+39 081 678 9012",
         website: "www.casaritmo.it",
         instagram: "@casa_ritmo_napoli",
         facebook: "casaritmo.napoli",
         twitter: "@casaritmo_na",
-        googleAddress: "https://www.google.com/maps/search/?api=1&query=Casa+Ritmo+Via+Terracina+Napoli",
+        googleAddress:
+            "https://www.google.com/maps/search/?api=1&query=Casa+Ritmo+Via+Terracina+Napoli",
         rating: 4.5,
         reviews: 378,
         badges: ["Easy price", "Hip-hop", "Gruppi"],
         highlight: false,
-        image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=1200&q=80",
-        hours: {
-            "Lun - Gio": "Chiuso",
-            "Ven - Sab": "22:00 - 04:00",
-            "Dom": "Chiuso"
-        },
+        image:
+            "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=1200&q=80",
+        hours: { "Lun - Gio": "Chiuso", "Ven - Sab": "22:00 - 04:00", Dom: "Chiuso" },
         gallery: [
             "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=1200&q=80",
-            "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&w=1200&q=80",
-            "https://images.unsplash.com/photo-1566737236500-c8ac43014a67?auto=format&fit=crop&w=1200&q=80"
         ],
+        userReviews: [],
+        upcomingEvents: [],
+    },
+];
+
+const ZONE_QUARTIERE_MAP = [
+    { zone: "Napoli città", quartiere: "Chiaia" },
+    { zone: "Napoli città", quartiere: "Vomero" },
+    { zone: "Napoli città", quartiere: "Centro Storico" },
+    { zone: "Napoli città", quartiere: "Posillipo" },
+    { zone: "Napoli città", quartiere: "Mergellina" },
+    { zone: "Napoli città", quartiere: "Fuorigrotta" },
+    { zone: "Vomero", quartiere: "Vomero" },
+    { zone: "Vomero", quartiere: "Arenella" },
+    { zone: "Chiaia", quartiere: "Chiaia" },
+    { zone: "Chiaia", quartiere: "Mergellina" },
+    { zone: "Centro Storico", quartiere: "Centro" },
+    { zone: "Centro Storico", quartiere: "Decumani" },
+    { zone: "Centro Storico", quartiere: "San Lorenzo" },
+    { zone: "Posillipo", quartiere: "Posillipo" },
+    { zone: "Posillipo", quartiere: "Marechiaro" },
+];
+
+const archetypes = [
+    {
+        key: "party",
+        namePrefix: "Pulse",
+        mood: ["Discoteca", "Aperitivo + DJ"],
+        pubblico: ["Giovane", "Misto", "Internazionale"],
+        price: "€€",
+        age: "18-22",
+        energy: 4,
+        social: 5,
+        affluenza: 4,
+        bestDays: ["Ven", "Sab"],
+        idealFor: ["Gruppo", "Amici", "Solo"],
+        formats: ["DJ Set", "Dancing", "After Party"],
+        location: ["Indoor"],
+        tag: "Party Club",
+        bestTime: "23:00 - 03:00",
+        image: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&w=1200&q=80",
+    },
+    {
+        key: "chill",
+        namePrefix: "Sera",
+        mood: ["Aperitivo", "Food & Drink", "Lounge"],
+        pubblico: ["Misto", "Maturo", "Internazionale"],
+        price: "€€€",
+        age: "27-30",
+        energy: 2,
+        social: 3,
+        affluenza: 2,
+        bestDays: ["Gio", "Ven", "Sab", "Dom"],
+        idealFor: ["Coppia", "Date", "Famiglia"],
+        formats: ["Aperitivo", "Cena", "Cocktail"],
+        location: ["Outdoor", "Indoor"],
+        tag: "Lounge Bar",
+        bestTime: "20:00 - 23:30",
+        image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80",
+    },
+    {
+        key: "live",
+        namePrefix: "Echo",
+        mood: ["Live Music", "Lounge"],
+        pubblico: ["Locale", "Alternativo", "Misto"],
+        price: "€€",
+        age: "23-26",
+        energy: 3,
+        social: 4,
+        affluenza: 3,
+        bestDays: ["Mer", "Gio", "Ven", "Sab"],
+        idealFor: ["Amici", "Gruppo", "Networking"],
+        formats: ["Live Band", "Karaoke", "Jam Session"],
+        location: ["Indoor"],
+        tag: "Live Room",
+        bestTime: "21:30 - 00:30",
+        image: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?auto=format&fit=crop&w=1200&q=80",
+    },
+    {
+        key: "alt",
+        namePrefix: "Nova",
+        mood: ["Lounge", "Food & Drink", "Aperitivo + DJ"],
+        pubblico: ["Alternativo", "Internazionale", "Giovane"],
+        price: "€€",
+        age: "23-26",
+        energy: 3,
+        social: 4,
+        affluenza: 3,
+        bestDays: ["Gio", "Ven", "Sab"],
+        idealFor: ["Date", "Networking", "Amici"],
+        formats: ["Cocktail", "DJ Set", "Aperitivo"],
+        location: ["Indoor", "Outdoor"],
+        tag: "Concept Bar",
+        bestTime: "21:00 - 00:30",
+        image: "https://images.unsplash.com/photo-1516997121675-4c2d1684aa3e?auto=format&fit=crop&w=1200&q=80",
+    },
+    {
+        key: "food",
+        namePrefix: "Terra",
+        mood: ["Food & Drink", "Brunch", "Aperitivo"],
+        pubblico: ["Misto", "Maturo", "Locale"],
+        price: "€€",
+        age: "27-30",
+        energy: 1,
+        social: 2,
+        affluenza: 2,
+        bestDays: ["Sab", "Dom"],
+        idealFor: ["Famiglia", "Coppia", "Date"],
+        formats: ["Cena", "Brunch", "Aperitivo"],
+        location: ["Indoor", "Outdoor"],
+        tag: "Food Spot",
+        bestTime: "13:00 - 15:30",
+        image: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1200&q=80",
+    },
+];
+
+function quartiereSlug(value) {
+    return value
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/\s+/g, "-");
+}
+
+function zoneLabelForName(zone) {
+    return zone === "Napoli città" ? "Napoli" : zone;
+}
+
+function buildGeneratedVenue({ zone, quartiere }, archetype, index) {
+    const slugBase = `${archetype.namePrefix}-${quartiereSlug(quartiere)}-${quartiereSlug(zoneLabelForName(zone))}`;
+    const displayName = `${archetype.namePrefix} ${quartiere}`;
+
+    const accentBg = ["ff6b35", "00d4ff", "9d4edd", "ffd60a", "22c55e"][index % 5];
+
+    return {
+        id: `g-${index + 1}`,
+        slug: slugBase,
+        name: displayName,
+        zone,
+        quartiere,
+        address: `Via ${quartiere}, ${20 + index}`,
+        mood: archetype.mood,
+        pubblico: archetype.pubblico,
+        tag: archetype.tag,
+        price: archetype.price,
+        age: archetype.age,
+        energy: archetype.energy,
+        social: archetype.social,
+        affluenza: archetype.affluenza,
+        bestTime: archetype.bestTime,
+        description: `${displayName} è un locale studiato per coprire il mood ${archetype.key} nella zona ${zone}. Atmosfera coerente, format chiari e filtro perfetto per combinazioni realistiche.`,
+        bestDays: archetype.bestDays,
+        idealFor: archetype.idealFor,
+        formats: archetype.formats,
+        location: archetype.location,
+        phone: `+39 081 ${7000000 + index}`,
+        whatsapp: `+39 081 ${7000000 + index}`,
+        website: `www.${slugBase}.it`,
+        instagram: `@${slugBase}`,
+        facebook: slugBase,
+        twitter: `@${slugBase}`,
+        googleAddress: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(displayName + " " + quartiere + " Napoli")}`,
+        rating: Number((4.2 + (index % 7) * 0.1).toFixed(1)),
+        reviews: 90 + index * 7,
+        badges: archetype.formats.slice(0, 3),
+        highlight: index % 5 === 0,
+        image: archetype.image,
+        hours: {
+            "Lun - Gio": archetype.key === "party" ? "Chiuso" : "18:00 - 00:00",
+            Ven: "19:00 - 02:00",
+            Sab: "19:00 - 03:00",
+            Dom: archetype.key === "food" ? "12:00 - 18:00" : "19:00 - 00:00",
+        },
+        gallery: [archetype.image],
         userReviews: [
             {
                 id: 1,
-                author: "Michele T.",
-                avatar: "https://ui-avatars.com/api/?name=Michele+T&background=ffd60a&color=000",
+                author: "Utente Demo",
+                avatar: makeAvatar("Utente Demo", accentBg),
                 rating: 5,
-                date: "2024-03-02",
-                comment: "Locale super! Prezzi onesti, musica pazzesca e tanta gente giovane. Ideale per una serata senza pensieri!",
-                helpful: 26
+                date: "2024-03-01",
+                comment: "Ottimo locale, coerente con il mood e molto utile per testare il filtraggio.",
+                helpful: 10 + index,
             },
-            {
-                id: 2,
-                author: "Sara B.",
-                avatar: "https://ui-avatars.com/api/?name=Sara+B&background=ff6b35&color=fff",
-                rating: 4,
-                date: "2024-02-27",
-                comment: "Atmosfera super casual e divertente. Musica trap e hip-hop sempre al top. Lo consiglio!",
-                helpful: 21
-            }
         ],
-        upcomingEvents: [
-            {
-                id: 1,
-                title: "Trap Night",
-                date: "2024-03-17",
-                time: "23:00 - 04:00",
-                description: "Serata dedicata alla trap italiana e internazionale",
-                type: "DJ Set",
-                price: "€8"
-            },
-            {
-                id: 2,
-                title: "Open Bar Friday",
-                date: "2024-03-22",
-                time: "22:00 - 00:00",
-                description: "Open bar per 2 ore con ingresso",
-                type: "Special Offer",
-                price: "€15"
-            }
-        ]
-    }
-];
+        upcomingEvents: [],
+    };
+}
 
-// Helper functions
-export const getVenueById = (id) => MOCK_VENUES.find(venue => venue.id === id);
-export const getVenueBySlug = (slug) => MOCK_VENUES.find(venue => venue.slug === slug);
-export const getVenuesByMood = (mood) => MOCK_VENUES.filter(venue => venue.mood === mood);
-export const getVenuesByZone = (zone) => MOCK_VENUES.filter(venue => venue.zone === zone);
+const GENERATED_VENUES = ZONE_QUARTIERE_MAP.flatMap((entry, entryIndex) =>
+    archetypes.map((archetype, archetypeIndex) =>
+        buildGeneratedVenue(entry, archetype, entryIndex * archetypes.length + archetypeIndex)
+    )
+);
+
+// Deduplica eventuali slug uguali ai base
+const baseSlugs = new Set(BASE_VENUES.map((v) => v.slug));
+const SAFE_GENERATED_VENUES = GENERATED_VENUES.filter((v) => !baseSlugs.has(v.slug));
+
+export const MOCK_VENUES = [...BASE_VENUES, ...SAFE_GENERATED_VENUES];
+
+export const getVenueById = (id) => MOCK_VENUES.find((venue) => venue.id === id);
+export const getVenueBySlug = (slug) => MOCK_VENUES.find((venue) => venue.slug === slug);
+export const getVenuesByMood = (mood) =>
+    MOCK_VENUES.filter(
+        (venue) => Array.isArray(venue.mood) && venue.mood.includes(mood)
+    );
+export const getVenuesByZone = (zone) => MOCK_VENUES.filter((venue) => venue.zone === zone);
 export const getTopVenues = (count = 3) =>
-    MOCK_VENUES.filter(v => v.highlight).sort((a, b) => b.rating - a.rating).slice(0, count);
+    MOCK_VENUES.filter((v) => v.highlight).sort((a, b) => b.rating - a.rating).slice(0, count);
+
 export const searchVenues = (query) => {
     const q = query.toLowerCase();
-    return MOCK_VENUES.filter(v =>
-        v.name.toLowerCase().includes(q) ||
-        v.zone.toLowerCase().includes(q) ||
-        v.description.toLowerCase().includes(q) ||
-        v.tag.toLowerCase().includes(q)
+    return MOCK_VENUES.filter(
+        (v) =>
+            v.name.toLowerCase().includes(q) ||
+            v.zone.toLowerCase().includes(q) ||
+            v.quartiere.toLowerCase().includes(q) ||
+            v.description.toLowerCase().includes(q) ||
+            v.tag.toLowerCase().includes(q)
     );
 };
 
 export default MOCK_VENUES;
+
+// ─── Mock Events ───────────────────────────────────────────────────────────────
+
+export const MOCK_EVENTS = [
+    {
+        id: 1,
+        title: "Serata Jazz al Tramonto",
+        description: "Una serata magica con i migliori jazzisti napoletani sul rooftop con vista mozzafiato. Cocktail speciali e atmosfera unica.",
+        date: "2024-03-15",
+        time: "19:00 - 23:00",
+        price: "€25",
+        type: "Musica Live",
+        image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=800&q=80",
+        venueId: "1", // Luna Rooftop
+        capacity: 150,
+        ageRestriction: "18+",
+        dressCode: "Smart Casual",
+        includes: ["Cocktail di benvenuto", "Musica dal vivo", "Vista panoramica"],
+        tags: ["Jazz", "Rooftop", "Cocktail", "Live Music"]
+    },
+    {
+        id: 2,
+        title: "Aperitivo con DJ Set",
+        description: "Inizia la serata con il meglio dell'aperitivo napoletano accompagnato da selezioni musicali d'eccezione.",
+        date: "2024-03-16",
+        time: "18:30 - 21:30",
+        price: "€15",
+        type: "Aperitivo + DJ",
+        image: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=800&q=80",
+        venueId: "2", // Vicolo Vivo
+        capacity: 80,
+        ageRestriction: "16+",
+        dressCode: "Casual",
+        includes: ["Aperitivo completo", "DJ Set", "Finger food"],
+        tags: ["Aperitivo", "DJ", "Finger Food"]
+    },
+    {
+        id: 3,
+        title: "Notte Latina al Club",
+        description: "Una notte di passione con ritmi latini, salsa e bachata. Ballerini professionisti guideranno le danze.",
+        date: "2024-03-20",
+        time: "22:00 - 04:00",
+        price: "€20",
+        type: "Discoteca",
+        image: "https://images.unsplash.com/photo-1566737236500-c8ac43014a67?auto=format&fit=crop&w=800&q=80",
+        venueId: "3", // Aura Club
+        capacity: 200,
+        ageRestriction: "18+",
+        dressCode: "Festivo",
+        includes: ["Lezioni di ballo gratuite", "DJ Latino", "Bar completo"],
+        tags: ["Latino", "Salsa", "Dancing", "Night Club"]
+    },
+    {
+        id: 4,
+        title: "Cena Romantica al Garden",
+        description: "Una serata speciale per coppie con menu degustazione, candele e vista mozzafiato sul golfo.",
+        date: "2024-03-18",
+        time: "20:00 - 23:00",
+        price: "€80",
+        type: "Cena",
+        image: "https://images.unsplash.com/photo-1525268323446-0505b6fe7778?auto=format&fit=crop&w=800&q=80",
+        venueId: "4", // Brezza Garden
+        capacity: 40,
+        ageRestriction: "Nessuna restrizione",
+        dressCode: "Elegante",
+        includes: ["Menu degustazione", "Vino selezionato", "Vista mare"],
+        tags: ["Romantico", "Cena", "Vista mare", "Degustazione"]
+    },
+    {
+        id: 5,
+        title: "Cocktail Night al Neon",
+        description: "Serata dedicata ai cocktail signature con bartender professionisti. Degustazioni e lezioni di mixology.",
+        date: "2024-03-22",
+        time: "21:00 - 01:00",
+        price: "€30",
+        type: "Cocktail Bar",
+        image: "https://images.unsplash.com/photo-1516997121675-4c2d1684aa3e?auto=format&fit=crop&w=800&q=80",
+        venueId: "5", // Neon Harbor
+        capacity: 60,
+        ageRestriction: "21+",
+        dressCode: "Chic",
+        includes: ["Cocktail signature", "Lezioni mixology", "Foto professionale"],
+        tags: ["Cocktail", "Mixology", "Signature drinks", "Fotografico"]
+    },
+    {
+        id: 6,
+        title: "Hip-Hop Night Underground",
+        description: "La migliore selezione hip-hop della città con DJ locali e ospiti speciali. Atmosfera underground unica.",
+        date: "2024-03-25",
+        time: "23:00 - 05:00",
+        price: "€10",
+        type: "Discoteca",
+        image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=1200&q=80",
+        venueId: "6", // Casa Ritmo
+        capacity: 120,
+        ageRestriction: "18+",
+        dressCode: "Streetwear",
+        includes: ["DJ Hip-Hop", "Ospiti speciali", "Bar economico"],
+        tags: ["Hip-Hop", "Underground", "DJ", "Street"]
+    }
+];
+
+export const getEventById = (id) => MOCK_EVENTS.find(event => event.id === parseInt(id));

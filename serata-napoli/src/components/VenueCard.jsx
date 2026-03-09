@@ -199,16 +199,6 @@ export default function VenueCard({ venue }) {
               </span>
               <div className="absolute inset-0 bg-linear-to-r from-orange-600 to-pink-600 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"></div>
             </button>
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setIsSaved(!isSaved);
-              }}
-              className="px-4 py-3 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-white rounded-xl transition-all duration-300 hover:scale-105"
-            >
-              <Bookmark size={16} />
-            </button>
           </div>
         </div>
       </Link>

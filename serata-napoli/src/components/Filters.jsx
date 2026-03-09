@@ -33,10 +33,10 @@ export const DEFAULT_FILTERS = {
   selectedAffluenza: 3,
   selectedTipoSerata: "Aperitivo + DJ",
   selectedPubblico: "Misto",
-  selectedLocation: "Entrambi",
-  selectedFormats: ["DJ Set"],
-  selectedDays: ["Ven", "Sab"],
-  selectedIdealFor: "Amici",
+  selectedLocation: "",
+  selectedFormats: [],
+  selectedDays: [],
+  selectedIdealFor: "",
 };
 
 const PRICE_OPTIONS = ["€", "€€", "€€€"];
@@ -126,14 +126,14 @@ export default function NapoliFilters({
     });
   };
 
-  const toggleMultiValue = (key, item, fallback = []) => {
-    const current = value[key];
+  const toggleMultiValue = (key, item) => {
+    const current = value[key] || [];
     const exists = current.includes(item);
     const next = exists ? current.filter((x) => x !== item) : [...current, item];
 
     onChange?.({
       ...value,
-      [key]: next.length ? next : fallback,
+      [key]: next,
     });
   };
 
@@ -329,7 +329,7 @@ export default function NapoliFilters({
                 label="Format"
                 options={FORMAT_OPTIONS}
                 selected={selectedFormats}
-                onToggle={(v) => toggleMultiValue("selectedFormats", v, ["DJ Set"])}
+                onToggle={(v) => toggleMultiValue("selectedFormats", v)}
                 color="blue"
                 icon={Music4}
               />
@@ -338,7 +338,7 @@ export default function NapoliFilters({
                 label="Giorni top"
                 options={DAYS_OPTIONS}
                 selected={selectedDays}
-                onToggle={(v) => toggleMultiValue("selectedDays", v, ["Ven", "Sab"])}
+                onToggle={(v) => toggleMultiValue("selectedDays", v)}
                 color="green"
                 icon={CalendarDays}
               />
@@ -393,8 +393,15 @@ function FilterButtonGroup({ label, options, selected, onToggle, color, single =
             <button
               key={opt}
               type="button"
-              onClick={() => onToggle(opt)}
-              className={`group relative inline-flex items-center gap-1.5 rounded-xl border px-3 py-2 text-sm font-semibold transition-all duration-300 transform hover:scale-105 ${isSelected ? colorConfig.active : colorConfig.inactive}`}
+              onClick={() => {
+                if (single) {
+                  onToggle(isSelected ? "" : opt);
+                } else {
+                  onToggle(opt);
+                }
+              }}
+              className={`group relative inline-flex items-center gap-1.5 rounded-xl border px-3 py-2 text-sm font-semibold transition-all duration-300 transform hover:scale-105 ${isSelected ? colorConfig.active : colorConfig.inactive
+                }`}
             >
               {isSelected && <Check size={14} className="animate-in zoom-in duration-200" />}
               {opt}

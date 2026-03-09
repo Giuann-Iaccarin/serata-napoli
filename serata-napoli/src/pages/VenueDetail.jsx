@@ -10,7 +10,7 @@ import {
     ChevronRight, ThumbsUp, CalendarDays, Tag, Copy, Send, Twitter,
     Check, Facebook, ChevronDown,
 } from "lucide-react";
-import { getVenueById } from "../data/mockVenues";
+import { getVenueById, MOCK_EVENTS } from "../data/mockVenues";
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
@@ -392,7 +392,7 @@ function ReviewsSection({ reviews, rating, totalReviews }) {
 
 // ─── Events ──────────────────────────────────────────────────────────────────
 
-function EventCard({ event }) {
+function EventCard({ event, onEventClick }) {
     return (
         <div className="group p-6 bg-linear-to-r from-white/5 to-white/10 border border-white/10 hover:border-orange-500/30 rounded-2xl transition-all duration-300 hover:-translate-y-1">
             <div className="flex items-start justify-between mb-3">
@@ -418,7 +418,10 @@ function EventCard({ event }) {
             <p className="text-white/70 mb-4 text-sm leading-relaxed">{event.description}</p>
             <div className="flex items-center justify-between">
                 <span className="text-white font-bold">{event.price}</span>
-                <button className="px-4 py-2 bg-linear-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white font-bold rounded-xl transition-all duration-300 transform hover:scale-105 text-sm">
+                <button
+                    onClick={() => onEventClick(event.id)}
+                    className="px-4 py-2 bg-linear-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white font-bold rounded-xl transition-all duration-300 transform hover:scale-105 text-sm"
+                >
                     Dettagli
                 </button>
             </div>
@@ -426,7 +429,7 @@ function EventCard({ event }) {
     );
 }
 
-function EventsSection({ events }) {
+function EventsSection({ events, onEventClick }) {
     const [drawerOpen, setDrawerOpen] = useState(false);
     const preview = events.slice(0, EVENTS_PREVIEW);
     const hasMore = events.length > EVENTS_PREVIEW;
@@ -436,7 +439,7 @@ function EventsSection({ events }) {
             <SectionCard>
                 <SectionTitle icon={CalendarDays}>Prossimi Eventi</SectionTitle>
                 <div className="space-y-4">
-                    {preview.map((e) => <EventCard key={e.id} event={e} />)}
+                    {preview.map((e) => <EventCard key={e.id} event={e} onEventClick={onEventClick} />)}
                 </div>
                 {hasMore && (
                     <button
@@ -451,7 +454,7 @@ function EventsSection({ events }) {
 
             {drawerOpen && (
                 <ExpandDrawer title={`Tutti gli eventi (${events.length})`} onClose={() => setDrawerOpen(false)}>
-                    {events.map((e) => <EventCard key={e.id} event={e} />)}
+                    {events.map((e) => <EventCard key={e.id} event={e} onEventClick={onEventClick} />)}
                 </ExpandDrawer>
             )}
         </>
@@ -661,7 +664,7 @@ export default function VenueDetail() {
                             </div>
                         </SectionCard>
 
-                        {venue.upcomingEvents?.length > 0 && <EventsSection events={venue.upcomingEvents} />}
+                        {MOCK_EVENTS.filter(e => e.venueId === venue.id).length > 0 && <EventsSection events={MOCK_EVENTS.filter(e => e.venueId === venue.id)} onEventClick={(eventId) => navigate(`/event/${eventId}`)} />}
                         {venue.userReviews?.length > 0 && <ReviewsSection reviews={venue.userReviews} rating={venue.rating} totalReviews={venue.reviews} />}
                     </div>
 
