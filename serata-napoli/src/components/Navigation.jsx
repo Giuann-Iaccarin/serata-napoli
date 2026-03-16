@@ -54,7 +54,7 @@ const USER_MENU = [
     section: "",
     items: [
       { icon: Settings, label: "Impostazioni", sub: "", route: "/settings" },
-      { icon: LogOut,   label: "Esci",         sub: "", danger: true, route: "/login" },
+      { icon: LogOut,   label: "Esci",         sub: "", danger: true, route: "/logout" },
     ],
   },
 ];
@@ -226,26 +226,55 @@ function UserMenuContent({ onItemClick }) {
   );
 }
 
-/* ── LocationList (shared between desktop dropdown & mobile sheet) ─────────── */
+/* ── UserMenuContentNotLoggedIn ────────────────────────────────────────────── */
+function UserMenuContentNotLoggedIn({ onItemClick }) {
+  return (
+    <>
+      <div className="relative overflow-hidden px-4 py-4 border-b border-white/10">
+        <div className="absolute inset-0 bg-linear-to-br from-orange-500/10 via-pink-500/5 to-transparent" />
+        <div className="relative flex items-center gap-3">
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/10 ring-2 ring-white/10">
+            <User size={18} className="text-white/50" />
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="font-bold text-white text-sm">Non loggato</p>
+            <p className="text-xs text-white/50">Accedi per salvare i preferiti</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="p-2">
+        <button type="button" onClick={() => onItemClick("/login")}
+          className="group w-full flex items-center gap-3 rounded-xl px-3 py-2.5 text-left transition-all text-white/75 hover:bg-white/5 hover:text-white">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-white/5 group-hover:bg-white/10 transition-all">
+            <User size={15} />
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="text-sm font-semibold">Login</p>
+            <p className="text-xs text-white/40">Accedi al tuo account</p>
+          </div>
+          <ChevronRight size={13} className="shrink-0 text-white/20 group-hover:text-white/50 transition group-hover:translate-x-0.5" />
+        </button>
+      </div>
+
+      <div className="border-t border-white/10 px-4 py-3">
+        <p className="text-center text-[10px] text-white/25">Noctis v1.0</p>
+      </div>
+    </>
+  );
+}
+
+/* ── LocationList (solo zone di Napoli) ──────────────────────────────────── */
 function LocationList({ step, setStep, searchQuery, setSearchQuery, selectedCity, selectedZone, visibleItems, handleCitySelect, handleZoneSelect }) {
   return (
     <>
-      {step === "zone" && (
-        <div className="px-4 pt-3 pb-0">
-          <button onClick={() => { setStep("city"); setSearchQuery(""); }}
-            className="flex items-center gap-1.5 text-xs text-orange-300 hover:text-orange-200 transition">
-            <ChevronDown size={13} className="rotate-90" />
-            <span>Tutte le città</span>
-          </button>
-        </div>
-      )}
       <div className="px-4 py-3">
         <div className="relative">
           <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/35" />
           <input
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder={step === "city" ? "Cerca città..." : "Cerca zona..."}
+            placeholder="Cerca zona..."
             autoFocus
             className="w-full rounded-2xl border border-white/10 bg-white/5 py-2.5 pl-9 pr-9 text-sm text-white placeholder:text-white/35 outline-none transition focus:border-orange-400/50 focus:bg-white/10"
           />
@@ -258,10 +287,10 @@ function LocationList({ step, setStep, searchQuery, setSearchQuery, selectedCity
       </div>
       <div className="max-h-60 overflow-y-auto px-3 pb-4 space-y-0.5">
         {visibleItems.length > 0 ? visibleItems.map((item) => {
-          const isActive = step === "city" ? item === selectedCity : item === selectedZone;
+          const isActive = item === selectedZone;
           return (
             <button key={item} type="button"
-              onClick={() => step === "city" ? handleCitySelect(item) : handleZoneSelect(item)}
+              onClick={() => handleZoneSelect(item)}
               className={`flex w-full items-center justify-between rounded-2xl border px-4 py-3 text-left text-sm transition-all ${
                 isActive
                   ? "border-orange-400/40 bg-linear-to-r from-orange-500/20 to-amber-500/10 text-white"
@@ -282,7 +311,6 @@ function LocationList({ step, setStep, searchQuery, setSearchQuery, selectedCity
   );
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════ */
 export default function Navigation() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -290,7 +318,7 @@ export default function Navigation() {
   const [locationOpen, setLocationOpen] = useState(false);
   const [selectedCity, setSelectedCity] = useState("Napoli");
   const [selectedZone, setSelectedZone] = useState("Chiaia");
-  const [step, setStep]                 = useState("city");
+  const [step, setStep]                 = useState("zone"); // Sempre zone per Napoli
   const [searchQuery, setSearchQuery]   = useState("");
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -299,6 +327,15 @@ export default function Navigation() {
   const [userMenuVisible, setUserMenuVisible] = useState(false);
 
   const [isMobile, setIsMobile] = useState(false);
+
+  // Stato per il login dell'utente
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    return localStorage.getItem('isLoggedIn') === 'true';
+  });
+
+  useEffect(() => {
+    localStorage.setItem('isLoggedIn', isLoggedIn);
+  }, [isLoggedIn]);
 
   const dropdownRef = useRef(null);
   const userMenuRef = useRef(null);
@@ -311,9 +348,8 @@ export default function Navigation() {
   }, []);
 
   const currentZones   = useMemo(() => zones[selectedCity] || [], [selectedCity]);
-  const filteredCities = useMemo(() => cities.filter((c) => c.toLowerCase().includes(searchQuery.toLowerCase())), [searchQuery]);
   const filteredZones  = useMemo(() => currentZones.filter((z) => z.toLowerCase().includes(searchQuery.toLowerCase())), [currentZones, searchQuery]);
-  const visibleItems   = step === "city" ? filteredCities : filteredZones;
+  const visibleItems   = filteredZones;
 
   /* click-outside for desktop dropdowns */
   useEffect(() => {
@@ -332,18 +368,26 @@ export default function Navigation() {
     return () => document.removeEventListener("mousedown", onDown);
   }, [userMenuOpen, isMobile]);
 
-  const closeLocation = () => { setLocationOpen(false); setStep("city"); setSearchQuery(""); };
+  const closeLocation = () => { setLocationOpen(false); setStep("zone"); setSearchQuery(""); };
 
-  const handleCitySelect = (city) => { setSelectedCity(city); setSelectedZone(zones[city]?.[0] || ""); setStep("zone"); setSearchQuery(""); };
   const handleZoneSelect = (zone) => { setSelectedZone(zone); closeLocation(); };
 
   const openUserMenu   = () => { setUserMenuOpen(true); requestAnimationFrame(() => requestAnimationFrame(() => setUserMenuVisible(true))); };
   const closeUserMenu  = () => { setUserMenuVisible(false); setTimeout(() => setUserMenuOpen(false), 280); };
   const toggleUserMenu = () => (userMenuOpen ? closeUserMenu() : openUserMenu());
 
-  const handleMenuItemClick = (route) => { closeUserMenu(); setMobileMenuOpen(false); if (route) navigate(route); };
+  const handleMenuItemClick = (route) => { 
+    closeUserMenu(); 
+    setMobileMenuOpen(false); 
+    if (route === "/logout") {
+      setIsLoggedIn(false);
+      navigate("/");
+    } else if (route) {
+      navigate(route); 
+    }
+  };
 
-  const locationListProps = { step, setStep, searchQuery, setSearchQuery, selectedCity, selectedZone, visibleItems, handleCitySelect, handleZoneSelect };
+  const locationListProps = { step, setStep, searchQuery, setSearchQuery, selectedCity, selectedZone, visibleItems, handleZoneSelect };
 
   return (
     <>
@@ -385,8 +429,7 @@ export default function Navigation() {
                   onClick={() => locationOpen ? closeLocation() : setLocationOpen(true)}
                   className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm font-medium text-white backdrop-blur-xl transition hover:bg-white/10 active:scale-95">
                   <MapPin size={14} className="shrink-0 text-orange-300" />
-                  <span className="rounded-full bg-white/10 px-2 py-0.5 text-xs font-semibold text-white leading-tight">{selectedCity}</span>
-                  <span className="hidden sm:inline rounded-full bg-orange-500/15 px-2 py-0.5 text-xs font-semibold text-orange-200 leading-tight">{selectedZone}</span>
+                  <span className="rounded-full bg-white/10 px-2 py-0.5 text-xs font-semibold text-white leading-tight">{selectedCity} - {selectedZone}</span>
                   <ChevronDown size={13} className={`shrink-0 text-white/50 transition-transform duration-300 ${locationOpen && !isMobile ? "rotate-180" : ""}`} />
                 </button>
 
@@ -406,12 +449,14 @@ export default function Navigation() {
                       ? "border-orange-400/50 bg-orange-500/15 shadow-[0_0_20px_rgba(251,146,60,0.2)]"
                       : "border-white/10 bg-white/5 hover:bg-white/10"
                   } backdrop-blur-xl`}>
-                  <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-linear-to-br from-orange-400 to-pink-500">
-                    <User size={13} className="text-white" />
+                  <div className={`flex h-6 w-6 items-center justify-center rounded-lg ${isLoggedIn ? 'bg-linear-to-br from-orange-400 to-pink-500' : 'bg-white/10'}`}>
+                    <User size={13} className={isLoggedIn ? 'text-white' : 'text-white/50'} />
                   </div>
-                  <span className="absolute -right-0.5 -top-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-orange-500 ring-2 ring-[#050816]">
-                    <span className="text-[7px] font-black text-white leading-none">3</span>
-                  </span>
+                  {isLoggedIn && (
+                    <span className="absolute -right-0.5 -top-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-orange-500 ring-2 ring-[#050816]">
+                      <span className="text-[7px] font-black text-white leading-none">3</span>
+                    </span>
+                  )}
                 </button>
 
                 {/* Desktop user dropdown */}
@@ -425,7 +470,11 @@ export default function Navigation() {
                     }}
                     className="absolute right-0 top-full mt-2 w-72 overflow-hidden rounded-2xl border border-white/10 bg-[#0c1224]/97 shadow-2xl shadow-black/60 backdrop-blur-2xl"
                   >
-                    <UserMenuContent onItemClick={handleMenuItemClick} />
+                    {isLoggedIn ? (
+                      <UserMenuContent onItemClick={handleMenuItemClick} />
+                    ) : (
+                      <UserMenuContentNotLoggedIn onItemClick={handleMenuItemClick} />
+                    )}
                   </div>
                 )}
               </div>
@@ -442,13 +491,19 @@ export default function Navigation() {
 
       {/* Mobile: location bottom-sheet */}
       <BottomSheet open={locationOpen && isMobile} onClose={closeLocation}
-        title={step === "city" ? "Seleziona città" : `Zone di ${selectedCity}`}>
+        title="Seleziona zona di Napoli">
         <LocationList {...locationListProps} />
       </BottomSheet>
 
       {/* Mobile: user menu bottom-sheet */}
       <BottomSheet open={userMenuOpen && isMobile} onClose={closeUserMenu} title="Il mio account">
-        <div className="pb-safe"><UserMenuContent onItemClick={handleMenuItemClick} /></div>
+        <div className="pb-safe">
+          {isLoggedIn ? (
+            <UserMenuContent onItemClick={handleMenuItemClick} />
+          ) : (
+            <UserMenuContentNotLoggedIn onItemClick={handleMenuItemClick} />
+          )}
+        </div>
       </BottomSheet>
 
       {/* Mobile: nav drawer */}

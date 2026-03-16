@@ -91,7 +91,8 @@ export default function Register() {
         // Simulate API call
         setTimeout(() => {
             setIsLoading(false);
-            // On success, redirect to home
+            // On success, set login state and redirect to home
+            localStorage.setItem('isLoggedIn', 'true');
             navigate('/');
         }, 2000);
     };

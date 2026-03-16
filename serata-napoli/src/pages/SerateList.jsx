@@ -205,7 +205,7 @@ function SerataCard({ serata, onDelete }) {
     const navigate = useNavigate();
 
     return (
-        <div className="flex flex-col rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-6 hover:border-orange-400/30 hover:bg-orange-500/5 transition-all duration-300 h-full">
+        <div className="flex flex-col rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-6 hover:border-orange-400/30 hover:bg-orange-500/5 transition-all duration-300 h-full min-h-100">
 
             {/* ── Header ── */}
             <div className="mb-4 flex items-start justify-between gap-3">

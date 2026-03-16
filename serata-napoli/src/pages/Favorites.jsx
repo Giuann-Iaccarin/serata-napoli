@@ -133,10 +133,10 @@ export default function Favorites() {
         <div className={`group relative overflow-hidden rounded-3xl border bg-white/5 backdrop-blur-xl transition-all duration-300
             ${locked ? 'border-white/5 opacity-60' : 'border-white/10 hover:border-orange-400/30 hover:bg-orange-500/5'}`}>
             {/* Image */}
-            <div className="relative aspect-[4/3] overflow-hidden">
+            <div className="relative aspect-4/3 overflow-hidden">
                 <img src={venue.image} alt={venue.name}
                     className={`h-full w-full object-cover transition-transform duration-300 ${locked ? '' : 'group-hover:scale-110'}`} />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent" />
 
                 {locked && (
                     <div className="absolute inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm">

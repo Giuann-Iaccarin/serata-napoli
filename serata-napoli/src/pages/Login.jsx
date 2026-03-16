@@ -54,7 +54,8 @@ export default function Login() {
         // Simulate API call
         setTimeout(() => {
             setIsLoading(false);
-            // On success, redirect to home
+            // On success, set login state and redirect to home
+            localStorage.setItem('isLoggedIn', 'true');
             navigate('/');
         }, 1500);
     };
@@ -123,7 +124,7 @@ export default function Login() {
                                     onChange={(e) => handleInputChange('email', e.target.value)}
                                     className={`w-full rounded-xl border bg-white/5 py-3 pl-10 pr-4 text-white placeholder:text-white/30 focus:border-orange-400/50 focus:outline-none transition-colors ${errors.email ? 'border-red-400/50' : 'border-white/10'
                                         }`}
-                                    placeholder="tua@email.com"
+                                    placeholder="test@example.com"
                                 />
                             </div>
                             {errors.email && (
@@ -147,7 +148,7 @@ export default function Login() {
                                     onChange={(e) => handleInputChange('password', e.target.value)}
                                     className={`w-full rounded-xl border bg-white/5 py-3 pl-10 pr-12 text-white placeholder:text-white/30 focus:border-orange-400/50 focus:outline-none transition-colors ${errors.password ? 'border-red-400/50' : 'border-white/10'
                                         }`}
-                                    placeholder="••••••••"
+                                    placeholder="password123"
                                 />
                                 <button
                                     type="button"

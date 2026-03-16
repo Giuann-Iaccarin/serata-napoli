@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Instagram, Facebook, Twitter, Mail, MapPin, ArrowUpRight, Sparkles, Heart } from 'lucide-react';
 
 const NAV = {
-    'Esplora': ['Napoli', 'Roma', 'Milano', 'Firenze', 'Tutte le città'],
+    'Esplora': ['Napoli', 'Zone di Napoli'],
     'Categorie': ['Discoteche', 'Aperitivi', 'Live Music', 'Food Experience', 'Rooftop Bar'],
     'Aiuto': ['Come funziona', 'FAQ', 'Contattaci', 'Termini di servizio', 'Privacy Policy'],
 };
@@ -16,15 +16,12 @@ const SOCIALS = [
     { icon: Mail, href: '#', label: 'Email', color: '#f97316' },
 ];
 
-const CITIES_MARQUEE = ['Chiaia', 'Vomero', 'Posillipo', 'Mergellina', 'Centro Storico', 'Fuorigrotta', 'Pozzuoli', 'Bagnoli', 'Secondigliano', 'Scampia', 'San Giovanni'];
+const CITIES_MARQUEE = ['Centro', 'Vomero', 'Chiaia', 'Posillipo', 'Mergellina', 'Fuorigrotta', 'Centro', 'Vomero', 'Chiaia', 'Posillipo', 'Mergellina', 'Fuorigrotta'];
 
 const ROUTES = {
     'Esplora': {
         'Napoli': '/cities',
-        'Roma': '/cities',
-        'Milano': '/cities',
-        'Firenze': '/cities',
-        'Tutte le città': '/cities'
+        'Zone di Napoli': '/cities'
     },
     'Categorie': {
         'Discoteche': '/categories',

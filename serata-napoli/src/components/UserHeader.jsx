@@ -26,11 +26,11 @@ export default function UserHeader() {
                 <div className="flex items-center justify-between">
                     {/* Back Button */}
                     <button
-                        onClick={() => navigate('/')}
+                        onClick={() => navigate(-1)}
                         className="flex items-center gap-2 rounded-xl px-3 py-2 text-white/70 hover:bg-white/10 hover:text-white transition-colors"
                     >
                         <ArrowLeft size={20} />
-                        <span className="text-sm font-medium">Torna alla home</span>
+                        <span className="text-sm font-medium">Torna indietro</span>
                     </button>
 
                     {/* Current Page Title */}
@@ -50,8 +50,8 @@ export default function UserHeader() {
                                 key={item.route}
                                 onClick={() => navigate(item.route)}
                                 className={`flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium transition-colors ${location.pathname === item.route
-                                        ? 'bg-orange-500/20 text-orange-300 border border-orange-500/30'
-                                        : 'text-white/70 hover:bg-white/10 hover:text-white'
+                                    ? 'bg-orange-500/20 text-orange-300 border border-orange-500/30'
+                                    : 'text-white/70 hover:bg-white/10 hover:text-white'
                                     }`}
                             >
                                 <item.icon size={16} />
@@ -77,8 +77,8 @@ export default function UserHeader() {
                                 key={item.route}
                                 onClick={() => navigate(item.route)}
                                 className={`flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium transition-colors ${location.pathname === item.route
-                                        ? 'bg-orange-500/20 text-orange-300 border border-orange-500/30'
-                                        : 'text-white/70 hover:bg-white/10 hover:text-white'
+                                    ? 'bg-orange-500/20 text-orange-300 border border-orange-500/30'
+                                    : 'text-white/70 hover:bg-white/10 hover:text-white'
                                     }`}
                             >
                                 <item.icon size={14} />
