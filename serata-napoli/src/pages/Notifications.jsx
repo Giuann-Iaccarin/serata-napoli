@@ -1,7 +1,8 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import {
     Bell, Heart, Star, Calendar, MapPin, Users,
-    Clock, Check, X, Settings, Filter
+    Clock, Check, X
 } from 'lucide-react';
 import UserHeader from '../components/UserHeader';
 import Footer from '../components/Footer';
@@ -59,51 +60,52 @@ const NOTIFICATIONS = [
     }
 ];
 
-const NOTIFICATION_TYPES = [
-    { id: 'all', label: 'Tutte', count: 5 },
-    { id: 'unread', label: 'Non lette', count: 3 },
-    { id: 'favorites', label: 'Preferiti', count: 1 },
-    { id: 'events', label: 'Eventi', count: 1 },
-    { id: 'reviews', label: 'Recensioni', count: 1 }
+// Which notification types to receive — always visible, no gear required
+const PREF_OPTIONS = [
+    { key: 'favorite', label: 'Preferiti', icon: Heart },
+    { key: 'event', label: 'Eventi', icon: Calendar },
+    { key: 'review', label: 'Recensioni', icon: Star },
+    { key: 'friend', label: 'Amici', icon: Users },
+    { key: 'location', label: 'Posizione', icon: MapPin },
+];
+
+const FILTER_TABS = [
+    { id: 'all', label: 'Tutte' },
+    { id: 'unread', label: 'Non lette' },
+    { id: 'favorite', label: 'Preferiti' },
+    { id: 'event', label: 'Eventi' },
+    { id: 'review', label: 'Recensioni' },
 ];
 
 export default function Notifications() {
     const [notifications, setNotifications] = useState(NOTIFICATIONS);
     const [filter, setFilter] = useState('all');
-    const [showSettings, setShowSettings] = useState(false);
-
-    const filteredNotifications = notifications.filter(notification => {
-        switch (filter) {
-            case 'unread':
-                return !notification.read;
-            case 'favorites':
-                return notification.type === 'favorite';
-            case 'events':
-                return notification.type === 'event';
-            case 'reviews':
-                return notification.type === 'review';
-            default:
-                return true;
-        }
+    // Track which types the user wants to receive
+    const [enabledTypes, setEnabledTypes] = useState({
+        favorite: true,
+        event: true,
+        review: true,
+        friend: false,
+        location: true,
     });
 
-    const markAsRead = (id) => {
-        setNotifications(prev =>
-            prev.map(notif =>
-                notif.id === id ? { ...notif, read: true } : notif
-            )
-        );
-    };
+    const toggleType = key =>
+        setEnabledTypes(prev => ({ ...prev, [key]: !prev[key] }));
 
-    const markAllAsRead = () => {
-        setNotifications(prev =>
-            prev.map(notif => ({ ...notif, read: true }))
-        );
-    };
+    const filteredNotifications = notifications.filter(n => {
+        if (filter === 'unread') return !n.read;
+        if (filter !== 'all') return n.type === filter;
+        return true;
+    });
 
-    const deleteNotification = (id) => {
-        setNotifications(prev => prev.filter(notif => notif.id !== id));
-    };
+    const markAsRead = id =>
+        setNotifications(prev => prev.map(n => n.id === id ? { ...n, read: true } : n));
+
+    const markAllAsRead = () =>
+        setNotifications(prev => prev.map(n => ({ ...n, read: true })));
+
+    const deleteNotification = id =>
+        setNotifications(prev => prev.filter(n => n.id !== id));
 
     const unreadCount = notifications.filter(n => !n.read).length;
 
@@ -115,118 +117,104 @@ export default function Notifications() {
                 <div className="mx-auto max-w-4xl">
 
                     {/* Header */}
-                    <div className="flex items-center justify-between mb-8">
+                    <div className="mb-8 flex items-center justify-between">
                         <div>
-                            <h1 className="text-3xl font-black text-white mb-2">Notifiche</h1>
+                            <h1 className="mb-2 text-3xl font-black text-white">Notifiche</h1>
                             <p className="text-white/60">
                                 {unreadCount > 0 ? `${unreadCount} nuove notifiche` : 'Nessuna nuova notifica'}
                             </p>
                         </div>
+                        {unreadCount > 0 && (
+                            <button
+                                onClick={markAllAsRead}
+                                className="flex items-center gap-2 rounded-xl bg-orange-500 px-4 py-2 text-sm font-semibold text-white hover:bg-orange-400 transition-colors"
+                            >
+                                <Check size={16} /> Segna tutte come lette
+                            </button>
+                        )}
+                    </div>
 
-                        <div className="flex items-center gap-3">
-                            {unreadCount > 0 && (
+                    {/* ── Notification Preferences — always visible ── */}
+                    <div className="mb-6 rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl">
+                        <h3 className="mb-4 text-base font-bold text-white">Tipi di notifica attivi</h3>
+                        <div className="flex flex-wrap gap-3">
+                            {PREF_OPTIONS.map(({ key, label, icon: Icon }) => {
+                                const active = enabledTypes[key];
+                                return (
+                                    <button
+                                        key={key}
+                                        onClick={() => toggleType(key)}
+                                        className={`flex items-center gap-2 rounded-2xl border px-4 py-2.5 text-sm font-medium transition-all
+                                            ${active
+                                                ? 'border-orange-400/50 bg-orange-500/20 text-orange-300'
+                                                : 'border-white/10 bg-white/5 text-white/40 hover:bg-white/10 hover:text-white/60'}`}
+                                    >
+                                        <Icon size={15} />
+                                        {label}
+                                        {/* toggle pill */}
+                                        <span className={`ml-1 inline-block h-2.5 w-2.5 rounded-full transition-colors ${active ? 'bg-orange-400' : 'bg-white/20'}`} />
+                                    </button>
+                                );
+                            })}
+                        </div>
+                        <p className="mt-3 text-xs text-white/40">Clicca su un tipo per attivarlo o disattivarlo</p>
+                    </div>
+
+                    {/* ── Filter Tabs ── */}
+                    <div className="mb-6 flex items-center gap-2 overflow-x-auto pb-1">
+                        {FILTER_TABS.map(tab => {
+                            const count = tab.id === 'all'
+                                ? notifications.length
+                                : tab.id === 'unread'
+                                    ? notifications.filter(n => !n.read).length
+                                    : notifications.filter(n => n.type === tab.id).length;
+
+                            return (
                                 <button
-                                    onClick={markAllAsRead}
-                                    className="flex items-center gap-2 rounded-xl bg-orange-500 px-4 py-2 text-sm font-semibold text-white hover:bg-orange-400 transition-colors"
+                                    key={tab.id}
+                                    onClick={() => setFilter(tab.id)}
+                                    className={`flex shrink-0 items-center gap-2 rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap transition-colors
+                                        ${filter === tab.id ? 'bg-orange-500 text-white' : 'bg-white/10 text-white/70 hover:bg-white/20'}`}
                                 >
-                                    <Check size={16} />
-                                    Segna tutte come lette
+                                    {tab.label}
+                                    {count > 0 && (
+                                        <span className={`rounded-full px-2 py-0.5 text-xs ${filter === tab.id ? 'bg-white/20 text-white' : 'bg-orange-500/20 text-orange-300'}`}>
+                                            {count}
+                                        </span>
+                                    )}
                                 </button>
-                            )}
-
-                            <button
-                                onClick={() => setShowSettings(!showSettings)}
-                                className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-white hover:bg-white/20 transition-colors"
-                            >
-                                <Settings size={18} />
-                            </button>
-                        </div>
+                            );
+                        })}
                     </div>
 
-                    {/* Settings Panel */}
-                    {showSettings && (
-                        <div className="mb-6 rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl">
-                            <h3 className="text-lg font-bold text-white mb-4">Impostazioni notifiche</h3>
-                            <div className="grid gap-4 md:grid-cols-2">
-                                <label className="flex items-center gap-3">
-                                    <input type="checkbox" defaultChecked className="rounded border-white/20 bg-white/10" />
-                                    <span className="text-white/80">Nuovi locali preferiti</span>
-                                </label>
-                                <label className="flex items-center gap-3">
-                                    <input type="checkbox" defaultChecked className="rounded border-white/20 bg-white/10" />
-                                    <span className="text-white/80">Eventi speciali</span>
-                                </label>
-                                <label className="flex items-center gap-3">
-                                    <input type="checkbox" defaultChecked className="rounded border-white/20 bg-white/10" />
-                                    <span className="text-white/80">Nuove recensioni</span>
-                                </label>
-                                <label className="flex items-center gap-3">
-                                    <input type="checkbox" className="rounded border-white/20 bg-white/10" />
-                                    <span className="text-white/80">Amici online</span>
-                                </label>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Filters */}
-                    <div className="flex items-center gap-2 mb-6 overflow-x-auto">
-                        {NOTIFICATION_TYPES.map((type) => (
-                            <button
-                                key={type.id}
-                                onClick={() => setFilter(type.id)}
-                                className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap transition-colors ${filter === type.id
-                                    ? 'bg-orange-500 text-white'
-                                    : 'bg-white/10 text-white/70 hover:bg-white/20'
-                                    }`}
-                            >
-                                {type.label}
-                                {type.count > 0 && (
-                                    <span className={`px-2 py-0.5 rounded-full text-xs ${filter === type.id
-                                        ? 'bg-white/20 text-white'
-                                        : 'bg-orange-500/20 text-orange-300'
-                                        }`}>
-                                        {type.count}
-                                    </span>
-                                )}
-                            </button>
-                        ))}
-                    </div>
-
-                    {/* Notifications List */}
+                    {/* ── Notifications List ── */}
                     <div className="space-y-4">
                         {filteredNotifications.length > 0 ? (
-                            filteredNotifications.map((notification) => (
+                            filteredNotifications.map(notification => (
                                 <div
                                     key={notification.id}
-                                    className={`rounded-3xl border backdrop-blur-xl p-6 transition-all hover:scale-[1.02] ${notification.read
-                                        ? 'border-white/5 bg-white/5'
-                                        : 'border-orange-400/20 bg-orange-500/5 shadow-lg shadow-orange-500/10'
-                                        }`}
+                                    className={`rounded-3xl border backdrop-blur-xl p-6 transition-all
+                                        ${notification.read
+                                            ? 'border-white/5 bg-white/5'
+                                            : 'border-orange-400/20 bg-orange-500/5 shadow-lg shadow-orange-500/10'}`}
                                 >
                                     <div className="flex items-start gap-4">
-                                        <div className={`flex h-12 w-12 items-center justify-center rounded-2xl ${notification.read ? 'bg-white/10' : 'bg-orange-500/20'
-                                            }`}>
-                                            <notification.icon className={`w-6 h-6 ${notification.color}`} />
+                                        <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${notification.read ? 'bg-white/10' : 'bg-orange-500/20'}`}>
+                                            <notification.icon className={`h-6 w-6 ${notification.color}`} />
                                         </div>
 
                                         <div className="flex-1 min-w-0">
                                             <div className="flex items-start justify-between gap-4">
                                                 <div>
-                                                    <h3 className="text-lg font-bold text-white mb-1">
-                                                        {notification.title}
-                                                    </h3>
-                                                    <p className="text-white/70 mb-2">
-                                                        {notification.message}
-                                                    </p>
+                                                    <h3 className="mb-1 text-lg font-bold text-white">{notification.title}</h3>
+                                                    <p className="mb-2 text-white/70">{notification.message}</p>
                                                     <div className="flex items-center gap-2 text-sm text-white/50">
-                                                        <Clock size={14} />
-                                                        {notification.time}
+                                                        <Clock size={14} /> {notification.time}
                                                     </div>
                                                 </div>
-
-                                                <div className="flex items-center gap-2 shrink-0">
+                                                <div className="flex shrink-0 items-center gap-2">
                                                     {!notification.read && (
-                                                        <div className="w-3 h-3 rounded-full bg-orange-400"></div>
+                                                        <div className="h-3 w-3 rounded-full bg-orange-400" />
                                                     )}
                                                     <button
                                                         onClick={() => deleteNotification(notification.id)}
@@ -243,8 +231,7 @@ export default function Notifications() {
                                                         onClick={() => markAsRead(notification.id)}
                                                         className="flex items-center gap-2 rounded-xl bg-orange-500 px-4 py-2 text-sm font-semibold text-white hover:bg-orange-400 transition-colors"
                                                     >
-                                                        <Check size={16} />
-                                                        Segna come letta
+                                                        <Check size={16} /> Segna come letta
                                                     </button>
                                                 </div>
                                             )}
@@ -253,28 +240,23 @@ export default function Notifications() {
                                 </div>
                             ))
                         ) : (
-                            <div className="text-center py-12">
-                                <Bell className="w-16 h-16 text-white/20 mx-auto mb-4" />
-                                <h3 className="text-xl font-bold text-white mb-2">Nessuna notifica</h3>
+                            <div className="py-12 text-center">
+                                <Bell className="mx-auto mb-4 h-16 w-16 text-white/20" />
+                                <h3 className="mb-2 text-xl font-bold text-white">Nessuna notifica</h3>
                                 <p className="text-white/60">
-                                    {filter === 'all'
-                                        ? 'Non hai ancora ricevuto notifiche'
-                                        : `Nessuna notifica per il filtro "${filter}"`
-                                    }
+                                    {filter === 'all' ? 'Non hai ancora ricevuto notifiche' : `Nessuna notifica per questo filtro`}
                                 </p>
                             </div>
                         )}
                     </div>
 
-                    {/* Load More */}
                     {filteredNotifications.length > 0 && (
-                        <div className="text-center mt-8">
+                        <div className="mt-8 text-center">
                             <button className="rounded-xl border border-white/10 bg-white/5 px-6 py-3 text-white hover:bg-white/10 transition-colors">
                                 Carica altre notifiche
                             </button>
                         </div>
                     )}
-
                 </div>
             </section>
 
