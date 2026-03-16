@@ -163,7 +163,7 @@ export default function Footer() {
                                         type="email" value={email} onChange={(e) => setEmail(e.target.value)}
                                         onKeyDown={(e) => e.key === 'Enter' && handleSubscribe()}
                                         placeholder="tua@email.com"
-                                        className="w-64 rounded-2xl border border-white/10 bg-white/6 px-5 py-3.5 text-sm text-white placeholder:text-white/25 outline-none focus:border-orange-500/40 focus:bg-white/10 transition-all"
+                                        className="w-full sm:w-64 rounded-2xl border border-white/10 bg-white/6 px-5 py-3.5 text-sm text-white placeholder:text-white/25 outline-none focus:border-orange-500/40 focus:bg-white/10 transition-all"
                                     />
                                     <button onClick={handleSubscribe}
                                         className="group relative overflow-hidden rounded-2xl bg-orange-500 px-6 py-3.5 text-sm font-bold text-white transition-all duration-300 hover:bg-orange-400 hover:shadow-lg hover:shadow-orange-500/30 active:scale-[0.97]">

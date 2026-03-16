@@ -39,7 +39,7 @@ function VenueCard({ venue, onClick }) {
             onClick={onClick}
             className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl transition-all duration-300 hover:scale-[1.02] hover:border-white/20 cursor-pointer"
         >
-            <div className="aspect-[4/3] overflow-hidden">
+            <div className="aspect-4/3 overflow-hidden">
                 <img
                     src={venue.image}
                     alt={venue.name}
