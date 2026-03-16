@@ -27,7 +27,7 @@ export default function Footer() {
     };
 
     return (
-        <footer className="relative overflow-hidden bg-[#050816] " style={{ fontFamily: "'DM Sans', sans-serif" }}>
+        <footer className="relative overflow-hidden bg-[#050816] mt-16" style={{ fontFamily: "'DM Sans', sans-serif" }}>
 
             {/* ── noise grain overlay ─────────────────────────────────────── */}
             <div className="pointer-events-none absolute inset-0 opacity-[0.035]"
@@ -50,7 +50,7 @@ export default function Footer() {
             </div>
 
             {/* ── main content ───────────────────────────────────────────── */}
-            <div className="relative mx-auto max-w-7xl px-6 pt-20 pb-10">
+            <div className="relative px-6 pt-20 pb-10">
 
                 {/* TOP: brand + nav + newsletter */}
                 <div className="grid grid-cols-1 gap-16 lg:grid-cols-[1.8fr_1fr_1fr_1fr] lg:gap-10 mb-20">
