@@ -8,7 +8,7 @@ const TERMS_SECTIONS = [
         icon: FileText,
         title: "Accettazione dei termini",
         content: [
-            "Utilizzando NapoliNights, accetti questi termini di servizio. Se non sei d'accordo, non utilizzare la piattaforma.",
+            "Utilizzando Noctis, accetti questi termini di servizio. Se non sei d'accordo, non utilizzare la piattaforma.",
             "Questi termini possono essere aggiornati periodicamente. Continuando ad utilizzare il servizio, accetti le modifiche."
         ]
     },
@@ -16,7 +16,7 @@ const TERMS_SECTIONS = [
         icon: Users,
         title: "Uso del servizio",
         content: [
-            "NapoliNights è una piattaforma per la ricerca e prenotazione di locali a Napoli.",
+            "Noctis è una piattaforma per la ricerca e prenotazione di locali a Napoli.",
             "Gli utenti devono fornire informazioni accurate e aggiornate.",
             "È vietato utilizzare il servizio per attività illegali o dannose.",
             "Rispetta gli altri utenti e i locali partner."
@@ -39,14 +39,14 @@ const TERMS_SECTIONS = [
             "Le prenotazioni sono soggette alla conferma del locale.",
             "I pagamenti sono processati in modo sicuro attraverso provider certificati.",
             "Le cancellazioni sono soggette alle politiche del singolo locale.",
-            "NapoliNights non è responsabile per mancati pagamenti o rimborsi."
+            "Noctis non è responsabile per mancati pagamenti o rimborsi."
         ]
     },
     {
         icon: AlertTriangle,
         title: "Limitazione di responsabilità",
         content: [
-            "NapoliNights non garantisce l'accuratezza delle informazioni sui locali.",
+            "Noctis non garantisce l'accuratezza delle informazioni sui locali.",
             "Non siamo responsabili per esperienze negative o danni derivanti dall'uso del servizio.",
             "L'uso del servizio è a tuo rischio.",
             "Il servizio è fornito 'così com'è' senza garanzie."
@@ -72,7 +72,7 @@ export default function Terms() {
                             Termini e condizioni
                         </h1>
                         <p className="text-xl text-white/70 max-w-2xl mx-auto">
-                            Le regole per utilizzare NapoliNights in modo sicuro e responsabile
+                            Le regole per utilizzare Noctis in modo sicuro e responsabile
                         </p>
                     </div>
 
@@ -117,10 +117,10 @@ export default function Terms() {
                                     Contatti legali
                                 </h3>
                                 <div className="space-y-2 text-white/70">
-                                    <p>NapoliNights S.r.l.</p>
+                                    <p>Noctis S.r.l.</p>
                                     <p>Via Toledo 156, 80132 Napoli</p>
                                     <p>P.IVA: 12345678901</p>
-                                    <p>Email: legal@napolinights.it</p>
+                                    <p>Email: legal@noctis.it</p>
                                 </div>
                             </div>
 
@@ -140,7 +140,7 @@ export default function Terms() {
                     {/* Acceptance */}
                     <div className="mt-8 text-center">
                         <p className="text-white/60">
-                            Utilizzando NapoliNights, dichiari di aver letto e accettato questi termini di servizio.
+                            Utilizzando Noctis, dichiari di aver letto e accettato questi termini di servizio.
                         </p>
                     </div>
 

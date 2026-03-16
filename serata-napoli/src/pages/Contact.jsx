@@ -11,8 +11,8 @@ const CONTACT_METHODS = [
         icon: Mail,
         title: "Email",
         description: "Risposta entro 24 ore",
-        contact: "support@napolinights.it",
-        action: "mailto:support@napolinights.it"
+        contact: "support@noctis.it",
+        action: "mailto:support@noctis.it"
     },
     {
         icon: Phone,
@@ -102,7 +102,7 @@ export default function Contact() {
                             Siamo qui per aiutarti
                         </h1>
                         <p className="text-xl text-white/70 max-w-2xl mx-auto">
-                            Hai domande su NapoliNights? Il nostro team è pronto a rispondere
+                            Hai domande su Noctis? Il nostro team è pronto a rispondere
                         </p>
                     </div>
 

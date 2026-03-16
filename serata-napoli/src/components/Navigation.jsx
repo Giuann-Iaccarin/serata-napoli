@@ -134,8 +134,8 @@ export default function Navigation() {
               <Sparkles size={20} className="text-orange-300" />
             </div>
             <div>
-              <p className="text-xs uppercase tracking-[0.35em] text-white/50">Night Guide</p>
-              <h2 className="text-lg font-semibold text-white">Napoli Mood Finder</h2>
+              <p className="text-xs uppercase tracking-[0.35em] text-white/50">Noctis</p>
+              <h2 className="text-lg font-semibold text-white">Noctis</h2>
             </div>
           </div>
 
@@ -315,7 +315,7 @@ export default function Navigation() {
 
                   {/* Footer */}
                   <div className="border-t border-white/8 px-4 py-3">
-                    <p className="text-center text-[10px] text-white/25">NapoliNights v1.0 · Night Guide</p>
+                    <p className="text-center text-[10px] text-white/25">Noctis v1.0</p>
                   </div>
                 </div>
               )}

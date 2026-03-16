@@ -34,7 +34,7 @@ export default function EventDetail() {
 
     useEffect(() => {
         if (event && venue) {
-            document.title = `${event.title} - ${venue.name} | NapoliNights`;
+            document.title = `${event.title} - ${venue.name} | Noctis`;
         }
     }, [event, venue]);
 

@@ -6,7 +6,7 @@ import { MapPin, Clock, Users, Star, ArrowRight, CheckCircle, Lightbulb, Target 
 
 export default function GuidePage() {
     return (
-        <main className="min-h-screen bg-[#050816] text-white overflow-hidden">
+        <main className="min-h-screen bg-[#050816] text-white">
             <Navigation />
 
             <section className="relative z-20 px-4 py-12">
@@ -103,9 +103,10 @@ export default function GuidePage() {
                         </div>
                     </div>
 
-                    <Footer />
                 </div>
             </section>
+
+            <Footer />
         </main>
     );
 }

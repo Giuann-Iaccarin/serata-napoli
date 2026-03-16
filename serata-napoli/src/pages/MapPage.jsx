@@ -63,7 +63,7 @@ export default function MapPage() {
     const hasSearch = searchQuery.trim().length > 0;
 
     return (
-        <main className="min-h-screen bg-[#050816] text-white overflow-hidden">
+        <main className="min-h-screen bg-[#050816] text-white">
             <Navigation />
 
             <section className="relative z-20 px-4 py-12">
@@ -93,8 +93,8 @@ export default function MapPage() {
                                     key={zone}
                                     onClick={() => setSelectedZone(zone)}
                                     className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border ${selectedZone === zone
-                                            ? "bg-orange-500 border-orange-500 text-white shadow-lg shadow-orange-500/30"
-                                            : "bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:text-white hover:border-white/20"
+                                        ? "bg-orange-500 border-orange-500 text-white shadow-lg shadow-orange-500/30"
+                                        : "bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:text-white hover:border-white/20"
                                         }`}
                                 >
                                     {zone}
@@ -191,9 +191,10 @@ export default function MapPage() {
                         </div>
                     )}
 
-                    <Footer />
                 </div>
             </section>
+
+            <Footer />
         </main>
     );
 }

@@ -115,7 +115,7 @@ export default function HowItWorks() {
                             </span>
                         </h1>
                         <p className="text-xl text-white/70 max-w-2xl mx-auto">
-                            Scopri come utilizzare al meglio NapoliNights per vivere
+                            Scopri come utilizzare al meglio Noctis per vivere
                             esperienze uniche nella città più bella del mondo
                         </p>
                     </div>
@@ -164,7 +164,7 @@ export default function HowItWorks() {
                     <div className="mb-16">
                         <div className="text-center mb-12">
                             <h2 className="text-3xl font-black text-white mb-4">
-                                Perché scegliere NapoliNights?
+                                Perché scegliere Noctis?
                             </h2>
                             <p className="text-white/70 max-w-2xl mx-auto">
                                 Tutto quello che ti serve per vivere al meglio le serate napoletane

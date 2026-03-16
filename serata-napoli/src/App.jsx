@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
+import ScrollToTop from './components/ScrollToTop';
 import Homepage from './pages/Homepage';
 import VenueDetail from './pages/VenueDetail';
 import EventDetail from './pages/EventDetail';
@@ -30,6 +31,7 @@ import Categories from './pages/Categories';
 export default function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         {/* Homepage */}
         <Route path="/" element={<Homepage />} />

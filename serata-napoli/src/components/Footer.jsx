@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Instagram, Facebook, Twitter, Mail, MapPin, ArrowUpRight, Sparkles, Heart } from 'lucide-react';
 
 const NAV = {
@@ -17,10 +18,35 @@ const SOCIALS = [
 
 const CITIES_MARQUEE = ['Chiaia', 'Vomero', 'Posillipo', 'Mergellina', 'Centro Storico', 'Fuorigrotta', 'Pozzuoli', 'Bagnoli', 'Secondigliano', 'Scampia', 'San Giovanni'];
 
+const ROUTES = {
+    'Esplora': {
+        'Napoli': '/cities',
+        'Roma': '/cities',
+        'Milano': '/cities',
+        'Firenze': '/cities',
+        'Tutte le città': '/cities'
+    },
+    'Categorie': {
+        'Discoteche': '/categories',
+        'Aperitivi': '/categories',
+        'Live Music': '/categories',
+        'Food Experience': '/categories',
+        'Rooftop Bar': '/categories'
+    },
+    'Aiuto': {
+        'Come funziona': '/how-it-works',
+        'FAQ': '/faq',
+        'Contattaci': '/contact',
+        'Termini di servizio': '/terms',
+        'Privacy Policy': '/privacy'
+    }
+};
+
 export default function Footer() {
     const [email, setEmail] = useState('');
     const [sent, setSent] = useState(false);
     const year = new Date().getFullYear();
+    const navigate = useNavigate();
 
     const handleSubscribe = () => {
         if (email.includes('@')) { setSent(true); setEmail(''); }
@@ -63,7 +89,7 @@ export default function Footer() {
                                 <Sparkles size={18} className="text-orange-300" />
                             </div>
                             <div>
-                                <span className="block text-[10px] uppercase tracking-[0.35em] text-white/35 leading-none mb-1">Night Guide</span>
+                                <span className="block text-[10px] uppercase tracking-[0.35em] text-white/35 leading-none mb-1">Noctis</span>
                                 <span className="block text-xl font-black text-white leading-none">NapoliNights</span>
                             </div>
                         </div>
@@ -94,7 +120,7 @@ export default function Footer() {
                             <ul className="space-y-3">
                                 {links.map((link) => (
                                     <li key={link}>
-                                        <a href="#"
+                                        <a href="#" onClick={(e) => { e.preventDefault(); navigate(ROUTES[cat][link]); }}
                                             className="group inline-flex items-center gap-1.5 text-[14px] font-medium text-white/45 transition-all duration-200 hover:text-white">
                                             <span className="relative">
                                                 {link}
@@ -178,7 +204,7 @@ export default function Footer() {
                     {/* Right: legal links */}
                     <div className="flex items-center gap-5">
                         {['Privacy', 'Termini', 'Cookie'].map((l) => (
-                            <a key={l} href="#" className="text-[12px] text-white/25 transition-colors hover:text-white/60">{l}</a>
+                            <a key={l} href="#" onClick={(e) => { e.preventDefault(); if (l === 'Privacy') navigate('/privacy'); else if (l === 'Termini') navigate('/terms'); }} className="text-[12px] text-white/25 transition-colors hover:text-white/60">{l}</a>
                         ))}
                     </div>
                 </div>

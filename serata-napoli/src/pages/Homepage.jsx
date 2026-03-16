@@ -22,7 +22,7 @@ export default function Homepage() {
     };
 
     return (
-        <main className="min-h-screen bg-[#050816] text-white overflow-hidden">
+        <main className="min-h-screen bg-[#050816] text-white">
             <Navigation />
             <HeroSection onApplyMoodPreset={handleApplyMoodPreset} />
 
@@ -39,9 +39,10 @@ export default function Homepage() {
                         total={MOCK_VENUES.length}
                     />
 
-                    <Footer />
                 </div>
             </section>
+
+            <Footer />
         </main>
     );
 }

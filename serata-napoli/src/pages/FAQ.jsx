@@ -20,15 +20,15 @@ const FAQ_CATEGORIES = [
 const FAQ_DATA = {
     general: [
         {
-            question: "Cos'è NapoliNights?",
-            answer: "NapoliNights è la piattaforma definitiva per scoprire e prenotare esperienze uniche nei locali di Napoli. Ti aiutiamo a trovare il posto perfetto per ogni serata, dalla pizza tradizionale alle serate più esclusive."
+            question: "Cos'è Noctis?",
+            answer: "Noctis è la piattaforma definitiva per scoprire e prenotare esperienze uniche nei locali di Napoli. Ti aiutiamo a trovare il posto perfetto per ogni serata, dalla pizza tradizionale alle serate più esclusive."
         },
         {
             question: "Come funziona la ricerca dei locali?",
             answer: "Utilizza i nostri filtri intelligenti: seleziona il mood desiderato, la zona di Napoli, il budget e il tipo di serata. Il nostro algoritmo ti suggerisce i locali più adatti alle tue preferenze."
         },
         {
-            question: "È gratuito utilizzare NapoliNights?",
+            question: "È gratuito utilizzare Noctis?",
             answer: "Sì! La ricerca e la visualizzazione dei locali è completamente gratuita. Puoi salvare i tuoi preferiti e pianificare serate senza costi. L'abbonamento Premium offre funzionalità aggiuntive come prenotazioni prioritarie e sconti esclusivi."
         },
         {
@@ -93,7 +93,7 @@ const FAQ_DATA = {
     technical: [
         {
             question: "L'app funziona su tutti i dispositivi?",
-            answer: "Sì! NapoliNights è ottimizzato per smartphone, tablet e desktop. È compatibile con iOS, Android e tutti i browser moderni."
+            answer: "Sì! Noctis è ottimizzato per smartphone, tablet e desktop. È compatibile con iOS, Android e tutti i browser moderni."
         },
         {
             question: "I miei dati sono al sicuro?",
@@ -166,7 +166,7 @@ export default function FAQ() {
                             Domande frequenti
                         </h1>
                         <p className="text-xl text-white/70 max-w-2xl mx-auto mb-8">
-                            Tutto quello che devi sapere su NapoliNights
+                            Tutto quello che devi sapere su Noctis
                         </p>
 
                         {/* Search */}

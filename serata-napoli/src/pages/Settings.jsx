@@ -411,7 +411,7 @@ export default function Settings() {
                             <SettingsIcon className="w-8 h-8 text-orange-400" />
                             <h1 className="text-3xl font-black text-white">Impostazioni</h1>
                         </div>
-                        <p className="text-white/60">Personalizza la tua esperienza su NapoliNights</p>
+                        <p className="text-white/60">Personalizza la tua esperienza su Noctis</p>
                     </div>
 
                     <div className="grid gap-8 lg:grid-cols-[300px_1fr]">

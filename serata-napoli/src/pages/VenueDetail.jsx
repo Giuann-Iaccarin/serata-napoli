@@ -481,7 +481,7 @@ export default function VenueDetail() {
     }, [id]);
 
     useEffect(() => {
-        if (venue) document.title = `${venue.name} - ${venue.zone} | NapoliNights`;
+        if (venue) document.title = `${venue.name} - ${venue.zone} | Noctis`;
     }, [venue]);
 
     const openLightbox = (index) => { setCurrentImageIndex(index); setSelectedImage(venue.gallery[index]); };

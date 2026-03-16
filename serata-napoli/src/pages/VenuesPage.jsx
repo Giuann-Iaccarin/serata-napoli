@@ -9,7 +9,7 @@ export default function VenuesPage() {
     const navigate = useNavigate();
 
     return (
-        <main className="min-h-screen bg-[#050816] text-white overflow-hidden">
+        <main className="min-h-screen bg-[#050816] text-white">
             <Navigation />
 
             <section className="relative mt-20 z-20 px-4 py-12">
@@ -25,9 +25,10 @@ export default function VenuesPage() {
                         ))}
                     </div>
 
-                    <Footer />
                 </div>
             </section>
+
+            <Footer />
         </main>
     );
 }
