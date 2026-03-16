@@ -12,7 +12,7 @@ export default function EventsPage() {
         <main className="min-h-screen bg-[#050816] text-white overflow-hidden">
             <Navigation />
 
-            <section className="relative mt-20 z-20 px-4 py-12">
+            <section className="relative z-20 px-4 py-12">
                 <div className="mx-auto max-w-7xl">
                     <div className="mb-8">
                         <h1 className="text-4xl font-black text-white mb-4">Eventi a Napoli</h1>

@@ -1,6 +1,35 @@
 const makeAvatar = (name, bg = "ff6b35", color = "fff") =>
     `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=${bg}&color=${color}`;
 
+// ─── Coordinate per quartiere ──────────────────────────────────────────────────
+export const QUARTIERE_COORDS = {
+    Chiaia: { lat: 40.8345, lng: 14.2265 },
+    Vomero: { lat: 40.8517, lng: 14.2289 },
+    Arenella: { lat: 40.8558, lng: 14.2347 },
+    "Centro Storico": { lat: 40.8513, lng: 14.2681 },
+    Centro: { lat: 40.8513, lng: 14.2681 },
+    Decumani: { lat: 40.8502, lng: 14.2590 },
+    "San Lorenzo": { lat: 40.8520, lng: 14.2720 },
+    Posillipo: { lat: 40.8113, lng: 14.2067 },
+    Marechiaro: { lat: 40.7997, lng: 14.1958 },
+    Mergellina: { lat: 40.8280, lng: 14.2156 },
+    Fuorigrotta: { lat: 40.8295, lng: 14.1906 },
+};
+
+/**
+ * Aggiunge un offset deterministico (angolo aureo) alle coordinate base
+ * di un quartiere per evitare marker sovrapposti.
+ */
+export function withOffset(coords, index) {
+    const radius = 0.0018 + (index % 4) * 0.0009;
+    const angle = (index * 137.508 * Math.PI) / 180; // angolo aureo
+    return {
+        lat: coords.lat + Math.cos(angle) * radius,
+        lng: coords.lng + Math.sin(angle) * radius,
+    };
+}
+
+// ─── Venue base con coordinate esplicite ───────────────────────────────────────
 const BASE_VENUES = [
     {
         id: "1",
@@ -9,6 +38,8 @@ const BASE_VENUES = [
         zone: "Chiaia",
         quartiere: "Chiaia",
         address: "Via Cavallerizza a Chiaia, 45",
+        lat: 40.8342,
+        lng: 14.2270,
         mood: ["Aperitivo", "Aperitivo + DJ", "Rooftop", "Food & Drink"],
         pubblico: ["Internazionale", "Maturo", "Misto"],
         tag: "Rooftop",
@@ -73,6 +104,8 @@ const BASE_VENUES = [
         zone: "Centro Storico",
         quartiere: "Centro",
         address: "Via dei Tribunali, 289",
+        lat: 40.8513,
+        lng: 14.2700,
         mood: ["Live Music", "Lounge"],
         pubblico: ["Locale", "Alternativo", "Giovane"],
         tag: "Live Music",
@@ -116,6 +149,8 @@ const BASE_VENUES = [
         zone: "Vomero",
         quartiere: "Vomero",
         address: "Via Morghen, 45",
+        lat: 40.8495,
+        lng: 14.2310,
         mood: ["Discoteca", "Aperitivo + DJ"],
         pubblico: ["Giovane", "Internazionale", "Misto"],
         tag: "Night Club",
@@ -145,7 +180,12 @@ const BASE_VENUES = [
         highlight: true,
         image:
             "https://images.unsplash.com/photo-1566737236500-c8ac43014a67?auto=format&fit=crop&w=1200&q=80",
-        hours: { "Lun - Mer": "Chiuso", Gio: "23:00 - 03:00", "Ven - Sab": "23:00 - 05:00", Dom: "Chiuso" },
+        hours: {
+            "Lun - Mer": "Chiuso",
+            Gio: "23:00 - 03:00",
+            "Ven - Sab": "23:00 - 05:00",
+            Dom: "Chiuso",
+        },
         gallery: [
             "https://images.unsplash.com/photo-1566737236500-c8ac43014a67?auto=format&fit=crop&w=1200&q=80",
         ],
@@ -159,6 +199,8 @@ const BASE_VENUES = [
         zone: "Posillipo",
         quartiere: "Posillipo",
         address: "Via Posillipo, 123",
+        lat: 40.8120,
+        lng: 14.2050,
         mood: ["Aperitivo", "Food & Drink", "Lounge"],
         pubblico: ["Maturo", "Misto", "Internazionale"],
         tag: "Outdoor",
@@ -202,6 +244,8 @@ const BASE_VENUES = [
         zone: "Mergellina",
         quartiere: "Mergellina",
         address: "Via Caracciolo, 78",
+        lat: 40.8275,
+        lng: 14.2130,
         mood: ["Aperitivo + DJ", "Lounge", "Food & Drink"],
         pubblico: ["Alternativo", "Internazionale", "Giovane"],
         tag: "Cocktail Bar",
@@ -245,6 +289,8 @@ const BASE_VENUES = [
         zone: "Fuorigrotta",
         quartiere: "Fuorigrotta",
         address: "Via Terracina, 234",
+        lat: 40.8283,
+        lng: 14.1920,
         mood: ["Discoteca", "Aperitivo + DJ"],
         pubblico: ["Giovane", "Locale", "Misto"],
         tag: "Urban Mood",
@@ -283,6 +329,7 @@ const BASE_VENUES = [
     },
 ];
 
+// ─── Mappa zona → quartieri ────────────────────────────────────────────────────
 const ZONE_QUARTIERE_MAP = [
     { zone: "Napoli città", quartiere: "Chiaia" },
     { zone: "Napoli città", quartiere: "Vomero" },
@@ -301,6 +348,7 @@ const ZONE_QUARTIERE_MAP = [
     { zone: "Posillipo", quartiere: "Marechiaro" },
 ];
 
+// ─── Archetipi venue generate ──────────────────────────────────────────────────
 const archetypes = [
     {
         key: "party",
@@ -394,6 +442,7 @@ const archetypes = [
     },
 ];
 
+// ─── Helper interni ────────────────────────────────────────────────────────────
 function quartiereSlug(value) {
     return value
         .toLowerCase()
@@ -406,11 +455,15 @@ function zoneLabelForName(zone) {
     return zone === "Napoli città" ? "Napoli" : zone;
 }
 
+// ─── Builder venue generate con coordinate ────────────────────────────────────
 function buildGeneratedVenue({ zone, quartiere }, archetype, index) {
     const slugBase = `${archetype.namePrefix}-${quartiereSlug(quartiere)}-${quartiereSlug(zoneLabelForName(zone))}`;
     const displayName = `${archetype.namePrefix} ${quartiere}`;
-
     const accentBg = ["ff6b35", "00d4ff", "9d4edd", "ffd60a", "22c55e"][index % 5];
+
+    // Calcola coordinate: usa i coord del quartiere + offset deterministico
+    const baseCoords = QUARTIERE_COORDS[quartiere] ?? { lat: 40.8518, lng: 14.2681 };
+    const { lat, lng } = withOffset(baseCoords, index);
 
     return {
         id: `g-${index + 1}`,
@@ -419,6 +472,8 @@ function buildGeneratedVenue({ zone, quartiere }, archetype, index) {
         zone,
         quartiere,
         address: `Via ${quartiere}, ${20 + index}`,
+        lat,
+        lng,
         mood: archetype.mood,
         pubblico: archetype.pubblico,
         tag: archetype.tag,
@@ -467,25 +522,24 @@ function buildGeneratedVenue({ zone, quartiere }, archetype, index) {
     };
 }
 
+// ─── Generazione venue dinamiche ──────────────────────────────────────────────
 const GENERATED_VENUES = ZONE_QUARTIERE_MAP.flatMap((entry, entryIndex) =>
     archetypes.map((archetype, archetypeIndex) =>
         buildGeneratedVenue(entry, archetype, entryIndex * archetypes.length + archetypeIndex)
     )
 );
 
-// Deduplica eventuali slug uguali ai base
 const baseSlugs = new Set(BASE_VENUES.map((v) => v.slug));
 const SAFE_GENERATED_VENUES = GENERATED_VENUES.filter((v) => !baseSlugs.has(v.slug));
 
+// ─── Export principale ─────────────────────────────────────────────────────────
 export const MOCK_VENUES = [...BASE_VENUES, ...SAFE_GENERATED_VENUES];
 
-export const getVenueById = (id) => MOCK_VENUES.find((venue) => venue.id === id);
-export const getVenueBySlug = (slug) => MOCK_VENUES.find((venue) => venue.slug === slug);
+export const getVenueById = (id) => MOCK_VENUES.find((v) => v.id === id);
+export const getVenueBySlug = (slug) => MOCK_VENUES.find((v) => v.slug === slug);
 export const getVenuesByMood = (mood) =>
-    MOCK_VENUES.filter(
-        (venue) => Array.isArray(venue.mood) && venue.mood.includes(mood)
-    );
-export const getVenuesByZone = (zone) => MOCK_VENUES.filter((venue) => venue.zone === zone);
+    MOCK_VENUES.filter((v) => Array.isArray(v.mood) && v.mood.includes(mood));
+export const getVenuesByZone = (zone) => MOCK_VENUES.filter((v) => v.zone === zone);
 export const getTopVenues = (count = 3) =>
     MOCK_VENUES.filter((v) => v.highlight).sort((a, b) => b.rating - a.rating).slice(0, count);
 
@@ -504,7 +558,6 @@ export const searchVenues = (query) => {
 export default MOCK_VENUES;
 
 // ─── Mock Events ───────────────────────────────────────────────────────────────
-
 export const MOCK_EVENTS = [
     {
         id: 1,
@@ -515,12 +568,12 @@ export const MOCK_EVENTS = [
         price: "€25",
         type: "Musica Live",
         image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=800&q=80",
-        venueId: "1", // Luna Rooftop
+        venueId: "1",
         capacity: 150,
         ageRestriction: "18+",
         dressCode: "Smart Casual",
         includes: ["Cocktail di benvenuto", "Musica dal vivo", "Vista panoramica"],
-        tags: ["Jazz", "Rooftop", "Cocktail", "Live Music"]
+        tags: ["Jazz", "Rooftop", "Cocktail", "Live Music"],
     },
     {
         id: 2,
@@ -531,12 +584,12 @@ export const MOCK_EVENTS = [
         price: "€15",
         type: "Aperitivo + DJ",
         image: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=800&q=80",
-        venueId: "2", // Vicolo Vivo
+        venueId: "2",
         capacity: 80,
         ageRestriction: "16+",
         dressCode: "Casual",
         includes: ["Aperitivo completo", "DJ Set", "Finger food"],
-        tags: ["Aperitivo", "DJ", "Finger Food"]
+        tags: ["Aperitivo", "DJ", "Finger Food"],
     },
     {
         id: 3,
@@ -547,12 +600,12 @@ export const MOCK_EVENTS = [
         price: "€20",
         type: "Discoteca",
         image: "https://images.unsplash.com/photo-1566737236500-c8ac43014a67?auto=format&fit=crop&w=800&q=80",
-        venueId: "3", // Aura Club
+        venueId: "3",
         capacity: 200,
         ageRestriction: "18+",
         dressCode: "Festivo",
         includes: ["Lezioni di ballo gratuite", "DJ Latino", "Bar completo"],
-        tags: ["Latino", "Salsa", "Dancing", "Night Club"]
+        tags: ["Latino", "Salsa", "Dancing", "Night Club"],
     },
     {
         id: 4,
@@ -563,12 +616,12 @@ export const MOCK_EVENTS = [
         price: "€80",
         type: "Cena",
         image: "https://images.unsplash.com/photo-1525268323446-0505b6fe7778?auto=format&fit=crop&w=800&q=80",
-        venueId: "4", // Brezza Garden
+        venueId: "4",
         capacity: 40,
         ageRestriction: "Nessuna restrizione",
         dressCode: "Elegante",
         includes: ["Menu degustazione", "Vino selezionato", "Vista mare"],
-        tags: ["Romantico", "Cena", "Vista mare", "Degustazione"]
+        tags: ["Romantico", "Cena", "Vista mare", "Degustazione"],
     },
     {
         id: 5,
@@ -579,12 +632,12 @@ export const MOCK_EVENTS = [
         price: "€30",
         type: "Cocktail Bar",
         image: "https://images.unsplash.com/photo-1516997121675-4c2d1684aa3e?auto=format&fit=crop&w=800&q=80",
-        venueId: "5", // Neon Harbor
+        venueId: "5",
         capacity: 60,
         ageRestriction: "21+",
         dressCode: "Chic",
         includes: ["Cocktail signature", "Lezioni mixology", "Foto professionale"],
-        tags: ["Cocktail", "Mixology", "Signature drinks", "Fotografico"]
+        tags: ["Cocktail", "Mixology", "Signature drinks", "Fotografico"],
     },
     {
         id: 6,
@@ -595,13 +648,13 @@ export const MOCK_EVENTS = [
         price: "€10",
         type: "Discoteca",
         image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=1200&q=80",
-        venueId: "6", // Casa Ritmo
+        venueId: "6",
         capacity: 120,
         ageRestriction: "18+",
         dressCode: "Streetwear",
         includes: ["DJ Hip-Hop", "Ospiti speciali", "Bar economico"],
-        tags: ["Hip-Hop", "Underground", "DJ", "Street"]
-    }
+        tags: ["Hip-Hop", "Underground", "DJ", "Street"],
+    },
 ];
 
-export const getEventById = (id) => MOCK_EVENTS.find(event => event.id === parseInt(id));
+export const getEventById = (id) => MOCK_EVENTS.find((event) => event.id === parseInt(id));
