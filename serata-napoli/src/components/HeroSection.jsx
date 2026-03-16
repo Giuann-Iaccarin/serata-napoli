@@ -21,7 +21,7 @@ const moods = [
   { id: "food", label: "Esperienza food", icon: Utensils, glow: "from-amber-500/35 to-orange-500/15", active: "border-amber-400/60 bg-amber-500/15 text-white shadow-[0_0_30px_rgba(251,191,36,0.22)]", badge: "bg-amber-500/20 text-amber-200", ring: "ring-amber-400/30" },
 ];
 
-export default function HeroSection({ onApplyMoodPreset }) {
+export default function HeroSection({ onApplyMoodPreset, onScrollToFilters, onScrollToVenues }) {
   const navigate = useNavigate();
 
   return (
@@ -58,11 +58,11 @@ export default function HeroSection({ onApplyMoodPreset }) {
                 Un'interfaccia elegante, filtri intelligenti e suggerimenti visuali per trovare il posto giusto, dal pre-serata rilassato al locale pieno di energia.
               </p>
               <div className="mt-8 flex flex-wrap items-center gap-4">
-                <button className="group inline-flex items-center gap-2 rounded-2xl bg-linear-to-r from-orange-500 to-amber-500 px-7 py-4 text-base font-semibold text-white shadow-2xl shadow-orange-500/30 transition hover:scale-[1.02] hover:shadow-orange-500/45">
+                <button onClick={onScrollToFilters} className="group inline-flex items-center gap-2 rounded-2xl bg-linear-to-r from-orange-500 to-amber-500 px-7 py-4 text-base font-semibold text-white shadow-2xl shadow-orange-500/30 transition hover:scale-[1.02] hover:shadow-orange-500/45">
                   Trova la tua serata
                   <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
                 </button>
-                <button className="rounded-2xl border border-white/10 bg-white/8 px-7 py-4 text-base font-semibold text-white/85 backdrop-blur-xl transition hover:bg-white/12 hover:text-white">
+                <button onClick={onScrollToVenues} className="rounded-2xl border border-white/10 bg-white/8 px-7 py-4 text-base font-semibold text-white/85 backdrop-blur-xl transition hover:bg-white/12 hover:text-white">
                   Esplora i top locali
                 </button>
               </div>
