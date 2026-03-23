@@ -96,6 +96,17 @@ const BASE_VENUES = [
                 price: "Ingresso libero",
             },
         ],
+        menu: [
+            { id: 1, name: "Spritz Signature", price: "€12", description: "Versione citrus con basilico e arancia rossa." },
+            { id: 2, name: "Bocconcini di mozzarella affumicata", price: "€15", description: "Con miele di castagno e noci." },
+            { id: 3, name: "Tagliere gourmet", price: "€24", description: "Formaggi locali e salumi d'alta qualità." },
+        ],
+        menuUrl: "https://www.lunarooftop.it/menu.pdf",
+        socialPosts: [
+            { platform: 'instagram', url: 'https://www.instagram.com/p/CIvX1_foo/', caption: 'Sunset vibes at Luna Rooftop! 🍸✨', thumbnail: 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=400&q=80' },
+            { platform: 'tiktok', url: 'https://www.tiktok.com/@lunarooftop/video/7212345678912345678', caption: 'Dance night! 🎶', thumbnail: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=400&q=80' },
+            { platform: 'facebook', url: 'https://www.facebook.com/lunarooftopnapoli/posts/123456789', caption: 'New cocktail menu out now!', thumbnail: 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=400&q=80' },
+        ],
     },
     {
         id: "2",
@@ -139,8 +150,35 @@ const BASE_VENUES = [
         gallery: [
             "https://images.unsplash.com/photo-1505236858219-8359eb29e329?auto=format&fit=crop&w=1200&q=80",
         ],
-        userReviews: [],
-        upcomingEvents: [],
+        menu: [
+            { id: 1, name: "Trancio di tonno scottato", price: "€16", description: "Servito con crostini al rosmarino" },
+            { id: 2, name: "Calamarata alla marinara", price: "€19", description: "Frutti di mare freschi, sapore autentico." },
+        ],
+        userReviews: [
+            {
+                id: 1,
+                author: "Luca M.",
+                avatar: makeAvatar("Luca M"),
+                rating: 4,
+                date: "2024-02-20",
+                comment: "Musica live fantastica, atmosfera unica.",
+                helpful: 15,
+            },
+        ],
+        upcomingEvents: [
+            {
+                id: 1,
+                title: "Jam Session",
+                date: "2024-03-20",
+                time: "21:00 - 00:00",
+                description: "Sessione improvvisata con musicisti locali",
+                type: "Jam Session",
+                price: "Ingresso libero",
+            },
+        ],
+        socialPosts: [
+            { platform: 'instagram', url: 'https://www.instagram.com/p/CIvX3_foo/', caption: 'Live music night! 🎸', thumbnail: 'https://images.unsplash.com/photo-1505236858219-8359eb29e329?auto=format&fit=crop&w=400&q=80' },
+        ],
     },
     {
         id: "3",
@@ -189,8 +227,35 @@ const BASE_VENUES = [
         gallery: [
             "https://images.unsplash.com/photo-1566737236500-c8ac43014a67?auto=format&fit=crop&w=1200&q=80",
         ],
-        userReviews: [],
-        upcomingEvents: [],
+        userReviews: [
+            {
+                id: 1,
+                author: "Giulia P.",
+                avatar: makeAvatar("Giulia P"),
+                rating: 5,
+                date: "2024-02-15",
+                comment: "Club incredibile, energia pazzesca!",
+                helpful: 30,
+            },
+        ],
+        upcomingEvents: [
+            {
+                id: 1,
+                title: "Techno Night",
+                date: "2024-03-22",
+                time: "23:00 - 05:00",
+                description: "Notte techno con DJ internazionali",
+                type: "DJ Set",
+                price: "€20",
+            },
+        ],
+        menu: [
+            { id: 1, name: "Cocktail Energy", price: "€10", description: "Drink energizzante per la pista" },
+            { id: 2, name: "Shots Party", price: "€8", description: "Shots vari per il gruppo" },
+        ],
+        socialPosts: [
+            { platform: 'instagram', url: 'https://www.instagram.com/p/CIvX4_foo/', caption: 'Club night! 💃🕺', thumbnail: 'https://images.unsplash.com/photo-1566737236500-c8ac43014a67?auto=format&fit=crop&w=400&q=80' },
+        ],
     },
     {
         id: "4",
@@ -234,8 +299,35 @@ const BASE_VENUES = [
         gallery: [
             "https://images.unsplash.com/photo-1525268323446-0505b6fe7778?auto=format&fit=crop&w=1200&q=80",
         ],
-        userReviews: [],
-        upcomingEvents: null,
+        userReviews: [
+            {
+                id: 1,
+                author: "Marco L.",
+                avatar: makeAvatar("Marco L"),
+                rating: 4,
+                date: "2024-02-10",
+                comment: "Perfetto per una serata romantica al tramonto.",
+                helpful: 12,
+            },
+        ],
+        upcomingEvents: [
+            {
+                id: 1,
+                title: "Sunset Aperitivo",
+                date: "2024-03-25",
+                time: "18:00 - 22:00",
+                description: "Aperitivo con vista mare",
+                type: "Aperitivo",
+                price: "Ingresso libero",
+            },
+        ],
+        menu: [
+            { id: 1, name: "Insalata di mare", price: "€18", description: "Fresca e leggera" },
+            { id: 2, name: "Grigliata mista", price: "€25", description: "Pesce fresco alla griglia" },
+        ],
+        socialPosts: [
+            { platform: 'instagram', url: 'https://www.instagram.com/p/CIvX5_foo/', caption: 'Sunset garden! 🌅', thumbnail: 'https://images.unsplash.com/photo-1525268323446-0505b6fe7778?auto=format&fit=crop&w=400&q=80' },
+        ],
     },
     {
         id: "5",
@@ -279,8 +371,35 @@ const BASE_VENUES = [
         gallery: [
             "https://images.unsplash.com/photo-1516997121675-4c2d1684aa3e?auto=format&fit=crop&w=1200&q=80",
         ],
-        userReviews: [],
-        upcomingEvents: [],
+        userReviews: [
+            {
+                id: 1,
+                author: "Anna S.",
+                avatar: makeAvatar("Anna S"),
+                rating: 5,
+                date: "2024-02-05",
+                comment: "Cocktail spettacolari e design moderno.",
+                helpful: 20,
+            },
+        ],
+        upcomingEvents: [
+            {
+                id: 1,
+                title: "Cocktail Workshop",
+                date: "2024-03-28",
+                time: "20:00 - 22:00",
+                description: "Impara a fare cocktail con il barman",
+                type: "Workshop",
+                price: "€15",
+            },
+        ],
+        menu: [
+            { id: 1, name: "Neon Spritz", price: "€12", description: "Spritz con twist fluorescente" },
+            { id: 2, name: "Signature Martini", price: "€14", description: "Martini personalizzato" },
+        ],
+        socialPosts: [
+            { platform: 'instagram', url: 'https://www.instagram.com/p/CIvX6_foo/', caption: 'Neon cocktails! 🍸', thumbnail: 'https://images.unsplash.com/photo-1516997121675-4c2d1684aa3e?auto=format&fit=crop&w=400&q=80' },
+        ],
     },
     {
         id: "6",
@@ -324,8 +443,35 @@ const BASE_VENUES = [
         gallery: [
             "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=1200&q=80",
         ],
-        userReviews: [],
-        upcomingEvents: [],
+        userReviews: [
+            {
+                id: 1,
+                author: "Roberto D.",
+                avatar: makeAvatar("Roberto D"),
+                rating: 4,
+                date: "2024-01-30",
+                comment: "Posto divertente, musica hip-hop top!",
+                helpful: 18,
+            },
+        ],
+        upcomingEvents: [
+            {
+                id: 1,
+                title: "Hip-Hop Battle",
+                date: "2024-03-30",
+                time: "22:00 - 02:00",
+                description: "Battaglia di freestyle hip-hop",
+                type: "Event",
+                price: "Ingresso libero",
+            },
+        ],
+        menu: [
+            { id: 1, name: "Birra artigianale", price: "€5", description: "Birra locale in bottiglia" },
+            { id: 2, name: "Nachos", price: "€8", description: "Con salsa piccante" },
+        ],
+        socialPosts: [
+            { platform: 'instagram', url: 'https://www.instagram.com/p/CIvX7_foo/', caption: 'Hip-hop night! 🎤', thumbnail: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=400&q=80' },
+        ],
     },
 ];
 

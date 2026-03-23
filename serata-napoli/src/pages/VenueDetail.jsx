@@ -8,11 +8,23 @@ import {
     Calendar, Home, Music, Star, TrendingUp, ChevronLeft, Phone,
     Globe, Instagram, MessageCircle, Bookmark, AlertCircle, X,
     ChevronRight, ThumbsUp, CalendarDays, Tag, Copy, Send, Twitter,
-    Check, Facebook, ChevronDown,
+    Check, Facebook, ChevronDown, UtensilsCrossed, ExternalLink,
+    Play, Film,
 } from "lucide-react";
 import { getVenueById, MOCK_EVENTS } from "../data/mockVenues";
 
-// ─── Constants ───────────────────────────────────────────────────────────────
+// ── Componenti estratti in file separati ──────────────────────────────────────
+import Toast from "../components/Toast";
+import SectionCard from "../components/SectionCard";
+import SectionTitle from "../components/SectionTitle";
+import ImageGallery from "../components/ImageGallery";
+import ImageLightbox from "../components/ImageLightbox";
+import StarRow from "../components/StarRow";
+import ExpandDrawer from "../components/ExpandDrawer";
+import SocialSection from "../components/SocialSection";
+import CommentBox from "../components/CommentBox";
+
+// ─── Constants ────────────────────────────────────────────────────────────────
 
 const MOOD_CONFIG = {
     casino: { gradient: "from-orange-500 via-red-500 to-pink-600", label: "🔥 Vogliamo casino" },
@@ -28,20 +40,6 @@ const SHARE_TEXT = "Ti condivido questo locale, secondo me ti può piacere.";
 
 const REVIEWS_PREVIEW = 3;
 const EVENTS_PREVIEW = 2;
-
-// ─── Toast ───────────────────────────────────────────────────────────────────
-
-function Toast({ message, visible }) {
-    return ReactDOM.createPortal(
-        <div className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-10000 flex items-center gap-2 px-5 py-3 rounded-2xl
-            bg-emerald-500/90 backdrop-blur-xl shadow-lg shadow-emerald-900/40 text-white font-semibold text-sm
-            transition-all duration-300 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"}`}>
-            <Check size={16} className="shrink-0" />
-            {message}
-        </div>,
-        document.body
-    );
-}
 
 // ─── Share Menu ───────────────────────────────────────────────────────────────
 
@@ -117,20 +115,8 @@ function useShare(venue) {
     const handleCopyLink = async () => {
         try {
             await navigator.clipboard.writeText(SHARE_URL);
-            setCopied(true);
-            setToastVisible(true);
+            setCopied(true); setToastVisible(true);
             setTimeout(() => { setCopied(false); setToastVisible(false); }, 2200);
-        } catch (e) { console.error(e); }
-    };
-
-    const handleNativeShare = async () => {
-        try {
-            if (navigator.share) {
-                await navigator.share({ title: SHARE_TITLE, text: SHARE_TEXT, url: SHARE_URL });
-                setShareOpen(false);
-            } else {
-                await handleCopyLink();
-            }
         } catch (e) { console.error(e); }
     };
 
@@ -139,7 +125,6 @@ function useShare(venue) {
     const handleTwitter = () => openPopup(`https://twitter.com/intent/tweet?text=${encodeURIComponent(SHARE_TEXT)}&url=${encodeURIComponent(SHARE_URL)}`);
     const handleFacebook = () => openPopup(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(SHARE_URL)}`);
 
-    // Build actions array — only include whatsapp/fb/twitter if venue has those fields
     const buildActions = () => {
         const actions = [
             { icon: copied ? Check : Copy, label: copied ? "Link copiato!" : "Copia link", onClick: handleCopyLink, active: copied },
@@ -156,20 +141,23 @@ function useShare(venue) {
         const onKeyDown = (e) => { if (e.key === "Escape") setShareOpen(false); };
         document.addEventListener("mousedown", onMouseDown);
         document.addEventListener("keydown", onKeyDown);
-        return () => { document.removeEventListener("mousedown", onMouseDown); document.removeEventListener("keydown", onKeyDown); };
+        return () => {
+            document.removeEventListener("mousedown", onMouseDown);
+            document.removeEventListener("keydown", onKeyDown);
+        };
     }, []);
 
     useEffect(() => {
         if (!shareOpen) return;
         window.addEventListener("resize", calcPosition);
         window.addEventListener("scroll", calcPosition, true);
-        return () => { window.removeEventListener("resize", calcPosition); window.removeEventListener("scroll", calcPosition, true); };
+        return () => {
+            window.removeEventListener("resize", calcPosition);
+            window.removeEventListener("scroll", calcPosition, true);
+        };
     }, [shareOpen]);
 
-    return {
-        shareOpen, sharePosition, shareRef, shareButtonRef, toastVisible,
-        toggleShareMenu, buildActions,
-    };
+    return { shareOpen, sharePosition, shareRef, shareButtonRef, toastVisible, toggleShareMenu, buildActions };
 }
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
@@ -191,14 +179,9 @@ function DetailItem({ icon: Icon, label, value }) {
         <div className="flex flex-col items-center text-center">
             <div className="flex items-center justify-center gap-2 mb-2">
                 <Icon size={18} className="text-orange-400" />
-                <span className="text-white/50 text-sm font-bold uppercase tracking-wider">
-                    {label}
-                </span>
+                <span className="text-white/50 text-sm font-bold uppercase tracking-wider">{label}</span>
             </div>
-
-            <p className="text-white font-bold text-lg">
-                {value}
-            </p>
+            <p className="text-white font-bold text-lg">{value}</p>
         </div>
     );
 }
@@ -213,82 +196,12 @@ function ContactItem({ icon: Icon, text, href }) {
     );
 }
 
-function SectionCard({ children, className = "" }) {
-    return (
-        <div className={`bg-linear-to-br from-slate-900/80 via-slate-800/80 to-slate-900/80 backdrop-blur-xl border border-white/10 rounded-3xl p-8 ${className}`}>
-            {children}
-        </div>
-    );
-}
-
-function SectionTitle({ icon: Icon, children, color = "text-white" }) {
-    return (
-        <h2 className={`text-2xl font-black ${color} mb-6 flex items-center gap-2`}>
-            {Icon && <Icon size={22} className="text-orange-400" />}
-            {children}
-        </h2>
-    );
-}
-
-// ─── Gallery ─────────────────────────────────────────────────────────────────
-
-function ImageGallery({ images, venueName, onImageClick }) {
-    return (
-        <SectionCard>
-            <SectionTitle>Galleria Foto</SectionTitle>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {images.map((src, i) => (
-                    <button key={i} onClick={() => onImageClick(i)}
-                        className="group relative aspect-square overflow-hidden rounded-2xl border border-white/10 hover:border-orange-500/50 transition-all duration-300">
-                        <img src={src} alt={`${venueName} - ${i + 1}`} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                        <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    </button>
-                ))}
-            </div>
-        </SectionCard>
-    );
-}
-
-function ImageLightbox({ images, currentIndex, onClose, onNext, onPrev }) {
-    useEffect(() => {
-        const handler = (e) => {
-            if (e.key === "Escape") onClose();
-            if (e.key === "ArrowRight") onNext();
-            if (e.key === "ArrowLeft") onPrev();
-        };
-        window.addEventListener("keydown", handler);
-        return () => window.removeEventListener("keydown", handler);
-    }, [onClose, onNext, onPrev]);
-
-    return (
-        <div className="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex items-center justify-center p-4">
-            <button onClick={onClose} className="absolute top-4 right-4 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-all z-10"><X size={24} /></button>
-            <button onClick={onPrev} className="absolute left-4  p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-all z-10"><ChevronLeft size={32} /></button>
-            <button onClick={onNext} className="absolute right-4 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-all z-10"><ChevronRight size={32} /></button>
-            <img src={images[currentIndex]} alt={`Gallery ${currentIndex + 1}`} className="max-w-full max-h-full object-contain rounded-2xl" />
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 bg-white/10 backdrop-blur-xl rounded-full text-white font-semibold text-sm">
-                {currentIndex + 1} / {images.length}
-            </div>
-        </div>
-    );
-}
-
 // ─── Reviews ─────────────────────────────────────────────────────────────────
-
-function StarRow({ rating, size = 16 }) {
-    return (
-        <div className="flex gap-0.5">
-            {Array.from({ length: 5 }, (_, i) => (
-                <Star key={i} size={size} className={i < rating ? "text-yellow-400 fill-yellow-400" : "text-white/20"} />
-            ))}
-        </div>
-    );
-}
 
 function ReviewCard({ review }) {
     const [isHelpful, setIsHelpful] = useState(false);
     return (
-        <div className="p-6 bg-white/5 border border-white/10 rounded-2xl hover:border-white/20 transition-colors duration-300 shrink-0 w-full">
+        <div className="p-6 bg-white/5 border border-white/10 rounded-2xl hover:border-white/20 transition-colors duration-300 w-full">
             <div className="flex items-start gap-4">
                 <img src={review.avatar} alt={review.author} className="w-12 h-12 rounded-full border-2 border-white/20 shrink-0" />
                 <div className="flex-1 min-w-0">
@@ -301,8 +214,8 @@ function ReviewCard({ review }) {
                     <button
                         onClick={() => setIsHelpful((p) => !p)}
                         className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-semibold transition-all duration-300 ${isHelpful
-                            ? "bg-orange-500/20 text-orange-400 border border-orange-500/30"
-                            : "bg-white/5 text-white/60 hover:bg-white/10 border border-white/10"
+                                ? "bg-orange-500/20 text-orange-400 border border-orange-500/30"
+                                : "bg-white/5 text-white/60 hover:bg-white/10 border border-white/10"
                             }`}
                     >
                         <ThumbsUp size={14} fill={isHelpful ? "currentColor" : "none"} />
@@ -311,41 +224,6 @@ function ReviewCard({ review }) {
                 </div>
             </div>
         </div>
-    );
-}
-
-// Modal overlay for "see all" drawer
-function ExpandDrawer({ title, onClose, children }) {
-    useEffect(() => {
-        const onKey = (e) => { if (e.key === "Escape") onClose(); };
-        document.addEventListener("keydown", onKey);
-        document.body.style.overflow = "hidden";
-        return () => { document.removeEventListener("keydown", onKey); document.body.style.overflow = ""; };
-    }, [onClose]);
-
-    return ReactDOM.createPortal(
-        <div className="fixed inset-0 z-9000 flex items-end md:items-center justify-center" onClick={onClose}>
-            {/* Backdrop */}
-            <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
-            {/* Drawer */}
-            <div
-                className="relative z-10 w-full max-w-2xl max-h-[80vh] flex flex-col bg-slate-900 border border-white/10 rounded-t-3xl md:rounded-3xl overflow-hidden shadow-2xl"
-                onClick={(e) => e.stopPropagation()}
-            >
-                {/* Header */}
-                <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 shrink-0">
-                    <h3 className="text-lg font-black text-white">{title}</h3>
-                    <button onClick={onClose} className="p-2 bg-white/5 hover:bg-white/10 rounded-xl text-white/60 hover:text-white transition-all">
-                        <X size={18} />
-                    </button>
-                </div>
-                {/* Scrollable content */}
-                <div className="overflow-y-auto flex-1 p-6 space-y-4">
-                    {children}
-                </div>
-            </div>
-        </div>,
-        document.body
     );
 }
 
@@ -358,9 +236,7 @@ function ReviewsSection({ reviews, rating, totalReviews }) {
         <>
             <SectionCard>
                 <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-2xl font-black text-white flex items-center gap-2">
-                        Recensioni
-                    </h2>
+                    <h2 className="text-2xl font-black text-white">Recensioni</h2>
                     <div className="flex items-center gap-2">
                         <Star size={20} className="text-yellow-400 fill-yellow-400" />
                         <span className="text-xl font-black text-white">{rating}</span>
@@ -461,19 +337,154 @@ function EventsSection({ events, onEventClick }) {
     );
 }
 
+// ─── Menu ─────────────────────────────────────────────────────────────────────
+//
+// Formati supportati in venue.menu:
+//   - stringa URL            → pulsante link esterno
+//   - array piatto           → [{ name, price, description?, allergens? }]
+//   - array con categorie    → [{ category, items: [{ name, price, ... }] }]
+// venue.menuUrl              → link "Apri completo" accanto all'array
+
+function MenuItemRow({ item }) {
+    return (
+        <div className="flex items-start justify-between gap-4 px-5 py-4 bg-black/20 hover:bg-black/30 transition-colors duration-200">
+            <div className="flex-1 min-w-0">
+                <p className="text-white font-semibold leading-snug">{item.name}</p>
+                {item.description && (
+                    <p className="text-white/45 text-sm mt-1 leading-relaxed">{item.description}</p>
+                )}
+                {Array.isArray(item.allergens) && item.allergens.length > 0 && (
+                    <p className="text-white/25 text-xs mt-1.5">Allergeni: {item.allergens.join(", ")}</p>
+                )}
+            </div>
+            {item.price && (
+                <span className="text-orange-400 font-black text-base shrink-0 tabular-nums">{item.price}</span>
+            )}
+        </div>
+    );
+}
+
+function MenuLinkButton({ href }) {
+    return (
+        <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex items-center justify-between w-full p-5 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-orange-500/40 rounded-2xl transition-all duration-300"
+        >
+            <div className="flex items-center gap-4">
+                <div className="flex items-center justify-center w-12 h-12 rounded-2xl bg-orange-500/15 border border-orange-500/20">
+                    <UtensilsCrossed size={22} className="text-orange-400" />
+                </div>
+                <div>
+                    <p className="text-white font-bold">Visualizza il menu completo</p>
+                    <p className="text-white/45 text-sm mt-0.5">Si apre in una nuova scheda</p>
+                </div>
+            </div>
+            <ExternalLink size={18} className="text-white/30 group-hover:text-orange-400 transition-colors duration-300 shrink-0" />
+        </a>
+    );
+}
+
+function MenuSection({ venue }) {
+    const [openCategory, setOpenCategory] = useState(null);
+
+    if (typeof venue.menu === "string") {
+        return (
+            <SectionCard>
+                <SectionTitle icon={UtensilsCrossed}>Menu</SectionTitle>
+                <MenuLinkButton href={venue.menu} />
+            </SectionCard>
+        );
+    }
+
+    if (!Array.isArray(venue.menu) || venue.menu.length === 0) {
+        if (venue.menuUrl) {
+            return (
+                <SectionCard>
+                    <SectionTitle icon={UtensilsCrossed}>Menu</SectionTitle>
+                    <MenuLinkButton href={venue.menuUrl} />
+                </SectionCard>
+            );
+        }
+        return null;
+    }
+
+    const isCategorized = venue.menu[0] && Array.isArray(venue.menu[0].items);
+
+    return (
+        <SectionCard>
+            <div className="flex items-center justify-between mb-6">
+                <SectionTitle icon={UtensilsCrossed}>Menu</SectionTitle>
+                {venue.menuUrl && (
+                    <a
+                        href={venue.menuUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1.5 text-sm font-semibold text-orange-400 hover:text-orange-300 transition-colors duration-200"
+                    >
+                        Apri completo <ExternalLink size={14} />
+                    </a>
+                )}
+            </div>
+
+            {isCategorized ? (
+                <div className="space-y-3">
+                    {venue.menu.map((cat, idx) => {
+                        const isOpen = openCategory === idx;
+                        const items = Array.isArray(cat.items) ? cat.items : [];
+                        return (
+                            <div key={idx} className="overflow-hidden rounded-2xl border border-white/10 hover:border-white/20 transition-colors duration-300">
+                                <button
+                                    onClick={() => setOpenCategory(isOpen ? null : idx)}
+                                    className="w-full flex items-center justify-between px-5 py-4 bg-white/5 hover:bg-white/8 transition-colors duration-200"
+                                >
+                                    <span className="text-white font-bold text-base">{cat.category}</span>
+                                    <div className="flex items-center gap-3">
+                                        <span className="text-white/35 text-sm">{items.length} voci</span>
+                                        <ChevronDown size={16} className={`text-white/50 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} />
+                                    </div>
+                                </button>
+                                {isOpen && (
+                                    <div className="divide-y divide-white/5">
+                                        {items.map((item, i) => <MenuItemRow key={i} item={item} />)}
+                                    </div>
+                                )}
+                            </div>
+                        );
+                    })}
+                </div>
+            ) : (
+                <div className="divide-y divide-white/5 rounded-2xl overflow-hidden border border-white/10">
+                    {venue.menu.map((item, i) => <MenuItemRow key={i} item={item} />)}
+                </div>
+            )}
+        </SectionCard>
+    );
+}
+
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function VenueDetail() {
     const { id } = useParams();
     const navigate = useNavigate();
+
     const [venue, setVenue] = useState(null);
     const [loading, setLoading] = useState(true);
     const [isSaved, setIsSaved] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const [userComments, setUserComments] = useState([]);
 
     const share = useShare(venue);
     const config = MOOD_CONFIG[venue?.mood] ?? MOOD_CONFIG.casino;
+
+    const handleAddComment = (text) => {
+        setUserComments((prev) => [
+            ...prev,
+            { id: Date.now(), text, date: new Date().toISOString(), author: "Utente anonimo" },
+        ]);
+    };
 
     useEffect(() => {
         setLoading(true);
@@ -531,7 +542,7 @@ export default function VenueDetail() {
                 actions={share.buildActions()}
             />
 
-            {/* Back button */}
+            {/* Back */}
             <div className="max-w-7xl mx-auto px-4 pt-8">
                 <button
                     onClick={() => navigate(-1)}
@@ -542,22 +553,16 @@ export default function VenueDetail() {
                 </button>
             </div>
 
-            {/* ── Hero ─────────────────────────────────────────────────────── */}
+            {/* ── Hero ──────────────────────────────────────────────────── */}
             <div className="max-w-7xl mx-auto px-4 py-8">
                 <div className="relative overflow-hidden rounded-3xl min-h-105 md:min-h-120">
-                    {/* Full bleed background image */}
                     <div className="absolute inset-0">
-                        {venue.image && (
-                            <img src={venue.image} alt={venue.name} className="w-full h-full object-cover" />
-                        )}
-                        {/* Layered overlays for depth */}
+                        {venue.image && <img src={venue.image} alt={venue.name} className="w-full h-full object-cover" />}
                         <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-slate-950/75 to-slate-950/20" />
                         <div className="absolute inset-0 bg-linear-to-r from-slate-950/60 via-transparent to-transparent" />
                     </div>
 
-                    {/* Content */}
                     <div className="relative z-10 flex flex-col justify-end h-full p-8 md:p-12 pt-16">
-                        {/* Top row: badges + save button */}
                         <div className="flex items-start justify-between mb-6">
                             <div className="flex flex-wrap items-center gap-2">
                                 <div className={`px-3 py-1.5 rounded-xl bg-linear-to-r ${config.gradient} text-white text-xs font-bold shadow-lg`}>
@@ -565,17 +570,13 @@ export default function VenueDetail() {
                                 </div>
                                 {venue.tag && (
                                     <div className="px-3 py-1.5 rounded-xl bg-black/40 backdrop-blur-md border border-white/20 text-white text-xs font-bold flex items-center gap-1.5">
-                                        <Tag size={12} />
-                                        {venue.tag}
+                                        <Tag size={12} />{venue.tag}
                                     </div>
                                 )}
                             </div>
-                            {/* Only save — share is in sidebar */}
                             <button
                                 onClick={() => setIsSaved((p) => !p)}
-                                className={`p-3 rounded-2xl backdrop-blur-xl border transition-all duration-300 ${isSaved
-                                    ? "bg-pink-500 border-pink-400 text-white shadow-lg shadow-pink-500/40"
-                                    : "bg-black/30 border-white/20 text-white hover:bg-black/50"
+                                className={`p-3 rounded-2xl backdrop-blur-xl border transition-all duration-300 ${isSaved ? "bg-pink-500 border-pink-400 text-white shadow-lg shadow-pink-500/40" : "bg-black/30 border-white/20 text-white hover:bg-black/50"
                                     }`}
                                 aria-label="Salva"
                             >
@@ -583,12 +584,10 @@ export default function VenueDetail() {
                             </button>
                         </div>
 
-                        {/* Venue name */}
                         <h1 className="text-5xl md:text-7xl font-black text-white leading-none mb-3 drop-shadow-2xl">
                             {venue.name}
                         </h1>
 
-                        {/* Location row */}
                         <div className="flex flex-col items-start gap-1 mb-6">
                             <div className="flex items-center gap-2 text-white/80">
                                 <MapPin size={16} className="text-orange-400 shrink-0" />
@@ -597,9 +596,7 @@ export default function VenueDetail() {
                             <p className="text-white/45 text-sm pl-6">{venue.address}</p>
                         </div>
 
-                        {/* Bottom row: rating + best time + stats */}
                         <div className="flex flex-col gap-4">
-                            {/* Rating & best time pill */}
                             <div className="flex flex-wrap items-center gap-4">
                                 <div className="flex items-center gap-2 bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl px-4 py-2.5">
                                     <Star size={18} className="text-yellow-400 fill-yellow-400" />
@@ -613,8 +610,6 @@ export default function VenueDetail() {
                                     </div>
                                 )}
                             </div>
-
-                            {/* Quick stats row */}
                             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                                 <StatCard icon={Euro} label="Prezzo" value={venue.price} color="text-amber-400" />
                                 <StatCard icon={Users} label="Età media" value={venue.age} color="text-cyan-400" />
@@ -626,12 +621,13 @@ export default function VenueDetail() {
                 </div>
             </div>
 
-            {/* Main content */}
+            {/* ── Main content ───────────────────────────────────────────── */}
             <div className="max-w-7xl mx-auto px-4 pb-20">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-                    {/* ── Left column ─────────────────────────────────────── */}
+                    {/* Left column */}
                     <div className="lg:col-span-2 space-y-8">
+
                         {venue.gallery?.length > 0 && (
                             <ImageGallery images={venue.gallery} venueName={venue.name} onImageClick={openLightbox} />
                         )}
@@ -643,14 +639,12 @@ export default function VenueDetail() {
 
                         <SectionCard>
                             <SectionTitle>Dettagli</SectionTitle>
-
                             <div className="grid grid-cols-2 gap-6 text-center">
                                 <DetailItem icon={Calendar} label="Giorni migliori" value={venue.bestDays.join(", ")} />
                                 <DetailItem icon={Home} label="Ambiente" value={venue.location} />
                                 <DetailItem icon={Music} label="Formati" value={venue.formats.join(", ")} />
                                 <DetailItem icon={Users} label="Socialità" value={`${venue.social}/5`} />
                             </div>
-
                         </SectionCard>
 
                         <SectionCard>
@@ -664,22 +658,61 @@ export default function VenueDetail() {
                             </div>
                         </SectionCard>
 
-                        {MOCK_EVENTS.filter(e => e.venueId === venue.id).length > 0 && <EventsSection events={MOCK_EVENTS.filter(e => e.venueId === venue.id)} onEventClick={(eventId) => navigate(`/event/${eventId}`)} />}
-                        {venue.userReviews?.length > 0 && <ReviewsSection reviews={venue.userReviews} rating={venue.rating} totalReviews={venue.reviews} />}
+                        {/* Menu */}
+                        <MenuSection venue={venue} />
+
+                        {/* Social — decommentare quando SocialSection è pronta */}
+                        {/* <SocialSection venue={venue} /> */}
+
+                        {/* Eventi */}
+                        {MOCK_EVENTS.filter((e) => e.venueId === venue.id).length > 0 && (
+                            <EventsSection
+                                events={MOCK_EVENTS.filter((e) => e.venueId === venue.id)}
+                                onEventClick={(eventId) => navigate(`/event/${eventId}`)}
+                            />
+                        )}
+
+                        {/* Recensioni */}
+                        {venue.userReviews?.length > 0 && (
+                            <ReviewsSection
+                                reviews={venue.userReviews}
+                                rating={venue.rating}
+                                totalReviews={venue.reviews}
+                            />
+                        )}
+
+                        {/* Commenti utente */}
+                        <SectionCard>
+                            <CommentBox onAddComment={handleAddComment} />
+                            {userComments.length > 0 && (
+                                <div className="mt-6 space-y-3">
+                                    <p className="text-white/40 text-xs font-bold uppercase tracking-wider">
+                                        Commenti degli utenti
+                                    </p>
+                                    {userComments.map((c) => (
+                                        <div key={c.id} className="bg-white/5 border border-white/10 rounded-xl p-4">
+                                            <div className="text-xs text-white/35 mb-1.5">
+                                                {c.author} · {new Date(c.date).toLocaleString("it-IT")}
+                                            </div>
+                                            <p className="text-white/80 text-sm leading-relaxed">{c.text}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </SectionCard>
                     </div>
 
-                    {/* ── Right column (sticky sidebar) ───────────────────── */}
+                    {/* Right column (sticky) */}
                     <div className="space-y-6 lg:sticky lg:top-8 lg:self-start">
 
-                        {/* CTA buttons */}
+                        {/* CTA */}
                         <div className="bg-linear-to-br from-slate-900/80 via-slate-800/80 to-slate-900/80 backdrop-blur-xl border border-white/10 rounded-3xl p-6 space-y-3">
                             <button
                                 onClick={() => window.open(venue.googleAddress, "_blank")}
                                 className="w-full group relative overflow-hidden bg-linear-to-r from-orange-500 to-pink-500 text-white font-bold py-4 px-6 rounded-2xl transition-all duration-300 hover:shadow-lg hover:shadow-orange-500/40 hover:scale-[1.02] transform"
                             >
                                 <span className="relative z-10 flex items-center justify-center gap-2">
-                                    <Navigation size={18} />
-                                    Indicazioni
+                                    <Navigation size={18} /> Indicazioni
                                 </span>
                                 <div className="absolute inset-0 bg-linear-to-r from-orange-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                             </button>
@@ -698,13 +731,12 @@ export default function VenueDetail() {
                                     onClick={share.toggleShareMenu}
                                     className="w-full bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/30 text-white font-bold py-4 px-6 rounded-2xl transition-all duration-300 flex items-center justify-center gap-2"
                                 >
-                                    <Share2 size={18} />
-                                    Condividi
+                                    <Share2 size={18} /> Condividi
                                 </button>
                             </div>
                         </div>
 
-                        {/* Contacts */}
+                        {/* Contatti */}
                         {(venue.phone || venue.website || venue.instagram || venue.facebook || venue.twitter) && (
                             <div className="bg-linear-to-br from-slate-900/80 via-slate-800/80 to-slate-900/80 backdrop-blur-xl border border-white/10 rounded-3xl p-6">
                                 <h3 className="text-lg font-black text-white mb-4">Contatti</h3>
@@ -718,12 +750,11 @@ export default function VenueDetail() {
                             </div>
                         )}
 
-                        {/* Hours */}
+                        {/* Orari */}
                         {venue.hours && (
                             <div className="bg-linear-to-br from-slate-900/80 via-slate-800/80 to-slate-900/80 backdrop-blur-xl border border-white/10 rounded-3xl p-6">
                                 <h3 className="text-lg font-black text-white mb-4 flex items-center gap-2">
-                                    <Clock size={18} className="text-orange-400" />
-                                    Orari
+                                    <Clock size={18} className="text-orange-400" /> Orari
                                 </h3>
                                 <div className="space-y-2">
                                     {Object.entries(venue.hours).map(([day, hours]) => (
@@ -741,7 +772,13 @@ export default function VenueDetail() {
 
             {/* Lightbox */}
             {selectedImage && (
-                <ImageLightbox images={venue.gallery} currentIndex={currentImageIndex} onClose={closeLightbox} onNext={goNext} onPrev={goPrev} />
+                <ImageLightbox
+                    images={venue.gallery}
+                    currentIndex={currentImageIndex}
+                    onClose={closeLightbox}
+                    onNext={goNext}
+                    onPrev={goPrev}
+                />
             )}
         </div>
     );

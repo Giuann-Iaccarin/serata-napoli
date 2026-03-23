@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
     Search, MapPin, Star, Clock, Euro, Filter,
@@ -34,6 +34,21 @@ const SORT_OPTIONS = [
     { value: 'price-high', label: 'Prezzo decrescente' }
 ];
 
+const SEARCH_RESULTS_STATE_KEY = 'serataNapoli.searchResultsState';
+
+function loadSearchResultsState() {
+    if (typeof window === 'undefined') return {};
+
+    try {
+        const raw = localStorage.getItem(SEARCH_RESULTS_STATE_KEY);
+        if (!raw) return {};
+        return JSON.parse(raw);
+    } catch (error) {
+        console.error('Error loading search results state', error);
+        return {};
+    }
+}
+
 const FILTER_CATEGORIES = [
     { id: 'category', label: 'Categoria', options: ['Bar', 'Ristorante', 'Discoteca', 'Rooftop', 'Lounge'] },
     { id: 'price', label: 'Prezzo', options: ['€', '€€', '€€€'] },
@@ -46,11 +61,25 @@ export default function SearchResults() {
     const [searchParams] = useSearchParams();
     const query = searchParams.get('q') || '';
 
+    const persistedState = loadSearchResultsState();
+
     const [results, setResults] = useState(SEARCH_RESULTS);
-    const [sortBy, setSortBy] = useState('relevance');
-    const [activeFilters, setActiveFilters] = useState({});
+    const [sortBy, setSortBy] = useState(persistedState.sortBy || 'relevance');
+    const [activeFilters, setActiveFilters] = useState(persistedState.activeFilters || {});
     const [showFilters, setShowFilters] = useState(false);
-    const [searchInput, setSearchInput] = useState(query);
+    const [searchInput, setSearchInput] = useState(persistedState.searchInput || query || '');
+
+    useEffect(() => {
+        try {
+            localStorage.setItem(SEARCH_RESULTS_STATE_KEY, JSON.stringify({
+                searchInput,
+                activeFilters,
+                sortBy,
+            }));
+        } catch (error) {
+            console.error('Error saving search results state', error);
+        }
+    }, [searchInput, activeFilters, sortBy]);
 
     const filteredResults = useMemo(() => {
         let filtered = results.filter(venue => {
@@ -120,7 +149,7 @@ export default function SearchResults() {
             onClick={() => navigate(`/venue/${venue.id}`)}
             className="group cursor-pointer rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl hover:border-orange-400/30 hover:bg-orange-500/5 transition-all duration-300 overflow-hidden"
         >
-            <div className="aspect-[16/10] overflow-hidden">
+            <div className="aspect-16/10 overflow-hidden">
                 <img
                     src={venue.image}
                     alt={venue.name}

@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useRef } from "react";
+import React, { useMemo, useState, useRef, useEffect } from "react";
 import Navigation from "../components/Navigation";
 import HeroSection from "../components/HeroSection";
 import NapoliFilters, { DEFAULT_FILTERS } from "../components/Filters";
@@ -7,10 +7,34 @@ import { MOCK_VENUES } from "../data/mockVenues";
 import Footer from "../components/Footer";
 import { applyVenueFilters } from "../utils/applyVenueFilters";
 
+const HOMEPAGE_FILTERS_KEY = "serataNapoli.homepageFilters";
+
+function loadHomepageFilters() {
+    if (typeof window === "undefined") return DEFAULT_FILTERS;
+
+    try {
+        const raw = localStorage.getItem(HOMEPAGE_FILTERS_KEY);
+        if (!raw) return DEFAULT_FILTERS;
+        const parsed = JSON.parse(raw);
+        return { ...DEFAULT_FILTERS, ...parsed };
+    } catch (error) {
+        console.error("Error loading homepage filters", error);
+        return DEFAULT_FILTERS;
+    }
+}
+
 export default function Homepage() {
-    const [filters, setFilters] = useState(DEFAULT_FILTERS);
+    const [filters, setFilters] = useState(loadHomepageFilters);
     const filtersRef = useRef(null);
     const venuesRef = useRef(null);
+
+    useEffect(() => {
+        try {
+            localStorage.setItem(HOMEPAGE_FILTERS_KEY, JSON.stringify(filters));
+        } catch (error) {
+            console.error("Error saving homepage filters", error);
+        }
+    }, [filters]);
 
     const filteredVenues = useMemo(() => {
         return applyVenueFilters(MOCK_VENUES, filters, DEFAULT_FILTERS);
