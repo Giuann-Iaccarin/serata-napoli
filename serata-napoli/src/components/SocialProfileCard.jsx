@@ -11,7 +11,7 @@ export default function SocialProfileCard({ platform, handle }) {
         >
             <div className="flex items-center gap-3">
                 {/* Gradient icon bubble */}
-                <div className={`flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br ${platform.color} bg-opacity-20`}>
+                <div className={`flex items-center justify-center w-10 h-10 rounded-xl bg-linear-to-br{platform.color} bg-opacity-20`}>
                     <Icon size={18} className="text-white" />
                 </div>
                 <div>

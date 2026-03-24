@@ -112,6 +112,7 @@ function useShare(venue) {
         setShareOpen((p) => !p);
     };
 
+
     const handleCopyLink = async () => {
         try {
             await navigator.clipboard.writeText(SHARE_URL);
@@ -164,7 +165,7 @@ function useShare(venue) {
 
 function StatCard({ icon: Icon, label, value, color }) {
     return (
-        <div className="bg-black/40 backdrop-blur-sm border border-white/10 rounded-2xl p-4 flex flex-col gap-2">
+        <div className="flex flex-col items-center text-center">
             <div className="flex items-center gap-2">
                 <Icon size={16} className={color} />
                 <span className="text-white/40 text-xs font-bold uppercase tracking-wider">{label}</span>
@@ -214,8 +215,8 @@ function ReviewCard({ review }) {
                     <button
                         onClick={() => setIsHelpful((p) => !p)}
                         className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-semibold transition-all duration-300 ${isHelpful
-                                ? "bg-orange-500/20 text-orange-400 border border-orange-500/30"
-                                : "bg-white/5 text-white/60 hover:bg-white/10 border border-white/10"
+                            ? "bg-orange-500/20 text-orange-400 border border-orange-500/30"
+                            : "bg-white/5 text-white/60 hover:bg-white/10 border border-white/10"
                             }`}
                     >
                         <ThumbsUp size={14} fill={isHelpful ? "currentColor" : "none"} />
@@ -364,6 +365,42 @@ function MenuItemRow({ item }) {
     );
 }
 
+function MenuAccordionItem({ item }) {
+    const [open, setOpen] = useState(false);
+    return (
+        <div className="border-b border-white/10">
+            <button
+                className="w-full flex items-center justify-between gap-4 px-5 py-4 bg-black/20 hover:bg-black/30 transition-colors duration-200 focus:outline-none"
+                onClick={() => setOpen((v) => !v)}
+            >
+                <div className="flex-1 min-w-0">
+                    <p className="text-white font-semibold leading-snug">{item.name}</p>
+                </div>
+                {item.price && (
+                    <span className="text-orange-400 font-black text-base shrink-0 tabular-nums">{item.price}</span>
+                )}
+                <span className={`ml-2 transition-transform duration-200 ${open ? "rotate-180" : "rotate-0"}`}>
+                    ▼
+                </span>
+            </button>
+            {open && (
+                <div className="flex flex-col md:flex-row gap-4 px-7 pb-5 pt-5 bg-white/80 border border-orange-200 rounded-b-xl animate-fade-in">
+                    {item.image && (
+                        <img src={item.image} alt={item.name} className="w-32 h-32 object-cover rounded-lg border border-orange-200 shadow-md self-center md:self-start" />
+                    )}
+                    <div className="flex-1 min-w-0">
+                        {item.description && (
+                            <p className="mb-2 text-gray-900 font-semibold leading-relaxed text-base">{item.description}</p>
+                        )}
+                        {Array.isArray(item.allergens) && item.allergens.length > 0 && (
+                            <p className="text-gray-700 text-xs mb-1">Allergeni: {item.allergens.join(", ")}</p>
+                        )}
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+}
 function MenuLinkButton({ href }) {
     return (
         <a
@@ -447,7 +484,7 @@ function MenuSection({ venue }) {
                                 </button>
                                 {isOpen && (
                                     <div className="divide-y divide-white/5">
-                                        {items.map((item, i) => <MenuItemRow key={i} item={item} />)}
+                                        {items.map((item, i) => <MenuAccordionItem key={i} item={item} />)}
                                     </div>
                                 )}
                             </div>
@@ -456,7 +493,7 @@ function MenuSection({ venue }) {
                 </div>
             ) : (
                 <div className="divide-y divide-white/5 rounded-2xl overflow-hidden border border-white/10">
-                    {venue.menu.map((item, i) => <MenuItemRow key={i} item={item} />)}
+                    {venue.menu.map((item, i) => <MenuAccordionItem key={i} item={item} />)}
                 </div>
             )}
         </SectionCard>

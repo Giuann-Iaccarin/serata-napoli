@@ -161,7 +161,7 @@ export default function Profile() {
                             <div className="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl">
                                 <div className="text-center">
                                     <div className="relative mx-auto mb-4 h-24 w-24">
-                                        <div className="flex h-full w-full items-center justify-center rounded-2xl bg-gradient-to-br from-orange-400 to-pink-500 shadow-lg shadow-orange-500/30 ring-4 ring-white/10">
+                                        <div className="flex h-full w-full items-center justify-center rounded-2xl bg-linear-to-br from-orange-400 to-pink-500 shadow-lg shadow-orange-500/30 ring-4 ring-white/10">
                                             <User size={32} className="text-white" />
                                         </div>
                                         <button className="absolute -bottom-1 -right-1 flex h-8 w-8 items-center justify-center rounded-xl bg-orange-500 text-white shadow-lg hover:bg-orange-400 transition-colors">

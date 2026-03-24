@@ -27,6 +27,10 @@ import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
 import Cities from './pages/Cities';
 import Categories from './pages/Categories';
+import CategoryDetail from './pages/CategoryDetail';
+import MenuBuilderPage from './pages/MenuBuilderPage';
+import MenuPage from './pages/MenuPage';
+import CookieConsent from './components/CookieConsent';
 
 export default function App() {
   return (
@@ -81,10 +85,18 @@ export default function App() {
         {/* Browse */}
         <Route path="/cities" element={<Cities />} />
         <Route path="/categories" element={<Categories />} />
+        <Route path="/category/:categoryId" element={<CategoryDetail />} />
+
+        {/* Menu Builder */}
+        <Route path="/menu-builder" element={<MenuBuilderPage />} />
+
+        {/* Menu Page */}
+        <Route path="/menu/:id" element={<MenuPage />} />
 
         {/* 404 Not Found */}
         <Route path="*" element={<NotFound />} />
       </Routes>
+      <CookieConsent />
     </BrowserRouter>
   );
 }

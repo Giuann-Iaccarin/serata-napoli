@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -9,7 +10,7 @@ import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 
 // Mock data for categories - in a real app this would come from an API
-const CATEGORIES_DATA = [
+export const CATEGORIES_DATA = [
     {
         id: 'tradizionale',
         name: 'Cucina Tradizionale',
@@ -132,8 +133,9 @@ export default function Categories() {
             }
         });
 
+
     const handleCategoryClick = (categoryId) => {
-        navigate(`/search?category=${categoryId}`);
+        navigate(`/category/${categoryId}`);
     };
 
     return (
@@ -200,8 +202,8 @@ export default function Categories() {
 
                     {/* Categories Grid/List */}
                     <div className={`grid gap-6 ${viewMode === 'grid'
-                            ? 'md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
-                            : 'grid-cols-1'
+                        ? 'md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
+                        : 'grid-cols-1'
                         }`}>
                         {filteredCategories.map((category) => (
                             <div

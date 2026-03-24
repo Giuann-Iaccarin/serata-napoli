@@ -199,11 +199,17 @@ export default function Footer() {
                     </p>
 
                     {/* Right: legal links */}
-                    <div className="flex items-center gap-5">
-                        {['Privacy', 'Termini', 'Cookie'].map((l) => (
-                            <a key={l} href="#" onClick={(e) => { e.preventDefault(); if (l === 'Privacy') navigate('/privacy'); else if (l === 'Termini') navigate('/terms'); }} className="text-[12px] text-white/25 transition-colors hover:text-white/60">{l}</a>
-                        ))}
-                    </div>
+                                        <div className="flex items-center gap-5">
+                                                <a href="#" onClick={e => { e.preventDefault(); navigate('/privacy'); }} className="text-[12px] text-white/25 transition-colors hover:text-white/60">Privacy</a>
+                                                <a href="#" onClick={e => { e.preventDefault(); navigate('/terms'); }} className="text-[12px] text-white/25 transition-colors hover:text-white/60">Termini</a>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => window.dispatchEvent(new Event('open-cookie-consent'))}
+                                                    className="text-[12px] text-white/25 transition-colors hover:text-white/60 underline focus:outline-none bg-transparent border-0 cursor-pointer"
+                                                >
+                                                    Gestisci preferenze cookie
+                                                </button>
+                                        </div>
                 </div>
             </div>
 

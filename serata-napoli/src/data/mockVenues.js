@@ -32,6 +32,7 @@ export function withOffset(coords, index) {
 // ─── Venue base con coordinate esplicite ───────────────────────────────────────
 const BASE_VENUES = [
     {
+        menuType: "bistrot",
         id: "1",
         slug: "luna-rooftop-chiaia",
         name: "Luna Rooftop",
@@ -84,6 +85,42 @@ const BASE_VENUES = [
                 comment: "Vista incredibile, cocktail ottimi e atmosfera perfetta.",
                 helpful: 23,
             },
+            {
+                id: 1,
+                author: "Maria R.",
+                avatar: makeAvatar("Maria R"),
+                rating: 5,
+                date: "2024-03-01",
+                comment: "Vista incredibile, cocktail ottimi e atmosfera perfetta.",
+                helpful: 23,
+            },
+            {
+                id: 1,
+                author: "Maria R.",
+                avatar: makeAvatar("Maria R"),
+                rating: 5,
+                date: "2024-03-01",
+                comment: "Vista incredibile, cocktail ottimi e atmosfera perfetta.",
+                helpful: 23,
+            },
+            {
+                id: 1,
+                author: "Maria R.",
+                avatar: makeAvatar("Maria R"),
+                rating: 5,
+                date: "2024-03-01",
+                comment: "Vista incredibile, cocktail ottimi e atmosfera perfetta.",
+                helpful: 23,
+            },
+            {
+                id: 1,
+                author: "Maria R.",
+                avatar: makeAvatar("Maria R"),
+                rating: 5,
+                date: "2024-03-01",
+                comment: "Vista incredibile, cocktail ottimi e atmosfera perfetta.",
+                helpful: 23,
+            }
         ],
         upcomingEvents: [
             {
@@ -97,9 +134,27 @@ const BASE_VENUES = [
             },
         ],
         menu: [
-            { id: 1, name: "Spritz Signature", price: "€12", description: "Versione citrus con basilico e arancia rossa." },
-            { id: 2, name: "Bocconcini di mozzarella affumicata", price: "€15", description: "Con miele di castagno e noci." },
-            { id: 3, name: "Tagliere gourmet", price: "€24", description: "Formaggi locali e salumi d'alta qualità." },
+            {
+                id: 1,
+                name: "Spritz Signature",
+                price: "€12",
+                description: "Versione citrus con basilico e arancia rossa.",
+                image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&q=80"
+            },
+            {
+                id: 2,
+                name: "Bocconcini di mozzarella affumicata",
+                price: "€15",
+                description: "Con miele di castagno e noci.",
+                image: "https://images.unsplash.com/photo-1519864600265-abb23847ef2c?auto=format&fit=crop&w=400&q=80"
+            },
+            {
+                id: 3,
+                name: "Tagliere gourmet",
+                price: "€24",
+                description: "Formaggi locali e salumi d'alta qualità."
+                // Nessuna immagine per testare il caso senza
+            },
         ],
         menuUrl: "https://www.lunarooftop.it/menu.pdf",
         socialPosts: [
@@ -109,6 +164,7 @@ const BASE_VENUES = [
         ],
     },
     {
+        menuType: "elegante",
         id: "2",
         slug: "vicolo-vivo-centro",
         name: "Vicolo Vivo",
@@ -181,6 +237,7 @@ const BASE_VENUES = [
         ],
     },
     {
+        menuType: "street",
         id: "3",
         slug: "aura-club-vomero",
         name: "Aura Club",
@@ -258,6 +315,7 @@ const BASE_VENUES = [
         ],
     },
     {
+        menuType: "bistrot",
         id: "4",
         slug: "brezza-garden-posillipo",
         name: "Brezza Garden",
@@ -330,6 +388,7 @@ const BASE_VENUES = [
         ],
     },
     {
+        menuType: "elegante",
         id: "5",
         slug: "neon-harbor-mergellina",
         name: "Neon Harbor",
@@ -402,6 +461,7 @@ const BASE_VENUES = [
         ],
     },
     {
+        menuType: "street",
         id: "6",
         slug: "casa-ritmo-fuorigrotta",
         name: "Casa Ritmo",
